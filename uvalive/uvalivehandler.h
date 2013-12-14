@@ -28,7 +28,7 @@
 
 #define MAX_DATA_SIZE 655350
 #define NEED_JUDGE 2
-#define MAX_WAIT_TIME 600
+#define MAX_WAIT_TIME 300
 
 using namespace std;
 
