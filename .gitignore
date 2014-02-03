@@ -1,0 +1,25 @@
+# ignore bott files
+/results/*
+/cha_results/*
+/raw_files/*
+/cha_raw_files/*
+*.bott
+
+# ignore CodeBlocks/Netbeans project files
+bin
+build
+*.cbp
+*.layout
+*.depend
+dist
+Makefile
+nbproject
+obj
+src
+include
+.dep.inc
+
+# ignore log files
+*.log
+nohup.out
+
