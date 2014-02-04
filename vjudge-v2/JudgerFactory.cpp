@@ -17,6 +17,8 @@ VirtualJudger * JudgerFactory::createJudger(JudgerInfo * judger_info) {
     string oj = judger_info->GetOj();
     if (oj == "CodeForces") {
         return new CFJudger(judger_info);
+    } else if (oj == "PKU") {
+        return new PKUJudger(judger_info);
     } else {
         throw Exception("Unknown OJ type: " + oj);
     }

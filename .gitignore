@@ -24,5 +24,5 @@ include
 nohup.out
 
 #ignore tmpfile and cookie
-cookies/*
-tmpfile/*
+/cookies/*
+/tmpfile/*

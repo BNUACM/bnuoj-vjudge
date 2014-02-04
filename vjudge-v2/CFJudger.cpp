@@ -192,7 +192,9 @@ Bott * CFJudger::getStatus(Bott * bott) {
     Bott * result_bott;
     while (true) {
         // check wait time
-        if (time(NULL) - begin_time > info->GetMax_wait_time()) break;
+        if (time(NULL) - begin_time > info->GetMax_wait_time()) {
+            throw Exception("Failed to get current result, judge time out.");
+        }
         
         prepareCurl();
         curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/submissions/" + info->GetUsername()).c_str());
@@ -215,7 +217,7 @@ Bott * CFJudger::getStatus(Bott * bott) {
                 result.find("Judging") == string::npos &&
                 result.find("queue") == string::npos &&
                 result.find("Compiling") == string::npos &&
-                result.length()>6) {
+                result.length() > 6) {
             // if result if final, get details
             if (!RE2::PartialMatch(status,
                                    "(?s)data-submission-id=\"([0-9]*).*status-cell.*?>(.*?)</td>.*time-consumed-cell.*?>(.*?) ms.*memory-consumed-cell.*?>(.*?) KB",
@@ -227,11 +229,12 @@ Bott * CFJudger::getStatus(Bott * bott) {
             result_bott->Setresult(convertResult(result));
             result_bott->Settime_used(trim(time_used));
             result_bott->Setmemory_used(trim(memory_used));
-            result_bott->Setremote_runid(runid);
+            result_bott->Setremote_runid(trim(runid));
             break;
         }
     }
     
+    // for CodeForces, we can store extra infos in ce_info column
     string contest;
     // no need to check fail or not, since submit function has already done it
     RE2::PartialMatch(bott->Getvid(), "([0-9]*)", &contest);

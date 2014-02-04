@@ -12,6 +12,7 @@
 
 #include "VirtualJudger.h"
 #include "CFJudger.h"
+#include "PKUJudger.h"
 
 class JudgerFactory {
 public:

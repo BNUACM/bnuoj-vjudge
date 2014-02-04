@@ -20,11 +20,16 @@ void * start_judger(void * arg) {
     JudgerInfo * judger_info = (JudgerInfo *) arg;
     VirtualJudger * judger = NULL;
     
-    try {
-        judger = JudgerFactory::createJudger(judger_info);
-        judger->run();
-    } catch (Exception & e) {
-        LOG(e.what());
+    while (true) {
+        try {
+            judger = JudgerFactory::createJudger(judger_info);
+            judger->run();
+        } catch (Exception & e) {
+            LOG((string)"Judger failed, reason: " + e.what(), judger_info->GetId());
+        }
+        delete judger;
+        LOG("Trying to recreate a judger, wait 5 seconds first.", judger_info->GetId());
+        sleep(5);
     }
     
     pthread_exit(NULL);
@@ -36,14 +41,13 @@ int main() {
     
     curl_global_init(CURL_GLOBAL_ALL);
     vector<JudgerInfo> judgers = CONFIG->GetJudger_info();
-    for (vector<JudgerInfo>::iterator it = judgers.begin();
-            it != judgers.end();
-            ++it) {
+    for (vector<JudgerInfo>::iterator it = judgers.begin(); it != judgers.end(); ++it) {
         pthread_t thread_id;
         pthread_create(&thread_id, NULL, start_judger, (void *)(& (*it)));
     }
-    while (true) {
-    }
+    
+    // Infinite loop
+    while (true);
     
     curl_global_cleanup();
     return 0;

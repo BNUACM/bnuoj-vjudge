@@ -44,6 +44,7 @@ void VirtualJudger::generateSpecialResult(Bott * bott, string result) {
     bott->Setmemory_used("0");
     bott->Setresult(result);
     bott->Setce_info("");
+    bott->Setremote_runid("0");
 }
 
 /**
@@ -98,13 +99,14 @@ void VirtualJudger::judge(Bott * bott, string filename) {
         if (result->Getresult() == "Compile Error") {
             try {
                 result->Setce_info(getCEinfo(result));
-            } catch (Exception & e) {
+            } catch (...) {
                 log("Failed to get CE info, use empty one instead.");
                 result->Setce_info("");
             }
         }
     } else {
         result = new Bott;
+        result->Setrunid(bott->Getrunid());
         switch (submit_status) {
             case SUBMIT_SAME_CODE:
                 generateSpecialResult(result, "Judge Error (Same Code)");
@@ -122,6 +124,7 @@ void VirtualJudger::judge(Bott * bott, string filename) {
     }
     result->Setout_filename(filename);
     result->save();
+    log("Done judging. Result: " + result->Getresult() + ", remote runid: " + result->Getremote_runid());
     delete result;
 }
 
@@ -129,9 +132,11 @@ void VirtualJudger::judge(Bott * bott, string filename) {
  * Start virtual judger
  */
 void VirtualJudger::run() {
+    log("Judger started");
     while (true) {
         socket->receiveFile(tmpfilename);
         Bott * bott = new Bott(tmpfilename);
+        log((string) "Received a new task, problem: " + bott->Getpid() + ".");
         string result_filename = Bott::RESULTS_DIRECTORY + bott->Getrunid();
         if (bott->Gettype() == NEED_JUDGE) {
             // Currently for vjudge, only NEED_JUDGE is supported

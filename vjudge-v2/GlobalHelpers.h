@@ -26,6 +26,7 @@ string trim(string);
 string loadAllFromFile(string);
 string intToString(int);
 string unescapeString(string);
+string escapeURL(const string &);
 int stringToInt(string);
 const string currentDateTime();
 const string currentDate();
