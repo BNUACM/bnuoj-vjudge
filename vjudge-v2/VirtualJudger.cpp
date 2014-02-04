@@ -94,6 +94,7 @@ void VirtualJudger::judge(Bott * bott, string filename) {
     if (submit_status == SUBMIT_NORMAL) {
         // get status
         result = getStatus(bott);
+        result->Setrunid(bott->Getrunid());
         if (result->Getresult() == "Compile Error") {
             try {
                 result->Setce_info(getCEinfo(result));

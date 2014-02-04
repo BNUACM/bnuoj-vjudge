@@ -185,3 +185,63 @@ string trim(string str) {
     size_t end = str.find_last_not_of(spaces);
     return str.substr(start, end - start + 1);
 }
+
+/**
+ * Unescape "\\n", "\\t" etc to actual \n and \t
+ * also convert "\\uXXYY" to two char with ASCII XX and YY
+ * @param str   Original string
+ * @return Unescaped string
+ */
+string unescapeString(string str) {
+    string result = "";
+    size_t pos = 0, length = str.length();
+    while (pos < length) {
+        if (str[pos] == '\\') {
+            ++ pos;
+            if (pos >= length) {
+                throw Exception("Invalid string");
+            }
+            switch (str[pos]) {
+                case '\\':
+                    result += '\\';
+                    break;
+                case '\'':
+                    result += '\'';
+                    break;
+                case '\"':
+                    result += '\"';
+                    break;
+                case 't':
+                    result += '\t';
+                    break;
+                case 'n':
+                    result += '\n';
+                    break;
+                case 'r':
+                    result += '\r';
+                    break;
+                case 'u':
+                case 'U': {
+                    if (pos + 4 >= length) {
+                        throw Exception("Invalid string");
+                    }
+                    string xx = str.substr(pos + 1, 2);
+                    string yy = str.substr(pos + 3, 2);
+                    int tx, ty;
+                    sscanf(xx.c_str(), "%x", &tx);
+                    sscanf(yy.c_str(), "%x", &ty);
+                    if (tx) result += (unsigned char) tx;
+                    result += (unsigned char) ty;
+                    pos += 4;
+                    break;
+                }
+                default:
+                    throw Exception("Invalid string");
+            }
+        } else {
+            result += str[pos];
+        }
+        ++ pos;
+    }
+    return result;
+}

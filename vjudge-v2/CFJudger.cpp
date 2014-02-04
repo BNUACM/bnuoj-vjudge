@@ -238,8 +238,7 @@ Bott * CFJudger::getStatus(Bott * bott) {
     if (result_bott->Getresult() != "Accepted" && result_bott->Getresult() != "Compile Error")  {
         result_bott->Setce_info(getVerdict(contest, result_bott->Getremote_runid()));
     }
-    throw Exception("Testing");
-    return NULL;
+    return result_bott;
 }
 
 /**
@@ -263,7 +262,20 @@ string CFJudger::convertResult(string result) {
  * @return Compile error info
  */
 string CFJudger::getCEinfo(Bott * bott) {
+    string csrf = getCsrfParams("http://codeforces.com/problemset/submit");
     
+    prepareCurl();
+    curl_easy_setopt(curl, CURLOPT_URL, "http://codeforces.com/data/judgeProtocol");
+    string post = (string)"submissionId=" + bott->Getremote_runid() + "&csrf_token=" + csrf;
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
+    performCurl();
+    
+    string info = loadAllFromFile(tmpfilename);
+    string result;
+    if (!RE2::FullMatch(info, "\"(.*)\"", &result)) {
+        return "";
+    }
+    return unescapeString(result);
 }
 
 /**
@@ -278,4 +290,23 @@ string CFJudger::getVerdict(string contest, string runid) {
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);
+    htmlcxx::HTML::ParserDom parser;
+    tree<htmlcxx::HTML::Node> dom = parser.parseTree(html);
+    hcxselect::Selector selector(dom);
+    
+    // load all roundbox in verdict page
+    try {
+        selector = selector.select("#content .roundbox");
+    } catch (...) {
+        log("Parse verdict error, use empty result instead.");
+        return "";
+    }
+    
+    // find the one contains error message
+    for (hcxselect::Selector::const_iterator it = selector.begin(); it != selector.end(); ++it) {
+        string content = html.substr((*it)->data.offset(), (*it)->data.length());
+        if (content.find("<div  class=\"error\">") != string::npos) return content;
+    }
+    
+    return "";
 }

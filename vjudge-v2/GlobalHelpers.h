@@ -25,6 +25,7 @@ using namespace std;
 string trim(string);
 string loadAllFromFile(string);
 string intToString(int);
+string unescapeString(string);
 int stringToInt(string);
 const string currentDateTime();
 const string currentDate();

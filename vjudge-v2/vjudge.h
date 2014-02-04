@@ -36,6 +36,9 @@
 
 #include "curl/curl.h"
 #include "re2/re2.h"
+#include "htmlcxx/html/ParserDom.h"
+
+#include "hcxselect.h"
 
 using namespace std;
 
