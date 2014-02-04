@@ -192,6 +192,9 @@ void VirtualJudger::clearCookies() {
     fclose(fp);
 }
 
+/**
+ * Initialize curl pointer with common options
+ */
 void VirtualJudger::prepareCurl() {
     
     curl = curl_easy_init();
@@ -205,16 +208,40 @@ void VirtualJudger::prepareCurl() {
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "curl");
     curl_easy_setopt(curl, CURLOPT_COOKIEFILE, cookiefilename.c_str());
     curl_easy_setopt(curl, CURLOPT_COOKIEJAR, cookiefilename.c_str());
+}
+
+/**
+ * Execute curl, store the result in tmpfile, then cleanup curl
+ */
+void VirtualJudger::performCurl() {
     curl_file = fopen(tmpfilename.c_str(), "w");
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, curl_file);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
-}
-
-void VirtualJudger::performCurl() {
+    
     CURLcode curl_result = curl_easy_perform(curl);
     fclose(curl_file);
     if (curl_result != CURLE_OK) {
         throw Exception("Curl failed");
     }
     curl_easy_cleanup(curl);
+}
+
+/**
+ * Check whether the result is final
+ * @param result        Current result
+ * @return Is final one or not
+ */
+bool VirtualJudger::isFinalResult(string result) {
+    result = trim(result);
+    
+    // Minimum length result is "Accept"
+    if (result.length() < 6) return false;
+    if (result.find("Waiting") != string::npos) return false;
+    if (result.find("Running") != string::npos) return false;
+    if (result.find("Judging") != string::npos) return false;
+    if (result.find("Queuing") != string::npos) return false;
+    if (result.find("Compiling") != string::npos) return false;
+    if (result.find("queue") != string::npos) return false;
+    
+    return true;
 }

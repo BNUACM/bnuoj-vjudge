@@ -1,43 +1,40 @@
 /* 
- * File:   PKUJudger.cpp
+ * File:   FZUJudger.cpp
  * Author: 51isoft
  * 
- * Created on 2014年2月4日, 下午2:41
+ * Created on 2014年2月4日, 下午5:00
  */
 
-#include "PKUJudger.h"
+#include "FZUJudger.h"
 
-/**
- * Create a PKU Judger
- * @param _info Should be a pointer of a JudgerInfo
- */
-PKUJudger::PKUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nPKU");
+FZUJudger::FZUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nFZU");
 
     language_table["1"]  = "0";
     language_table["2"]  = "1";
-    language_table["3"]  = "3";
-    language_table["4"]  = "2";
+    language_table["3"]  = "2";
+    language_table["4"]  = "3";
     language_table["12"] = "4";
     language_table["13"] = "5";
 }
 
-PKUJudger::~PKUJudger() {
+FZUJudger::~FZUJudger() {
 }
+
 
 /**
  * Login to PKU
  */
-void PKUJudger::login() {
+void FZUJudger::login() {
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://poj.org/login");
-    string post = (string)"user_id1=" + info->GetUsername() + "&password1=" + info->GetPassword() + "&B1=login";
+    curl_easy_setopt(curl, CURLOPT_URL, "http://acm.fzu.edu.cn/login.php?act=1");
+    string post = (string)"uname=" + info->GetUsername() + "&upassword=" + info->GetPassword() + "&submit=Submit";
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);
     //cout<<ts;
-    if (html.find("alert(\"Login failed!)") != string::npos) {
+    if (html.find("Warning: Please Check Your UserID And Password!") != string::npos) {
         throw Exception("Login failed!");
     }
 }
@@ -47,15 +44,15 @@ void PKUJudger::login() {
  * @param bott      Bott file for Run info
  * @return Submit status
  */
-int PKUJudger::submit(Bott * bott) {
+int FZUJudger::submit(Bott * bott) {
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://poj.org/submit");
-    string post = (string)"problem_id=" + bott->Getvid() + "&language=" + bott->Getlanguage() + "&source=" + escapeURL(bott->Getsrc());
+    curl_easy_setopt(curl, CURLOPT_URL, "http://acm.fzu.edu.cn/submit.php?act=5");
+    string post = (string)"usr=" + info->GetUsername() + "&lang=" + bott->Getlanguage() + "&pid=" + bott->Getvid() + "&code=" + escapeURL(bott->Getsrc()) + "&submit=Submit";
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);
-    if (html.find("Error Occurred") != string::npos || html.find("The page is temporarily unavailable") != string::npos) return SUBMIT_OTHER_ERROR;
+    if (html.find("Warning: This problem is not exist.") != string::npos || html.find("The page is temporarily unavailable") != string::npos) return SUBMIT_OTHER_ERROR;
     return SUBMIT_NORMAL;
 }
 
@@ -64,7 +61,7 @@ int PKUJudger::submit(Bott * bott) {
  * @param bott  Original Bott info
  * @return Result Bott file
  */
-Bott * PKUJudger::getStatus(Bott * bott) {
+Bott * FZUJudger::getStatus(Bott * bott) {
     time_t begin_time = time(NULL);
     
     Bott * result_bott;
@@ -75,7 +72,7 @@ Bott * PKUJudger::getStatus(Bott * bott) {
         }
         
         prepareCurl();
-        curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://poj.org/status?problem_id=" + bott->Getpid() + "&user_id=" + info->GetUsername() + "&language=" + bott->Getlanguage()).c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://acm.fzu.edu.cn/log.php?pid=" + bott->Getpid() + "&user=" + info->GetUsername()).c_str());
         performCurl();
         
         string html = loadAllFromFile(tmpfilename);
@@ -85,20 +82,20 @@ Bott * PKUJudger::getStatus(Bott * bott) {
         // get first row
         if (html.find("Error Occurred") != string::npos ||
                 html.find("The page is temporarily unavailable") != string::npos ||
-                !RE2::PartialMatch(html, "(?s)class=in.*?(<tr align=center.*?</tr>)", &status)) {
+                !RE2::PartialMatch(html, "(?s)(<tr onmouseover.*?</tr>)", &status)) {
             throw Exception("Failed to get status row.");
         }
         
         // get result
-        if (!RE2::PartialMatch(status, "<td>(.*?)</td>.*<font.*?>(.*?)</font>", &runid, &result)) {
+        if (!RE2::PartialMatch(status, "(?s)<td>([0-9]*?)</td>.*<font.*?>(.*)</font>", &runid, &result)) {
             throw Exception("Failed to get current result.");
         }
         result = trim(result);
         if (isFinalResult(result)) {
             // result is the final one
             if (result == "Accepted") {
-                // only accepted run has details in pku
-                if (!RE2::PartialMatch(status, "([0-9]*)K.*?([0-9]*)MS", &memory_used, &time_used)) {
+                // only accepted run has details in fzu
+                if (!RE2::PartialMatch(status, "(?s)([0-9]*) ms.*?([0-9]*)KB", &time_used, &memory_used)) {
                     throw Exception("Failed to parse details from status row.");
                 }
             } else {
@@ -122,11 +119,9 @@ Bott * PKUJudger::getStatus(Bott * bott) {
  * @param result Original result
  * @return Converted local result
  */
-string PKUJudger::convertResult(string result) {
-    if (result.find("Time Limit Exceeded") != string::npos) return "Time Limit Exceed";
-    if (result.find("Memory Limit Exceeded") != string::npos) return "Memory Limit Exceed";
-    if (result.find("Output Limit Exceeded") != string::npos) return "Output Limit Exceed";
-    if (result.find("System Error") != string::npos) return "Judge Error";
+string FZUJudger::convertResult(string result) {
+    if (result.find("Compile Error") != string::npos) return "Compile Error";
+    if (result.find("Restrict Function Call") != string::npos) return "Restricted Function";
     return trim(result);
 }
 
@@ -135,15 +130,15 @@ string PKUJudger::convertResult(string result) {
  * @param bott      Result bott file
  * @return Compile error info
  */
-string PKUJudger::getCEinfo(Bott * bott) {
+string FZUJudger::getCEinfo(Bott * bott) {
     
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ("http://poj.org/showcompileinfo?solution_id=" + bott->Getremote_runid()).c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, ("http://acm.fzu.edu.cn/ce.php?sid=" + bott->Getremote_runid()).c_str());
     performCurl();
     
     string info = loadAllFromFile(tmpfilename);
     string result;
-    if (!RE2::PartialMatch(info, "(?s)<pre>(.*)</pre>", &result)) {
+    if (!RE2::PartialMatch(info, "(?s)<font color=\"blue\" size=\"-1\">(.*?)</font>", &result)) {
         return "";
     }
     

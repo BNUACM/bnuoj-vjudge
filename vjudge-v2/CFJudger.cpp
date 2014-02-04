@@ -212,12 +212,7 @@ Bott * CFJudger::getStatus(Bott * bott) {
             throw Exception("Failed to get current result.");
         }
         
-        if (result.find("Waiting") == string::npos &&
-                result.find("Running") == string::npos &&
-                result.find("Judging") == string::npos &&
-                result.find("queue") == string::npos &&
-                result.find("Compiling") == string::npos &&
-                result.length() > 6) {
+        if (isFinalResult(result)) {
             // if result if final, get details
             if (!RE2::PartialMatch(status,
                                    "(?s)data-submission-id=\"([0-9]*).*status-cell.*?>(.*?)</td>.*time-consumed-cell.*?>(.*?) ms.*memory-consumed-cell.*?>(.*?) KB",

@@ -35,6 +35,7 @@ protected:
     void log(string);
     void generateSpecialResult(Bott *, string);
     void clearCookies();
+    bool isFinalResult(string);
     
     /**
      * Login to reomote OJ
