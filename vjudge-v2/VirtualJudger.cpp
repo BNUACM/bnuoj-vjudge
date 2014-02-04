@@ -77,8 +77,7 @@ void VirtualJudger::judge(Bott * bott, string filename) {
         submit_status = submit(bott);
         if (submit_status == SUBMIT_OTHER_ERROR) {
             // second time fail, blame frequency
-            log((string)"Submit error. Assume should sleep for a while, sleeping ");
-            log("Assume should sleep for a while, sleeping " + intToString(VirtualJudger::SLEEP_INTERVAL) + " seconds.");
+            log("Submit error. Assume should sleep for a while, sleeping " + intToString(VirtualJudger::SLEEP_INTERVAL) + " seconds.");
             sleep(VirtualJudger::SLEEP_INTERVAL);
             submit_status = submit(bott);
         }
@@ -115,11 +114,11 @@ void VirtualJudger::judge(Bott * bott, string filename) {
                 generateSpecialResult(result, "Judge Error (Invalid Language)");
                 break;
             case SUBMIT_COMPILE_ERROR:
-                generateSpecialResult(bott, "Compile Error");
+                generateSpecialResult(result, "Compile Error");
                 break;
             default:
                 log("Submit Error.");
-                generateSpecialResult(bott, "Judge Error");
+                generateSpecialResult(result, "Judge Error");
         }
     }
     result->Setout_filename(filename);

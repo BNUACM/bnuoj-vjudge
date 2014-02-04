@@ -23,7 +23,7 @@ FZUJudger::~FZUJudger() {
 
 
 /**
- * Login to PKU
+ * Login to FZU
  */
 void FZUJudger::login() {
     prepareCurl();

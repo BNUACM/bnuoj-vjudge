@@ -17,6 +17,8 @@
 #include <sstream>
 #include <fstream>
 
+#include <iconv.h>
+
 using namespace std;
 
 #include "Config.h"
@@ -32,6 +34,7 @@ const string currentDateTime();
 const string currentDate();
 vector<string> split(const string &, char, bool);
 vector<string> split(const string &, char);
+void charset_convert(const char *, const char *, char *, size_t, char *, size_t);
 #define CONFIG Config::Getinstance()
 #define LOG Logger::Getinstance()->log
 

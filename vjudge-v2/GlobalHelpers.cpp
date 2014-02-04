@@ -245,3 +245,28 @@ string unescapeString(string str) {
     }
     return result;
 }
+
+/**
+ * Use iconv to convert string between different charsets
+ * @param from_charset  Initial charset
+ * @param to_charset    Target charset
+ * @param inbuf         Initial string
+ * @param inlen         Initial length
+ * @param outbuf        Output buffer
+ * @param outlen        Buffer length
+ */
+void charset_convert(const char * from_charset, const char * to_charset, char * inbuf, size_t inlen, char * outbuf, size_t outlen) {
+    iconv_t cd;
+    char **pin = &inbuf;
+    char **pout = &outbuf;
+
+    cd = iconv_open(to_charset, from_charset);
+    if (cd == 0) {
+        throw Exception("Invalid charset conversion");
+    }
+    memset(outbuf, 0, outlen);
+    if (iconv(cd, pin, &inlen, pout, &outlen) == -1) {
+        throw Exception("Charset conversion Failed");
+    }
+    iconv_close(cd);
+}
