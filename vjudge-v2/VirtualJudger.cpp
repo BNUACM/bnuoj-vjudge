@@ -54,6 +54,9 @@ void VirtualJudger::generateSpecialResult(Bott * bott, string result) {
  */
 void VirtualJudger::judge(Bott * bott, string filename) {
     // convert language
+    if (language_table.find(bott->Getlanguage()) == language_table.end()) {
+        throw Exception("Unsupported language.");
+    }
     bott->Setlanguage(language_table[bott->Getlanguage()]);
     
     // login
@@ -241,6 +244,7 @@ bool VirtualJudger::isFinalResult(string result) {
     if (result.find("Queuing") != string::npos) return false;
     if (result.find("Compiling") != string::npos) return false;
     if (result.find("queue") != string::npos) return false;
+    if (result.find("Pending") != string::npos) return false;
     
     return true;
 }
