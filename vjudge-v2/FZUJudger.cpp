@@ -72,7 +72,7 @@ Bott * FZUJudger::getStatus(Bott * bott) {
         }
         
         prepareCurl();
-        curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://acm.fzu.edu.cn/log.php?pid=" + bott->Getpid() + "&user=" + info->GetUsername()).c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://acm.fzu.edu.cn/log.php?pid=" + bott->Getvid() + "&user=" + info->GetUsername()).c_str());
         performCurl();
         
         string html = loadAllFromFile(tmpfilename);

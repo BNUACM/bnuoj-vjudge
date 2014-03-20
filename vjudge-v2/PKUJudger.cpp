@@ -16,8 +16,8 @@ PKUJudger::PKUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 
     language_table["1"]  = "0";
     language_table["2"]  = "1";
-    language_table["3"]  = "3";
-    language_table["4"]  = "2";
+    language_table["3"]  = "2";
+    language_table["4"]  = "3";
     language_table["12"] = "4";
     language_table["13"] = "5";
 }
@@ -69,13 +69,14 @@ Bott * PKUJudger::getStatus(Bott * bott) {
     
     Bott * result_bott;
     while (true) {
+        usleep(200000); // wait 200ms for PKU, since it forces refresh rate
         // check wait time
         if (time(NULL) - begin_time > info->GetMax_wait_time()) {
             throw Exception("Failed to get current result, judge time out.");
         }
         
         prepareCurl();
-        curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://poj.org/status?problem_id=" + bott->Getpid() + "&user_id=" + info->GetUsername() + "&language=" + bott->Getlanguage()).c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://poj.org/status?problem_id=" + bott->Getvid() + "&user_id=" + info->GetUsername() + "&language=" + bott->Getlanguage()).c_str());
         performCurl();
         
         string html = loadAllFromFile(tmpfilename);

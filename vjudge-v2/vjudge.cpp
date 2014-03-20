@@ -27,7 +27,10 @@ void * start_judger(void * arg) {
         } catch (Exception & e) {
             LOG((string)"Judger failed, reason: " + e.what(), judger_info->GetId());
         }
-        delete judger;
+        if (judger) {
+            delete judger;
+            judger = NULL;
+        }
         LOG("Trying to recreate a judger, wait 5 seconds first.", judger_info->GetId());
         sleep(5);
     }
@@ -47,7 +50,9 @@ int main() {
     }
     
     // Infinite loop
-    while (true);
+    while (true) {
+        sleep(100000);
+    }
     
     curl_global_cleanup();
     return 0;
