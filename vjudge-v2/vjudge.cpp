@@ -47,6 +47,7 @@ int main() {
     for (vector<JudgerInfo>::iterator it = judgers.begin(); it != judgers.end(); ++it) {
         pthread_t thread_id;
         pthread_create(&thread_id, NULL, start_judger, (void *)(& (*it)));
+        pthread_detach(thread_id);
     }
     
     // Infinite loop
