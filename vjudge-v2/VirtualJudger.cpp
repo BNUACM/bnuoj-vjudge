@@ -87,6 +87,7 @@ void VirtualJudger::judge(Bott * bott, string filename) {
     } else if (submit_status == SUBMIT_INVALID_LANGUAGE && info->GetOj() == "SPOJ" && bott->Getlanguage() == "41") {
         // Special HACK for Invalid Language on SPOJ, since it has two C++ type
         // And each of them covers a certain subset of problems
+        bott->Setlanguage("1");
         submit_status = submit(bott);
     }
     if (submit_status != SUBMIT_OTHER_ERROR) log("Submitted.");
@@ -138,7 +139,7 @@ void VirtualJudger::run() {
     while (true) {
         socket->receiveFile(tmpfilename);
         Bott * bott = new Bott(tmpfilename);
-        log((string) "Received a new task, problem: " + bott->Getpid() + ".");
+        log((string) "Received a new task, problem: " + bott->Getvid() + ".");
         string result_filename = Bott::RESULTS_DIRECTORY + bott->Getrunid();
         if (bott->Gettype() == NEED_JUDGE) {
             // Currently for vjudge, only NEED_JUDGE is supported
@@ -207,7 +208,9 @@ void VirtualJudger::prepareCurl() {
     // set basic curl options
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, CONFIG->GetMax_curl_time());
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, CONFIG->GetMax_curl_time());
-    curl_easy_setopt(curl, CURLOPT_USERAGENT, "curl");
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, "bnuoj, curl");
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
     curl_easy_setopt(curl, CURLOPT_COOKIEFILE, cookiefilename.c_str());
     curl_easy_setopt(curl, CURLOPT_COOKIEJAR, cookiefilename.c_str());
 }
@@ -225,7 +228,12 @@ void VirtualJudger::performCurl() {
     if (curl_result != CURLE_OK) {
         throw Exception("Curl failed");
     }
+    int http_code = 0;
+    curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
     curl_easy_cleanup(curl);
+    if (http_code >= 400) {
+        throw Exception("Server failed");
+    }
 }
 
 /**
@@ -239,12 +247,21 @@ bool VirtualJudger::isFinalResult(string result) {
     // Minimum length result is "Accept"
     if (result.length() < 6) return false;
     if (result.find("Waiting") != string::npos) return false;
+    if (result.find("waiting") != string::npos) return false;
     if (result.find("Running") != string::npos) return false;
+    if (result.find("running") != string::npos) return false;
     if (result.find("Judging") != string::npos) return false;
+    if (result.find("judging") != string::npos) return false;
+    if (result.find("Sent") != string::npos) return false;
     if (result.find("Queuing") != string::npos) return false;
-    if (result.find("Compiling") != string::npos) return false;
     if (result.find("queue") != string::npos) return false;
+    if (result.find("Compiling") != string::npos) return false;
+    if (result.find("compiling") != string::npos) return false;
+    if (result.find("Linking") != string::npos) return false;
+    if (result.find("linking") != string::npos) return false;
+    if (result.find("Received") != string::npos) return false;
     if (result.find("Pending") != string::npos) return false;
+    if (result.find("pending") != string::npos) return false;
     
     return true;
 }

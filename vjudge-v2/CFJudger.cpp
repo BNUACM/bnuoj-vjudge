@@ -245,6 +245,7 @@ Bott * CFJudger::getStatus(Bott * bott) {
  * @return Converted local result
  */
 string CFJudger::convertResult(string result) {
+    if (result.find("Accepted") != string::npos) return "Accepted";
     if (result.find("Compilation error") != string::npos) return "Compile Error";
     if (result.find("Wrong answer") != string::npos) return "Wrong Answer";
     if (result.find("Runtime error") != string::npos) return "Runtime Error";

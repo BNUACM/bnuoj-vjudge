@@ -21,6 +21,29 @@ int stringToInt(string str) {
     return atoi(str.c_str());
 }
 
+/**
+ * Convert a string to a float number
+ * WARNING: did not check if it's valid
+ * @param str   The string
+ * @return      The converted float
+ */
+double stringToDouble(string str) {
+    return atof(str.c_str());
+}
+
+/**
+ * Capitalize a string, eg. "aaa bb c" to "Aaa Bb C"
+ * @param str   Original string
+ * @return      Capitalized string
+ */
+string capitalize(string str) {
+    for (size_t i = 1; i < str.length(); ++i) {
+        if (i == 0 || str[i-1] == ' ') {
+            if (str[i] >= 'a' && str[i] <= 'z') str[i] += 'A'-'a';
+        }
+    }
+    return str;
+}
 
 /**
  * Get current date/time, format is YYYY-MM-DD HH:mm:ss
@@ -102,7 +125,7 @@ string loadAllFromFile(string filename) {
     }
     
     if (fin.fail()) return res;
-    while (getline(fin,tmps)) {
+    while (getline(fin, tmps)) {
         if (res != "") res += "\n";
         res += tmps;
         if (fin.eof()) break;
@@ -183,6 +206,9 @@ string trim(string str) {
     string spaces = " \t\n\r";
     size_t start = str.find_first_not_of(spaces);
     size_t end = str.find_last_not_of(spaces);
+    if (start == string::npos || end == string::npos) {
+        return str;
+    }
     return str.substr(start, end - start + 1);
 }
 
@@ -269,4 +295,20 @@ void charset_convert(const char * from_charset, const char * to_charset, char * 
         throw Exception("Charset conversion Failed");
     }
     iconv_close(cd);
+}
+
+/**
+ * Replace all occurencies of search to replace in subject.
+ * @param subject   Original string
+ * @param search    Patterns to be replaced
+ * @param replace   replace string
+ * @return 
+ */
+string replaceAll(string subject, const string& search, const string& replace) {
+    size_t pos = 0;
+    while ((pos = subject.find(search, pos)) != string::npos) {
+         subject.replace(pos, search.length(), replace);
+         pos += replace.length();
+    }
+    return subject;
 }

@@ -30,11 +30,14 @@ string intToString(int);
 string unescapeString(string);
 string escapeURL(const string &);
 int stringToInt(string);
+double stringToDouble(string);
+string capitalize(string);
 const string currentDateTime();
 const string currentDate();
 vector<string> split(const string &, char, bool);
 vector<string> split(const string &, char);
 void charset_convert(const char *, const char *, char *, size_t, char *, size_t);
+string replaceAll(string, const string&, const string&);
 #define CONFIG Config::Getinstance()
 #define LOG Logger::Getinstance()->log
 

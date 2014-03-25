@@ -14,6 +14,16 @@
 #include "CFJudger.h"
 #include "PKUJudger.h"
 #include "HDUJudger.h"
+#include "HUSTJudger.h"
+#include "FZUJudger.h"
+#include "UVALiveJudger.h"
+#include "UVAJudger.h"
+#include "SGUJudger.h"
+#include "LOJJudger.h"
+#include "UralJudger.h"
+#include "ZJUJudger.h"
+#include "SPOJJudger.h"
+#include "WHUJudger.h"
 
 class JudgerFactory {
 public:
