@@ -226,7 +226,7 @@ void VirtualJudger::performCurl() {
     CURLcode curl_result = curl_easy_perform(curl);
     fclose(curl_file);
     if (curl_result != CURLE_OK) {
-        throw Exception("Curl failed");
+        throw Exception((string)"Curl failed, reason: " + curl_easy_strerror(curl_result));
     }
     int http_code = 0;
     curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
