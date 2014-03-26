@@ -24,6 +24,9 @@
 #include "ZJUJudger.h"
 #include "SPOJJudger.h"
 #include "WHUJudger.h"
+#include "SYSUJudger.h"
+#include "OpenJudgeJudger.h"
+#include "SCUJudger.h"
 
 class JudgerFactory {
 public:

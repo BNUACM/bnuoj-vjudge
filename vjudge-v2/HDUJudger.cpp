@@ -146,15 +146,17 @@ string HDUJudger::getCEinfo(Bott * bott) {
     
     string info = loadAllFromFile(tmpfilename);
     string result;
-    if (!RE2::PartialMatch(info, "(?s)<pre>(.*?)</pre>", &result)) {
+    char * ce_info = new char[info.length() + 1];
+    strcpy(ce_info, info.c_str());
+    char * buffer = new char[info.length() * 2];
+    // SCU is in GBK charset
+    charset_convert("GBK", "UTF-8//TRANSLIT", ce_info, info.length() + 1, buffer, info.length() * 2);
+    
+    if (!RE2::PartialMatch(buffer, "(?s)<pre>(.*?)</pre>", &result)) {
         return "";
     }
     
-    // HDU is in GBK charset
-    char * ce_info = new char[result.length() + 1];
-    strcpy(ce_info, result.c_str());
-    char * buffer = new char[result.length() * 2];
-    charset_convert("GBK", "UTF-8//TRANSLIT", ce_info, result.length() + 1, buffer, result.length() * 2);
+    strcpy(buffer, result.c_str());
     decode_html_entities_utf8(buffer, NULL);
     result = buffer;
     delete [] ce_info;

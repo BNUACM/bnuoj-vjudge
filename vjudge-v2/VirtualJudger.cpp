@@ -232,7 +232,7 @@ void VirtualJudger::performCurl() {
     curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
     curl_easy_cleanup(curl);
     if (http_code >= 400) {
-        throw Exception("Server failed");
+        throw Exception("Server failed, code: " + intToString(http_code));
     }
 }
 

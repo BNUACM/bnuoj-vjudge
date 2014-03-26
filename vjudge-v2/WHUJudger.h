@@ -21,6 +21,7 @@ private:
     Bott * getStatus(Bott *);
     string getCEinfo(Bott *);
     string convertResult(string);
+    string getSeed();
 };
 
 #endif	/* WHUJUDGER_H */

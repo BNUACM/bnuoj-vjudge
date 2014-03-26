@@ -41,6 +41,12 @@ VirtualJudger * JudgerFactory::createJudger(JudgerInfo * judger_info) {
         return new SPOJJudger(judger_info);
     } else if (oj == "WHU") {
         return new WHUJudger(judger_info);
+    } else if (oj == "SYSU") {
+        return new SYSUJudger(judger_info);
+    } else if (oj == "OpenJudge") {
+        return new OpenJudgeJudger(judger_info);
+    } else if (oj == "SCU") {
+        return new SCUJudger(judger_info);
     } else {
         throw Exception("Unknown OJ type: " + oj);
     }
