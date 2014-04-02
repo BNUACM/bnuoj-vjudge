@@ -27,6 +27,7 @@ void SocketHandler::connectDispatcher() {
     server.sin_port = htons(CONFIG->GetDispatcher_port());
     server.sin_addr.s_addr = inet_addr(CONFIG->GetDispatcher_ip().c_str());
     if (connect(sockfd, (struct sockaddr *) &server, sizeof(server)) == -1) {
+        close(sockfd);
         throw Exception("Cannot connect to dispatcher");
     }
 }
