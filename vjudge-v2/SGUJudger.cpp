@@ -16,9 +16,9 @@ SGUJudger::SGUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 
     language_table["1"] = "GNU CPP (MinGW, GCC 4)";
     language_table["2"] = "GNU C (MinGW, GCC 4)";
-    language_table["3"] = "JAVA 1.6";
+    language_table["3"] = "JAVA 7";
     language_table["4"] = "Delphi 7.0";
-    language_table["6"] = "C# (Mono gmcs 2.4)";
+    language_table["6"] = "C#";
     language_table["12"] = "Visual Studio C++ 2010";
     language_table["13"] = "Visual Studio C 2010";
 }

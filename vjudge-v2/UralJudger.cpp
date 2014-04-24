@@ -169,5 +169,6 @@ string UralJudger::convertResult(string result) {
     if (result.find("Output limit exceeded") != string::npos) return "Output Limit Exceed";
     if (result.find("Wrong answer") != string::npos) return "Wrong Answer";
     if (result.find("Crash") != string::npos) return "Runtime Error";
+    if (result.find("Runtime error") != string::npos) return "Runtime Error";
     return trim(result);
 }

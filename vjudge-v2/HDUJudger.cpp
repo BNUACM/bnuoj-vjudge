@@ -129,6 +129,7 @@ string HDUJudger::convertResult(string result) {
     if (result.find("Memory Limit Exceeded") != string::npos) return "Memory Limit Exceed";
     if (result.find("Output Limit Exceeded") != string::npos) return "Output Limit Exceed";
     if (result.find("Compilation Error") != string::npos) return "Compile Error";
+    if (result.find("Runtime Error") != string::npos) return "Runtime Error";
     return trim(result);
 }
 

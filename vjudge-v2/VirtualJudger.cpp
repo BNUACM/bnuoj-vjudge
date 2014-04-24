@@ -222,6 +222,9 @@ void VirtualJudger::performCurl() {
     curl_file = fopen(tmpfilename.c_str(), "w");
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, curl_file);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+    // please refer to the manual
+    // otherwise, in a multithreaded env, DNS lookup timeout will crash the process
+    curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
     
     CURLcode curl_result = curl_easy_perform(curl);
     fclose(curl_file);
@@ -262,6 +265,7 @@ bool VirtualJudger::isFinalResult(string result) {
     if (result.find("Received") != string::npos) return false;
     if (result.find("Pending") != string::npos) return false;
     if (result.find("pending") != string::npos) return false;
+    if (result.find("Not Judged Yet") != string::npos) return false;
     
     return true;
 }
