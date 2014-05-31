@@ -37,6 +37,7 @@ void HDUJudger::login() {
     if (html.find("No such user or wrong password.") != string::npos ||
             html.find("<b>One or more following ERROR(s) occurred.") != string::npos ||
             html.find("<h2>The requested URL could not be retrieved</h2>") != string::npos ||
+            html.find("<H1 style=\"COLOR: #1A5CC8\" align=center>Sign In Your Account</H1>") != string::npos ||
             html.find("PHP: Maximum execution time of") != string::npos) {
         throw Exception("Login failed!");
     }
@@ -55,9 +56,11 @@ int HDUJudger::submit(Bott * bott) {
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);
+    cout << html << endl;
     if (html.find("Connect(0) to MySQL Server failed.") != string::npos ||
             html.find("<b>One or more following ERROR(s) occurred.") != string::npos ||
             html.find("<h2>The requested URL could not be retrieved</h2>") != string::npos ||
+            html.find("<H1 style=\"COLOR: #1A5CC8\" align=center>Sign In Your Account</H1>") != string::npos ||
             html.find("PHP: Maximum execution time of") != string::npos || 
             html.find("<DIV>Exercise Is Closed Now!</DIV>") != string::npos ) return SUBMIT_OTHER_ERROR;
     return SUBMIT_NORMAL;
@@ -91,6 +94,7 @@ Bott * HDUJudger::getStatus(Bott * bott) {
                 html.find("<b>One or more following ERROR(s) occurred.") != string::npos ||
                 html.find("<h2>The requested URL could not be retrieved</h2>") != string::npos ||
                 html.find("PHP: Maximum execution time of") != string::npos || 
+                html.find("<H1 style=\"COLOR: #1A5CC8\" align=center>Sign In Your Account</H1>") != string::npos ||
                 html.find("<DIV>Exercise Is Closed Now!</DIV>") != string::npos ||
                 !RE2::PartialMatch(html, "(?s)<table.*?(<tr align=center.*?</tr>)", &status)) {
             throw Exception("Failed to get status row.");

@@ -177,6 +177,8 @@ int CFJudger::submit(Bott * bott) {
         return VirtualJudger::SUBMIT_INVALID_LANGUAGE;
     } else if (html.find("<span class=\"error for__source\">") != string::npos) {
         return VirtualJudger::SUBMIT_COMPILE_ERROR;
+    } else if (html.find("<a href=\"/enter\">Enter</a>") != string::npos) {
+        return SUBMIT_OTHER_ERROR;
     }
     return VirtualJudger::SUBMIT_NORMAL;
 }

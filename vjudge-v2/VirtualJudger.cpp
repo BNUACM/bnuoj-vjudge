@@ -87,6 +87,7 @@ void VirtualJudger::judge(Bott * bott, string filename) {
     } else if (submit_status == SUBMIT_INVALID_LANGUAGE && info->GetOj() == "SPOJ" && bott->Getlanguage() == "41") {
         // Special HACK for Invalid Language on SPOJ, since it has two C++ type
         // And each of them covers a certain subset of problems
+        log((string)"Try another C++ for SPOJ");
         bott->Setlanguage("1");
         submit_status = submit(bott);
     }
@@ -266,6 +267,7 @@ bool VirtualJudger::isFinalResult(string result) {
     if (result.find("Pending") != string::npos) return false;
     if (result.find("pending") != string::npos) return false;
     if (result.find("Not Judged Yet") != string::npos) return false;
+    if (result.find("Being Judged") != string::npos) return false;
     
     return true;
 }

@@ -83,7 +83,11 @@ int SPOJJudger::submit(Bott * bott) {
     
     // check submit status
     string html = loadAllFromFile(tmpfilename);
+    cout << html << endl;
     if (html.find("in this language for this problem") != string::npos) {
+        return SUBMIT_INVALID_LANGUAGE;
+    }
+    if (html.find("<form name=\"login\"  action=\"") != string::npos) {
         return SUBMIT_OTHER_ERROR;
     }
     return VirtualJudger::SUBMIT_NORMAL;
