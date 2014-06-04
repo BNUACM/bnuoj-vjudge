@@ -52,7 +52,9 @@ int FZUJudger::submit(Bott * bott) {
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);
-    if (html.find("Warning: This problem is not exist.") != string::npos || html.find("The page is temporarily unavailable") != string::npos) return SUBMIT_OTHER_ERROR;
+    if (html.find("Warning: This problem is not exist.") != string::npos ||
+            html.find("The page is temporarily unavailable") != string::npos ||
+            html.find(">Login</a>") != string::npos) return SUBMIT_OTHER_ERROR;
     return SUBMIT_NORMAL;
 }
 
@@ -82,6 +84,7 @@ Bott * FZUJudger::getStatus(Bott * bott) {
         // get first row
         if (html.find("Error Occurred") != string::npos ||
                 html.find("The page is temporarily unavailable") != string::npos ||
+                html.find(">Login</a>") != string::npos ||
                 !RE2::PartialMatch(html, "(?s)(<tr onmouseover.*?</tr>)", &status)) {
             throw Exception("Failed to get status row.");
         }
