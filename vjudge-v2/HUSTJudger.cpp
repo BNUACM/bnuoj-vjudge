@@ -21,18 +21,18 @@ HUSTJudger::~HUSTJudger() {
 
 
 /**
- * Login to HDU
+ * Login to HUST
  */
 void HUSTJudger::login() {
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://acm.hust.edu.cn/login.php");
-    string post = (string)"submit=Submit&user_id=" + info->GetUsername() + "&password=" + info->GetPassword();
+    curl_easy_setopt(curl, CURLOPT_URL, "http://acm.hust.edu.cn/login");
+    string post = (string)"username=" + info->GetUsername() + "&pwd=" + info->GetPassword() + "&code=";
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);
     //cout<<ts;
-    if (html.find("alert(") != string::npos) {
+    if (html.find("<div class=\"alert alert-danger\">") != string::npos) {
         throw Exception("Login failed!");
     }
 }
@@ -44,13 +44,13 @@ void HUSTJudger::login() {
  */
 int HUSTJudger::submit(Bott * bott) {
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://acm.hust.edu.cn/submit.php");
-    string post = (string) "id=" + bott->Getvid() + "&submit=Submit&language=" + bott->Getlanguage() + "&source=" + escapeURL(bott->Getsrc());
+    curl_easy_setopt(curl, CURLOPT_URL, "http://acm.hust.edu.cn/problem/submit");
+    string post = (string) "pid=" + bott->Getvid() + "&language=" + bott->Getlanguage() + "&source=" + escapeURL(bott->Getsrc());
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);
-    if (html.length() > 5) return SUBMIT_OTHER_ERROR;
+    if (html.find("<div class=\"alert alert-danger\">") != string::npos) return SUBMIT_OTHER_ERROR;
     return SUBMIT_NORMAL;
 }
 
@@ -70,7 +70,7 @@ Bott * HUSTJudger::getStatus(Bott * bott) {
         }
         
         prepareCurl();
-        curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://acm.hust.edu.cn/status.php?problem_id=" + bott->Getvid() + "&user_id=" + info->GetUsername() + "&language" + bott->Getlanguage()).c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://acm.hust.edu.cn/status?pid=" + bott->Getvid() + "&uid=" + info->GetUsername() + "&language" + bott->Getlanguage()).c_str());
         performCurl();
         
         string html = loadAllFromFile(tmpfilename);
@@ -78,19 +78,19 @@ Bott * HUSTJudger::getStatus(Bott * bott) {
         string runid, result, time_used, memory_used;
         
         // get first row
-        if (html == "" || !RE2::PartialMatch(html, "(?s)toprow.*?(<tr.*?evenrow.*?</tr>)", &status)) {
+        if (html == "" || !RE2::PartialMatch(html, "(?s)<tr.*?(<tr.*?</tr>)", &status)) {
             throw Exception("Failed to get status row.");
         }
         
         // get result
-        if (!RE2::PartialMatch(status, "(?s)<td>([0-9]*).*?<font.*?>(.*?)</font>.*", &runid, &result)) {
+        if (!RE2::PartialMatch(status, "(?s)source/([0-9]*).*?<td.*?<td.*?<td>\\s*(.*?)\\s*<", &runid, &result)) {
             throw Exception("Failed to get current result.");
         }
         result = trim(result);
         if (isFinalResult(result)) {
             // only accepted runs has details in hust
             if (result == "Accepted") {
-                if (!RE2::PartialMatch(status, "(?s)([0-9]*) <font.*?kb.*?([0-9]*) <font.*?ms", &memory_used, &time_used)) {
+                if (!RE2::PartialMatch(status, "(?s)<td>([0-9]*)ms.*?([0-9]*)kb</td>", &time_used, &memory_used)) {
                     throw Exception("Failed to parse details from status row.");
                 }
             } else {
@@ -127,12 +127,12 @@ string HUSTJudger::convertResult(string result) {
 string HUSTJudger::getCEinfo(Bott * bott) {
     
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ("http://acm.hust.edu.cn/ceinfo.php?sid=" + bott->Getremote_runid()).c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, ("http://acm.hust.edu.cn/solution/source/" + bott->Getremote_runid()).c_str());
     performCurl();
     
     string info = loadAllFromFile(tmpfilename);
     string result;
-    if (!RE2::PartialMatch(info, "(?s)<pre>(.*?)</pre>", &result)) {
+    if (!RE2::PartialMatch(info, "(?s)<pre class=\"col-sm-12 linenums\">(.*?)</pre>", &result)) {
         return "";
     }
     
