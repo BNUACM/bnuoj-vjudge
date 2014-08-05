@@ -47,6 +47,8 @@ VirtualJudger * JudgerFactory::createJudger(JudgerInfo * judger_info) {
         return new OpenJudgeJudger(judger_info);
     } else if (oj == "SCU") {
         return new SCUJudger(judger_info);
+    } else if (oj == "NBUT") {
+        return new NBUTJudger(judger_info);
     } else {
         throw Exception("Unknown OJ type: " + oj);
     }

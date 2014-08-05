@@ -27,6 +27,7 @@
 #include "SYSUJudger.h"
 #include "OpenJudgeJudger.h"
 #include "SCUJudger.h"
+#include "NBUTJudger.h"
 
 class JudgerFactory {
 public:
