@@ -32,6 +32,7 @@ string escapeURL(const string &);
 int stringToInt(string);
 double stringToDouble(string);
 string capitalize(string);
+string toLowerCase(string);
 const string currentDateTime();
 const string currentDate();
 vector<string> split(const string &, char, bool);

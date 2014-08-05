@@ -69,7 +69,7 @@ Bott * PKUJudger::getStatus(Bott * bott) {
     
     Bott * result_bott;
     while (true) {
-        usleep(200000); // wait 200ms for PKU, since it forces refresh rate
+        usleep(2000000); // wait 2s for PKU, since it forces refresh rate
         // check wait time
         if (time(NULL) - begin_time > info->GetMax_wait_time()) {
             throw Exception("Failed to get current result, judge time out.");
@@ -77,6 +77,8 @@ Bott * PKUJudger::getStatus(Bott * bott) {
         
         prepareCurl();
         curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://poj.org/status?problem_id=" + bott->Getvid() + "&user_id=" + info->GetUsername() + "&language=" + bott->Getlanguage()).c_str());
+        curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "");
+        curl_easy_setopt(curl, CURLOPT_COOKIEJAR, "");
         performCurl();
         
         string html = loadAllFromFile(tmpfilename);

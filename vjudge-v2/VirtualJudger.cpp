@@ -246,28 +246,21 @@ void VirtualJudger::performCurl() {
  * @return Is final one or not
  */
 bool VirtualJudger::isFinalResult(string result) {
-    result = trim(result);
+    result = toLowerCase(trim(result));
     
     // Minimum length result is "Accept"
     if (result.length() < 6) return false;
-    if (result.find("Waiting") != string::npos) return false;
     if (result.find("waiting") != string::npos) return false;
-    if (result.find("Running") != string::npos) return false;
     if (result.find("running") != string::npos) return false;
-    if (result.find("Judging") != string::npos) return false;
     if (result.find("judging") != string::npos) return false;
-    if (result.find("Sent") != string::npos) return false;
-    if (result.find("Queuing") != string::npos) return false;
-    if (result.find("queue") != string::npos) return false;
-    if (result.find("Compiling") != string::npos) return false;
+    if (result.find("sent") != string::npos) return false;
+    if (result.find("queu") != string::npos) return false;
     if (result.find("compiling") != string::npos) return false;
-    if (result.find("Linking") != string::npos) return false;
     if (result.find("linking") != string::npos) return false;
-    if (result.find("Received") != string::npos) return false;
-    if (result.find("Pending") != string::npos) return false;
+    if (result.find("received") != string::npos) return false;
     if (result.find("pending") != string::npos) return false;
-    if (result.find("Not Judged Yet") != string::npos) return false;
-    if (result.find("Being Judged") != string::npos) return false;
+    if (result.find("not judged yet") != string::npos) return false;
+    if (result.find("being judged") != string::npos) return false;
     
     return true;
 }

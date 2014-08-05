@@ -45,6 +45,17 @@ string capitalize(string str) {
     return str;
 }
 
+
+/**
+ * Transfer a string to lower case, eg. "A bCd E" to "a bcd e"
+ * @param str   Original string
+ * @return      Lower case string
+ */
+string toLowerCase(string str) {
+    for (size_t i = 0; i < str.length(); ++i) str[i] = tolower(str[i]);
+    return str;
+}
+
 /**
  * Get current date/time, format is YYYY-MM-DD HH:mm:ss
  * https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c
