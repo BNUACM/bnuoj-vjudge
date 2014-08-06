@@ -253,7 +253,7 @@ bool VirtualJudger::isFinalResult(string result) {
     if (result.find("waiting") != string::npos) return false;
     if (result.find("running") != string::npos) return false;
     if (result.find("judging") != string::npos) return false;
-    if (result.find("sent") != string::npos) return false;
+    if (result.find("presentation") == string::npos && result.find("sent") != string::npos) return false;
     if (result.find("queu") != string::npos) return false;
     if (result.find("compiling") != string::npos) return false;
     if (result.find("linking") != string::npos) return false;

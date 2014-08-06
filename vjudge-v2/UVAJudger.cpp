@@ -192,6 +192,7 @@ string UVAJudger::convertResult(string result) {
     if (result.find("Time Limit Exceeded") != string::npos) return "Time Limit Exceed";
     if (result.find("Memory Limit Exceeded") != string::npos) return "Memory Limit Exceed";
     if (result.find("Output Limit Exceeded") != string::npos) return "Output Limit Exceed";
+    if (result.find("Presentation error") != string::npos) return "Presentation Error";
     if (result.find("System Error") != string::npos) return "Judge Error";
     if (result.find("Submission Error") != string::npos) return "Judge Error";
     return trim(result);

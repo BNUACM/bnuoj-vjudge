@@ -83,7 +83,7 @@ int SPOJJudger::submit(Bott * bott) {
     
     // check submit status
     string html = loadAllFromFile(tmpfilename);
-    cout << html << endl;
+    // cout << html << endl;
     if (html.find("in this language for this problem") != string::npos) {
         return SUBMIT_INVALID_LANGUAGE;
     }
@@ -132,15 +132,18 @@ Bott * SPOJJudger::getStatus(Bott * bott) {
             result = convertResult(result);
             if (result == "Accepted" || result == "Runtime Error" || result == "Wrong Answer") {
                 // only have details for these three results
+                string unit;
                 if (!RE2::PartialMatch(status,
-                        "(?s)statustime_.*?<a.*?>(.*?)</a>.*?statusmem_.*?>\\s*(.*?)M",
-                        &time_used, &memory_used)) {
+                        "(?s)statustime_.*?<a.*?>(.*?)</a>.*?statusmem_.*?>\\s*(.*?)(M|k)",
+                        &time_used, &memory_used, &unit)) {
                     throw Exception("Failed to parse details from status row.");
                 }
                 int time_ms = stringToDouble(time_used) * 1000 + 0.001;
                 time_used = intToString(time_ms);
-                int memory_mb = stringToDouble(memory_used) * 1024 + 0.001;
-                memory_used = intToString(memory_mb);
+                if (unit == "M") {
+                    int memory_mb = stringToDouble(memory_used) * 1024 + 0.001;
+                    memory_used = intToString(memory_mb);
+                }
             } else {
                 time_used = memory_used = "0";
             }

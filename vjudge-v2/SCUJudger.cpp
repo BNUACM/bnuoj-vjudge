@@ -256,17 +256,24 @@ string SCUJudger::getCode() {
     int *jpg, width, height;
     jpg = NULL;
     loadImage(tmpfilename, width, height, jpg);
-    if (jpg==NULL) return "";
+    if (jpg == NULL) return "";
+    
+//    for (int i = 0; i < height; ++i, printf("\n")) {
+//        for (int j = 0; j < width; ++j) {
+//            printf("%c", jpg[i * width + j] > 0x600000 ? ' ' : 'x');
+//        }
+//    }
     
     string code;
     for (int n = 0; n < 4; ++n) {
         if (getNXY(n, 5, 1, width, height, jpg) == 'x' &&
                 getNXY(n, 5, 2, width, height, jpg) == ' ' &&
+                getNXY(n, 5, 5, width, height, jpg) == ' ' &&
                 getNXY(n, 5, 6, width, height, jpg) == 'x') code += '0';
 
-        else if (getNXY(n, 2, 2, width, height, jpg) == 'x' &&
-                getNXY(n, 2, 3, width, height, jpg) == ' ' &&
-                getNXY(n, 2, 4, width, height, jpg) == 'x') code += '1';
+        else if (getNXY(n, 2, 2, width, height, jpg) == ' ' &&
+                getNXY(n, 2, 3, width, height, jpg) == 'x' &&
+                getNXY(n, 2, 4, width, height, jpg) == ' ') code += '1';
 
         else if (getNXY(n, 9, 1, width, height, jpg) == 'x' &&
                 getNXY(n, 9, 2, width, height, jpg) == 'x' &&
@@ -275,9 +282,10 @@ string SCUJudger::getCode() {
                 getNXY(n, 9, 5, width, height, jpg) == 'x') code += '2';
 
         else if (getNXY(n, 5, 1, width, height, jpg) == ' ' &&
-                getNXY(n, 5, 2, width, height, jpg) == 'x' &&
+                getNXY(n, 5, 2, width, height, jpg) == ' ' &&
                 getNXY(n, 5, 3, width, height, jpg) == 'x' &&
-                getNXY(n, 5, 4, width, height, jpg) == ' ') code += '3';
+                getNXY(n, 5, 4, width, height, jpg) == 'x' &&
+                getNXY(n, 5, 6, width, height, jpg) == ' ') code += '3';
 
         else if (getNXY(n, 2, 3, width, height, jpg) == ' ' &&
                 getNXY(n, 2, 4, width, height, jpg) == 'x' &&
@@ -286,7 +294,7 @@ string SCUJudger::getCode() {
         else if (getNXY(n, 4, 1, width, height, jpg) == 'x' &&
                 getNXY(n, 4, 2, width, height, jpg) == 'x' &&
                 getNXY(n, 4, 3, width, height, jpg) == 'x' &&
-                getNXY(n, 4, 4, width, height, jpg) == ' ') code += '5';
+                getNXY(n, 4, 6, width, height, jpg) == ' ') code += '5';
 
         else if (getNXY(n, 4, 1, width, height, jpg) == 'x' &&
                 getNXY(n, 4, 2, width, height, jpg) == ' ' &&
@@ -306,8 +314,9 @@ string SCUJudger::getCode() {
                 getNXY(n, 6, 5, width, height, jpg) == ' ' &&
                 getNXY(n, 6, 6, width, height, jpg) == 'x') code += '9';
         
-        else code += '0';
+        else code += '-';
     }
+//    cout << code << endl;
     delete [] jpg;
     return code;
 }
