@@ -51,6 +51,10 @@ VirtualJudger * JudgerFactory::createJudger(JudgerInfo * judger_info) {
         return new NBUTJudger(judger_info);
     } else if (oj == "NJUPT") {
         return new NJUPTJudger(judger_info);
+    } else if (oj == "Aizu") {
+        return new AizuJudger(judger_info);
+    } else if (oj == "ACdream") {
+        return new ACdreamJudger(judger_info);
     } else {
         throw Exception("Unknown OJ type: " + oj);
     }

@@ -47,7 +47,12 @@ int NJUPTJudger::submit(Bott * bott) {
     curl_easy_setopt(curl, CURLOPT_URL, "http://acm.njupt.edu.cn/acmhome/submitcode.do");
     string post = (string) "problemId=" + bott->Getvid() + "&language=" + escapeURL(bott->Getlanguage()) + "&code=" + escapeURL(bott->Getsrc());
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
-    performCurl();
+
+    try {
+        performCurl();
+    } catch (Exception & e) {
+        return SUBMIT_OTHER_ERROR;
+    }
     
     string html = loadAllFromFile(tmpfilename);
     if (html.find("<div style=\"color:red;\"><UL><LI>") != string::npos) return SUBMIT_OTHER_ERROR;

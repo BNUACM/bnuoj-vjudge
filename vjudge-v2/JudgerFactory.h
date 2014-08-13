@@ -29,6 +29,8 @@
 #include "SCUJudger.h"
 #include "NBUTJudger.h"
 #include "NJUPTJudger.h"
+#include "AizuJudger.h"
+#include "ACdreamJudger.h"
 
 class JudgerFactory {
 public:
