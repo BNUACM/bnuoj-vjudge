@@ -23,7 +23,7 @@ ACdreamJudger::~ACdreamJudger() {
  */
 void ACdreamJudger::login() {
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://acdream.info/doLogin");
+    curl_easy_setopt(curl, CURLOPT_URL, "http://acdream.info/login");
     string post = (string)"username=" + info->GetUsername() + "&password=" + escapeURL(info->GetPassword());
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
@@ -131,7 +131,7 @@ string ACdreamJudger::convertResult(string result) {
 string ACdreamJudger::getCEinfo(Bott * bott) {
     
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://acdream.info/getCE");
+    curl_easy_setopt(curl, CURLOPT_URL, "http://acdream.info/status/CE");
     string post = (string) "rid=" + bott->Getremote_runid();
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
