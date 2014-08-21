@@ -36,14 +36,14 @@ int main(int argc, char** argv) {
 
     curl_global_init(CURL_GLOBAL_ALL);
     try {
-        JudgerInfo * info = new JudgerInfo("ACdream", "ACdream", "bnuvjudge", "asdf1234#", 30);
+        JudgerInfo * info = new JudgerInfo("CodeChef", "CodeChef", "bnuvjudge", "asdf1234#", 30);
         VirtualJudger * judger = JudgerFactory::createJudger(info);
         Bott * bott = new Bott;
         bott->Setout_filename("tests/test.bott");
-//        bott->Setsrc("int main() {  return 0; }");
-        bott->Setsrc("int main() { safssafasfasfas\nfasfasfasfa\nsfasfasfasfasfasfassafsaffregegrthrthrthrt\nhrthrtrhtrthdaas int main(){ return 0; }");
+        bott->Setsrc("int main() {  return 0; }");
+//        bott->Setsrc("int main() { safssafasfasfas\nfasfasfasfa\nsfasfasfasfasfasfassafsaffregegrthrthrthrt\nhrthrtrhtrthdaas int main(){ return 0; }");
         bott->Setlanguage("1");
-        bott->Setvid("1000");
+        bott->Setvid("AEHASH");
         bott->Setrunid("1");
         judger->judge(bott, "tests/result.bott");
 

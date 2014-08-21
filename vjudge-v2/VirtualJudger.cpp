@@ -80,14 +80,20 @@ void VirtualJudger::judge(Bott * bott, string filename) {
         submit_status = submit(bott);
         if (submit_status == SUBMIT_OTHER_ERROR) {
             // second time fail, blame frequency
-            log("Submit error. Assume should sleep for a while, sleeping " + intToString(VirtualJudger::SLEEP_INTERVAL) + " seconds.");
-            sleep(VirtualJudger::SLEEP_INTERVAL);
+            if (info->GetOj() != "CodeChef") {
+                log("Submit error. Assume should sleep for a while, sleeping " + intToString(VirtualJudger::SLEEP_INTERVAL) + " seconds.");
+                sleep(VirtualJudger::SLEEP_INTERVAL);
+            } else {
+                // CodeChef's restriction is harsh... 30 seconds cool down required
+                log("Submit error. Assume should sleep for a while, sleeping 30 seconds.");
+                sleep(30);
+            }
             submit_status = submit(bott);
         }
-    } else if (submit_status == SUBMIT_INVALID_LANGUAGE && info->GetOj() == "SPOJ" && bott->Getlanguage() == "41") {
-        // Special HACK for Invalid Language on SPOJ, since it has two C++ type
+    } else if (submit_status == SUBMIT_INVALID_LANGUAGE && (info->GetOj() == "SPOJ" || info->GetOj() == "CodeChef") && bott->Getlanguage() == "41") {
+        // Special HACK for Invalid Language on SPOJ/CodeChef, since it has two C++ type
         // And each of them covers a certain subset of problems
-        log((string)"Try another C++ for SPOJ");
+        log((string)"Try another C++ for SPOJ/CodeChef");
         bott->Setlanguage("1");
         submit_status = submit(bott);
     }
@@ -214,6 +220,9 @@ void VirtualJudger::prepareCurl() {
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
     curl_easy_setopt(curl, CURLOPT_COOKIEFILE, cookiefilename.c_str());
     curl_easy_setopt(curl, CURLOPT_COOKIEJAR, cookiefilename.c_str());
+    
+    // for debug purpose
+    // curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
 }
 
 /**
@@ -233,7 +242,7 @@ void VirtualJudger::performCurl() {
         throw Exception((string)"Curl failed, reason: " + curl_easy_strerror(curl_result));
     }
     int http_code = 0;
-    curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
     curl_easy_cleanup(curl);
     if (http_code >= 400) {
         throw Exception("Server failed, code: " + intToString(http_code));

@@ -55,6 +55,8 @@ VirtualJudger * JudgerFactory::createJudger(JudgerInfo * judger_info) {
         return new AizuJudger(judger_info);
     } else if (oj == "ACdream") {
         return new ACdreamJudger(judger_info);
+    } else if (oj == "CodeChef") {
+        return new CCJudger(judger_info);
     } else {
         throw Exception("Unknown OJ type: " + oj);
     }

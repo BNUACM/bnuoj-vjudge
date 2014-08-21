@@ -159,6 +159,10 @@ int CFJudger::submit(Bott * bott) {
                  CURLFORM_COPYCONTENTS, source.c_str(),
                  CURLFORM_END);
     curl_formadd(&formpost, &lastptr,
+                 CURLFORM_COPYNAME, "sourceCodeConfirmed",
+                 CURLFORM_COPYCONTENTS, "true",
+                 CURLFORM_END);
+    curl_formadd(&formpost, &lastptr,
                  CURLFORM_COPYNAME, "_tta",
                  CURLFORM_COPYCONTENTS, getttaValue().c_str(),
                  CURLFORM_END);

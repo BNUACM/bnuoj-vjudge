@@ -8,7 +8,7 @@
 #include "UVAJudger.h"
 
 /**
- * Create a UVALive Judger
+ * Create a UVA Judger
  * @param _info Should be a pointer of a JudgerInfo
  */
 UVAJudger::UVAJudger(JudgerInfo * _info) : VirtualJudger(_info) {
