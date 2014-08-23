@@ -57,6 +57,8 @@ VirtualJudger * JudgerFactory::createJudger(JudgerInfo * judger_info) {
         return new ACdreamJudger(judger_info);
     } else if (oj == "CodeChef") {
         return new CCJudger(judger_info);
+    } else if (oj == "HRBUST") {
+        return new HRBUSTJudger(judger_info);
     } else {
         throw Exception("Unknown OJ type: " + oj);
     }

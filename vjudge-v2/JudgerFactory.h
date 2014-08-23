@@ -32,6 +32,7 @@
 #include "AizuJudger.h"
 #include "ACdreamJudger.h"
 #include "CCJudger.h"
+#include "HRBUSTJudger.h"
 
 class JudgerFactory {
 public:
