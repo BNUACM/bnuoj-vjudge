@@ -221,7 +221,7 @@ Bott * CFJudger::getStatus(Bott * bott) {
         if (isFinalResult(result)) {
             // if result if final, get details
             if (!RE2::PartialMatch(status,
-                                   "(?s)data-submission-id=\"([0-9]*).*status-cell.*?>(.*?)</td>.*time-consumed-cell.*?>(.*?) ms.*memory-consumed-cell.*?>(.*?) KB",
+                                   "(?s)data-submission-id=\"([0-9]*)\".*submissionVerdict=\"(.*?)\".*time-consumed-cell.*?>(.*?) ms.*memory-consumed-cell.*?>(.*?) KB",
                                    &runid, &result, &time_used, &memory_used)) {
                 throw Exception("Failed to parse details from status row.");
             }
@@ -251,13 +251,13 @@ Bott * CFJudger::getStatus(Bott * bott) {
  * @return Converted local result
  */
 string CFJudger::convertResult(string result) {
-    if (result.find("Accepted") != string::npos) return "Accepted";
-    if (result.find("Compilation error") != string::npos) return "Compile Error";
-    if (result.find("Wrong answer") != string::npos) return "Wrong Answer";
-    if (result.find("Runtime error") != string::npos) return "Runtime Error";
-    if (result.find("Time limit exceeded") != string::npos) return "Time Limit Exceed";
-    if (result.find("Idleness") != string::npos || result.find("Memory limit exceeded") != string::npos) return "Memory Limit Exceed";
-    if (result.find("Denial of") != string::npos || result.find("Judgement failed") != string::npos) return "Judge Error";
+    if (result.find("OK") != string::npos) return "Accepted";
+    if (result.find("COMPILATION_ERROR") != string::npos) return "Compile Error";
+    if (result.find("WRONG_ANSWER") != string::npos) return "Wrong Answer";
+    if (result.find("RUNTIME_ERROR") != string::npos) return "Runtime Error";
+    if (result.find("TIME_LIMIT_EXCEEDED") != string::npos) return "Time Limit Exceed";
+    if (result.find("IDLENESS_LIMIT_EXCEEDED") != string::npos || result.find("MEMORY_LIMIT_EXCEEDED") != string::npos) return "Memory Limit Exceed";
+    if (result.find("CRASHED") != string::npos || result.find("FAILED") != string::npos) return "Judge Error";
     return trim(result);
 }
 
