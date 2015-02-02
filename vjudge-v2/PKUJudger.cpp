@@ -48,11 +48,20 @@ void PKUJudger::login() {
  * @return Submit status
  */
 int PKUJudger::submit(Bott * bott) {
-    prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://poj.org/submit");
     string post = (string)"problem_id=" + bott->Getvid() + "&language=" + bott->Getlanguage() + "&source=" + escapeURL(bott->Getsrc());
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
-    performCurl();
+    try {
+        prepareCurl();
+        curl_easy_setopt(curl, CURLOPT_URL, "http://poj.org/submit");
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
+        performCurl();
+    } catch (Exception & e) {
+        log("POST denied by POJ... Try proxy server...");
+        prepareCurl();
+        curl_easy_setopt(curl, CURLOPT_URL, "http://poj.org/submit");
+        curl_easy_setopt(curl, CURLOPT_PROXY, "http://202.107.85.47:3128");
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
+        performCurl();
+    }
     
     string html = loadAllFromFile(tmpfilename);
     if (html.find("Error Occurred") != string::npos || html.find("The page is temporarily unavailable") != string::npos) return SUBMIT_OTHER_ERROR;
