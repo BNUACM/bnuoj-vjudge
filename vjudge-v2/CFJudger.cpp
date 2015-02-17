@@ -221,7 +221,7 @@ Bott * CFJudger::getStatus(Bott * bott) {
         if (isFinalResult(result)) {
             // if result if final, get details
             if (!RE2::PartialMatch(status,
-                                   "(?s)data-submission-id=\"([0-9]*)\".*submissionVerdict=\"(.*?)\".*time-consumed-cell.*?>(.*?) ms.*memory-consumed-cell.*?>(.*?) KB",
+                                   "(?s)data-submission-id=\"([0-9]*)\".*submissionVerdict=\"(.*?)\".*time-consumed-cell.*?>(.*?)&nbsp;ms.*memory-consumed-cell.*?>(.*?)&nbsp;KB",
                                    &runid, &result, &time_used, &memory_used)) {
                 throw Exception("Failed to parse details from status row.");
             }
