@@ -37,6 +37,7 @@
 #include "curl/curl.h"
 #include "re2/re2.h"
 #include "htmlcxx/html/ParserDom.h"
+#include "jsoncpp/json/json.h"
 
 #include "hcxselect.h"
 

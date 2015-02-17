@@ -223,7 +223,24 @@ Bott * CFJudger::getStatus(Bott * bott) {
             if (!RE2::PartialMatch(status,
                                    "(?s)data-submission-id=\"([0-9]*)\".*submissionVerdict=\"(.*?)\".*time-consumed-cell.*?>(.*?)&nbsp;ms.*memory-consumed-cell.*?>(.*?)&nbsp;KB",
                                    &runid, &result, &time_used, &memory_used)) {
-                throw Exception("Failed to parse details from status row.");
+                // try api when failed
+                log("Failed to parse details from status row, try API.");
+                prepareCurl();
+                curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/api/user.status?handle=" + info->GetUsername() + "&from=1&count=1").c_str());
+                performCurl();
+
+                string json = loadAllFromFile(tmpfilename);
+                
+                Json::Reader json_reader;
+                Json::Value api_ret;
+                if (json_reader.parse(json, api_ret)) {
+                    runid = intToString(api_ret["result"][0]["id"].asInt());
+                    result = api_ret["result"][0]["verdict"].asString();
+                    time_used = intToString(api_ret["result"][0]["timeConsumedMillis"].asInt());
+                    memory_used = intToString(api_ret["result"][0]["memeryConsumedBytes"].asInt() / 1024);
+                }else{
+                    throw Exception("Failed to parse details from API.");
+                }
             }
             result_bott = new Bott;
             result_bott->Settype(RESULT_REPORT);
