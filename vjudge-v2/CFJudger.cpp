@@ -16,7 +16,7 @@ CFJudger::CFJudger(JudgerInfo * _info) : VirtualJudger(_info) {
     
     language_table["1"]  = "1";
     language_table["2"]  = "10";
-    language_table["3"]  = "5";
+    language_table["3"]  = "23";
     language_table["4"]  = "4";
     language_table["5"]  = "7";
     language_table["6"]  = "9";
