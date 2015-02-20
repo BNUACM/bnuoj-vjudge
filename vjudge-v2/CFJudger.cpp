@@ -230,15 +230,9 @@ Bott * CFJudger::getStatus(Bott * bott) {
                 performCurl();
 
                 string json = loadAllFromFile(tmpfilename);
-                
-                Json::Reader json_reader;
-                Json::Value api_ret;
-                if (json_reader.parse(json, api_ret)) {
-                    runid = intToString(api_ret["result"][0]["id"].asInt());
-                    result = api_ret["result"][0]["verdict"].asString();
-                    time_used = intToString(api_ret["result"][0]["timeConsumedMillis"].asInt());
-                    memory_used = intToString(api_ret["result"][0]["memeryConsumedBytes"].asInt() / 1024);
-                }else{
+                if (!RE2::PartialMatch(json,
+                                      "(?s)\"id\":([0-9]*)\"verdict\":\"(.*?)\".*\"timeConsumedMillis\":([0-9]*),\"memeryConsumedBytes\":([0-9]*)",
+                                      &runid, &result, &time_used, &memory_used)) {
                     throw Exception("Failed to parse details from API.");
                 }
             }
