@@ -103,32 +103,21 @@ void CFJudger::login() {
     }
 }
 
-string CFJudger::getActionUrl() {
-    prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://codeforces.com/problemset/submit");
-    performCurl();
-    
-    string html = loadAllFromFile(tmpfilename);
-    string url;
-    if (!RE2::PartialMatch(html, "<form class=.*submit-form.*action=\"(.*?)\"", &url)) {
-        throw Exception("Failed to get action url.");
-    }
-    return url;
-}
-
 /**
  * Submit a run
  * @param bott      Bott file for Run info
  * @return Submit status
  */
 int CFJudger::submit(Bott * bott) {
-    string csrf = getCsrfParams("http://codeforces.com/problemset/submit");
-    
     // prepare cid and pid from vid
     string contest, problem;
     if (!RE2::PartialMatch(bott->Getvid(), "([0-9]*)(.*)", &contest, &problem)) {
         throw Exception("Invalid vid.");
     }
+
+    string submit_url = contest.length() == 6 ? "http://codeforces.com/gym/"+contest+"/submit" : "http://codeforces.com/problemset/submit";
+    string csrf = getCsrfParams(submit_url);
+
     string source = bott->Getsrc();
     // add random extra spaces in the end to avoid same code error
     srand(time(NULL));
@@ -142,10 +131,11 @@ int CFJudger::submit(Bott * bott) {
                  CURLFORM_COPYNAME, "action",
                  CURLFORM_COPYCONTENTS, "submitSolutionFormSubmitted",
                  CURLFORM_END);
-    curl_formadd(&formpost, &lastptr,
-                 CURLFORM_COPYNAME, "contestId",
-                 CURLFORM_COPYCONTENTS, contest.c_str(),
-                 CURLFORM_END);
+    if( contest.length() < 6 )
+        curl_formadd(&formpost, &lastptr,
+                     CURLFORM_COPYNAME, "contestId",
+                     CURLFORM_COPYCONTENTS, contest.c_str(),
+                     CURLFORM_END);
     curl_formadd(&formpost, &lastptr,
                  CURLFORM_COPYNAME, "submittedProblemIndex",
                  CURLFORM_COPYCONTENTS, problem.c_str(),
@@ -168,7 +158,7 @@ int CFJudger::submit(Bott * bott) {
                  CURLFORM_END);
     
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/problemset/submit?csrf_token=" + csrf).c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, (submit_url + "?csrf_token=" + csrf).c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
     performCurl();
     curl_formfree(formpost);
@@ -278,7 +268,7 @@ string CFJudger::convertResult(string result) {
  * @return Compile error info
  */
 string CFJudger::getCEinfo(Bott * bott) {
-    string csrf = getCsrfParams("http://codeforces.com/problemset/submit");
+    string csrf = getCsrfParams(("http://codeforces.com/submissions/" + info->GetUsername()).c_str());
     
     prepareCurl();
     curl_easy_setopt(curl, CURLOPT_URL, "http://codeforces.com/data/judgeProtocol");
@@ -302,7 +292,10 @@ string CFJudger::getCEinfo(Bott * bott) {
  */
 string CFJudger::getVerdict(string contest, string runid) {
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/contest/" + contest + "/submission/" + runid).c_str());
+    if (contest.length() < 6)
+        curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/contest/" + contest + "/submission/" + runid).c_str());
+    else
+        curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/gym/" + contest + "/submission/" + runid).c_str());
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);
