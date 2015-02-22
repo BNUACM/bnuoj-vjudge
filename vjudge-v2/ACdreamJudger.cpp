@@ -8,8 +8,6 @@
 #include "ACdreamJudger.h"
 
 ACdreamJudger::ACdreamJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nACdream");
-
     language_table["1"]  = "2";
     language_table["2"]  = "1";
 }
@@ -17,6 +15,9 @@ ACdreamJudger::ACdreamJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 ACdreamJudger::~ACdreamJudger() {
 }
 
+void ACdreamJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nACdream");
+}
 
 /**
  * Login to ACdream

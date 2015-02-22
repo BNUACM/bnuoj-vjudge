@@ -21,6 +21,10 @@ public:
     virtual ~VirtualJudger();
     virtual void judge(Bott * bott, string filename);
     void run();
+    /**
+     * Send handshake message, must be called before use
+     */
+    virtual void initHandShake() = 0;
     
     static const int MIN_SOURCE_LENGTH;
     static const int SLEEP_INTERVAL;

@@ -8,8 +8,6 @@
 #include "HUSTJudger.h"
 
 HUSTJudger::HUSTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nHUST");
-
     language_table["1"]  = "1";
     language_table["2"]  = "0";
     language_table["3"]  = "3";
@@ -19,6 +17,9 @@ HUSTJudger::HUSTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 HUSTJudger::~HUSTJudger() {
 }
 
+void HUSTJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nHUST");
+}
 
 /**
  * Login to HUST

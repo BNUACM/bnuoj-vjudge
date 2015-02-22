@@ -12,8 +12,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 LOJJudger::LOJJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nLightOJ");
-
     language_table["1"] = "C++";
     language_table["2"] = "C";
     language_table["3"] = "JAVA";
@@ -22,6 +20,10 @@ LOJJudger::LOJJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 }
 
 LOJJudger::~LOJJudger() {
+}
+
+void LOJJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nLightOJ");
 }
 
 /**

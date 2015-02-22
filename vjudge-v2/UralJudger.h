@@ -15,6 +15,7 @@ class UralJudger : public VirtualJudger {
 public:
     UralJudger(JudgerInfo *);
     virtual ~UralJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

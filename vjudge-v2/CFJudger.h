@@ -15,7 +15,8 @@ class CFJudger : public VirtualJudger {
 public:
     CFJudger(JudgerInfo *);
     virtual ~CFJudger();
-private:
+    void initHandShake();
+protected:
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

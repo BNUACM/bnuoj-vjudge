@@ -12,8 +12,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 UVAJudger::UVAJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nUVA");
-    
     language_table["1"]  = "3";
     language_table["2"]  = "1";
     language_table["3"]  = "2";
@@ -21,6 +19,10 @@ UVAJudger::UVAJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 }
 
 UVAJudger::~UVAJudger() {
+}
+
+void UVAJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nUVA");
 }
 
 /**

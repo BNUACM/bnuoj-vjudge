@@ -15,6 +15,7 @@ class HUSTJudger : public VirtualJudger {
 public:
     HUSTJudger(JudgerInfo *);
     virtual ~HUSTJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

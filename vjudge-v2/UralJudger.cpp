@@ -12,8 +12,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 UralJudger::UralJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nUral");
-
     language_table["1"] = "10";
     language_table["2"] = "9";
     language_table["3"] = "12";
@@ -26,6 +24,10 @@ UralJudger::UralJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 }
 
 UralJudger::~UralJudger() {
+}
+
+void UralJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nUral");
 }
 
 /**

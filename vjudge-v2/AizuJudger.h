@@ -15,6 +15,7 @@ class AizuJudger : public VirtualJudger {
 public:
     AizuJudger(JudgerInfo *);
     virtual ~AizuJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

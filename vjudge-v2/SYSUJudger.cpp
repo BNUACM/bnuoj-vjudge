@@ -12,14 +12,16 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 SYSUJudger::SYSUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nSYSU");
-
     language_table["1"] = "2";
     language_table["2"] = "1";
     language_table["4"] = "3";
 }
 
 SYSUJudger::~SYSUJudger() {
+}
+
+void SYSUJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nSYSU");
 }
 
 /**

@@ -8,8 +8,6 @@
 #include "HDUJudger.h"
 
 HDUJudger::HDUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nHDU");
-
     language_table["1"]  = "0";
     language_table["2"]  = "1";
     language_table["3"]  = "5";
@@ -21,6 +19,9 @@ HDUJudger::HDUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 HDUJudger::~HDUJudger() {
 }
 
+void HDUJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nHDU");
+}
 
 /**
  * Login to HDU
@@ -56,7 +57,7 @@ int HDUJudger::submit(Bott * bott) {
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);
-    cout << html << endl;
+    //cout << html << endl;
     if (html.find("Connect(0) to MySQL Server failed.") != string::npos ||
             html.find("<b>One or more following ERROR(s) occurred.") != string::npos ||
             html.find("<h2>The requested URL could not be retrieved</h2>") != string::npos ||
