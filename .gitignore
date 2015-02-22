@@ -26,3 +26,4 @@ nohup.out
 #ignore tmpfile and cookie
 /vjudge-v2/cookies/*
 /vjudge-v2/tmpfile/*
+/vjudge-v2/tests/judgertest.cpp
