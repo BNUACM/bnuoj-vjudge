@@ -14,7 +14,7 @@
 CFJudger::CFJudger(JudgerInfo * _info) : VirtualJudger(_info) {
     language_table["1"]  = "1";
     language_table["2"]  = "10";
-    language_table["3"]  = "5";
+    language_table["3"]  = "23";
     language_table["4"]  = "4";
     language_table["5"]  = "7";
     language_table["6"]  = "9";
@@ -102,19 +102,6 @@ void CFJudger::login() {
     if (html.find("Invalid handle or password") != string::npos) {
         throw Exception("Login failed!");
     }
-}
-
-string CFJudger::getActionUrl() {
-    prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://codeforces.com/problemset/submit");
-    performCurl();
-    
-    string html = loadAllFromFile(tmpfilename);
-    string url;
-    if (!RE2::PartialMatch(html, "<form class=.*submit-form.*action=\"(.*?)\"", &url)) {
-        throw Exception("Failed to get action url.");
-    }
-    return url;
 }
 
 /**
