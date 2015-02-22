@@ -49,12 +49,21 @@ void HDUJudger::login() {
  * @return Submit status
  */
 int HDUJudger::submit(Bott * bott) {
+    // Convert code to GBK, some output in HDU contains GBK characters.
+    // Example: HDU2815
+    char * code = new char[bott->Getsrc().length() + 1];
+    strcpy(code, bott->Getsrc().c_str());
+    char * buffer = new char[bott->Getsrc().length() * 2];
+    // HDU is in GBK charset
+    charset_convert("UTF-8", "GBK//TRANSLIT", code, bott->Getsrc().length() + 1, buffer, bott->Getsrc().length() * 2);
+    string converted_code = buffer;
+
     prepareCurl();
     curl_easy_setopt(curl, CURLOPT_URL, "http://acm.hdu.edu.cn/submit.php?action=submit");
-    string post = (string) "check=0&problemid=" + bott->Getvid() + "&language=" + bott->Getlanguage() + "&usercode=" + escapeURL(bott->Getsrc());
+    string post = (string) "check=0&problemid=" + bott->Getvid() + "&language=" + bott->Getlanguage() + "&usercode=" + escapeURL(converted_code);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
-    
+
     string html = loadAllFromFile(tmpfilename);
     cout << html << endl;
     if (html.find("Connect(0) to MySQL Server failed.") != string::npos ||
@@ -146,7 +155,7 @@ string HDUJudger::convertResult(string result) {
 string HDUJudger::getCEinfo(Bott * bott) {
     
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ("http://acm.hdu.edu.cn/viewerror.php?rid=" + bott->Getremote_runid()).c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://acm.hdu.edu.cn/viewerror.php?rid=" + bott->Getremote_runid()).c_str());
     performCurl();
     
     string info = loadAllFromFile(tmpfilename);
@@ -154,7 +163,7 @@ string HDUJudger::getCEinfo(Bott * bott) {
     char * ce_info = new char[info.length() + 1];
     strcpy(ce_info, info.c_str());
     char * buffer = new char[info.length() * 2];
-    // SCU is in GBK charset
+    // HDU is in GBK charset
     charset_convert("GBK", "UTF-8//TRANSLIT", ce_info, info.length() + 1, buffer, info.length() * 2);
     
     if (!RE2::PartialMatch(buffer, "(?s)<pre>(.*?)</pre>", &result)) {
