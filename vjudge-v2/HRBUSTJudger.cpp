@@ -8,8 +8,6 @@
 #include "HRBUSTJudger.h"
 
 HRBUSTJudger::HRBUSTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nHRBUST");
-
     language_table["1"]  = "2";
     language_table["2"]  = "1";
     language_table["3"]  = "3";
@@ -18,6 +16,9 @@ HRBUSTJudger::HRBUSTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 HRBUSTJudger::~HRBUSTJudger() {
 }
 
+void HRBUSTJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nHRBUST");
+}
 
 /**
  * Login to HRBUST

@@ -12,8 +12,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 ZJUJudger::ZJUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nZJU");
-
     language_table["1"] = "2";
     language_table["2"] = "1";
     language_table["3"] = "4";
@@ -23,6 +21,10 @@ ZJUJudger::ZJUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 }
 
 ZJUJudger::~ZJUJudger() {
+}
+
+void ZJUJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nZJU");
 }
 
 /**

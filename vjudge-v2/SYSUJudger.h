@@ -15,6 +15,7 @@ class SYSUJudger : public VirtualJudger {
 public:
     SYSUJudger(JudgerInfo *);
     virtual ~SYSUJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

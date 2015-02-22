@@ -15,6 +15,7 @@ class NBUTJudger : public VirtualJudger {
 public:
     NBUTJudger(JudgerInfo *);
     virtual ~NBUTJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

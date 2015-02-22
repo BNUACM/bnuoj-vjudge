@@ -15,6 +15,7 @@ class PKUJudger : public VirtualJudger {
 public:
     PKUJudger(JudgerInfo *);
     virtual ~PKUJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

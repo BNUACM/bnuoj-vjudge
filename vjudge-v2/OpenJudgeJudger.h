@@ -15,6 +15,7 @@ class OpenJudgeJudger : public VirtualJudger {
 public:
     OpenJudgeJudger(JudgerInfo *);
     virtual ~OpenJudgeJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

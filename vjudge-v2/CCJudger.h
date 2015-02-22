@@ -15,6 +15,7 @@ class CCJudger : public VirtualJudger {
 public:
     CCJudger(JudgerInfo *);
     virtual ~CCJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

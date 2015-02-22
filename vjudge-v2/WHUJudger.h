@@ -15,6 +15,7 @@ class WHUJudger : public VirtualJudger {
 public:
     WHUJudger(JudgerInfo *);
     virtual ~WHUJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

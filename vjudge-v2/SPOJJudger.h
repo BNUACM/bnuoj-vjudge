@@ -15,6 +15,7 @@ class SPOJJudger : public VirtualJudger {
 public:
     SPOJJudger(JudgerInfo *);
     virtual ~SPOJJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

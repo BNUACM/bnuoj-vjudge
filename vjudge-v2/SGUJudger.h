@@ -15,6 +15,7 @@ class SGUJudger : public VirtualJudger {
 public:
     SGUJudger(JudgerInfo *);
     virtual ~SGUJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

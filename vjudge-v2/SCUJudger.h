@@ -15,6 +15,7 @@ class SCUJudger : public VirtualJudger {
 public:
     SCUJudger(JudgerInfo *);
     virtual ~SCUJudger();
+    void initHandShake();
 private:
     void login();
     int submit(Bott *);

@@ -12,8 +12,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 PKUJudger::PKUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nPKU");
-
     language_table["1"]  = "0";
     language_table["2"]  = "1";
     language_table["3"]  = "2";
@@ -23,6 +21,10 @@ PKUJudger::PKUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 }
 
 PKUJudger::~PKUJudger() {
+}
+
+void PKUJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nPKU");
 }
 
 /**

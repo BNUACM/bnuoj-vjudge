@@ -13,8 +13,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 SCUJudger::SCUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nSCU");
-
     language_table["1"] = "C++ (G++-3)";
     language_table["2"] = "C (GCC-3)";
     language_table["3"] = "JAVA";
@@ -22,6 +20,10 @@ SCUJudger::SCUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 }
 
 SCUJudger::~SCUJudger() {
+}
+
+void SCUJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nSCU");
 }
 
 /**

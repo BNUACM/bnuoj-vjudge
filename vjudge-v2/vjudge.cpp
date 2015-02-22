@@ -23,6 +23,7 @@ void * start_judger(void * arg) {
     while (true) {
         try {
             judger = JudgerFactory::createJudger(judger_info);
+            judger->initHandShake();
             judger->run();
         } catch (Exception & e) {
             LOG((string)"Judger failed, reason: " + e.what(), judger_info->GetId());
