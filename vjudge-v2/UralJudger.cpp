@@ -99,7 +99,7 @@ int UralJudger::submit(Bott * bott) {
  */
 Bott * UralJudger::getStatus(Bott * bott) {
     time_t begin_time = time(NULL);
-    int count=10;
+    int count = 10;
     
     Bott * result_bott;
 
@@ -126,7 +126,7 @@ Bott * UralJudger::getStatus(Bott * bott) {
         
         // get the row for runid, if not found, try fetch more runs
         if (!RE2::PartialMatch(html, "(?s)(<TR.*?\"id\">"+runid+".*?</TR>)", &status)) {
-            if (count==100){
+            if (count == 100){
                 throw Exception("Failed to find current submission in the last 100.");
             }
             log("Trying to fetch more runs...");
