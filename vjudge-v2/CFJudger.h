@@ -17,6 +17,7 @@ public:
     virtual ~CFJudger();
 protected:
     void login();
+    string getSubmitUrl(string);
     int submit(Bott *);
     Bott * getStatus(Bott *);
     string getCEinfo(Bott *);

@@ -13,7 +13,7 @@ public:
     virtual ~CFGymJudger();
 private:
     void initHandShake();
-    int submit(Bott *);
+    string getSubmitUrl(string);
     string getVerdictUrl(string, string);
 };
 

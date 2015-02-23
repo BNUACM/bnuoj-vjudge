@@ -105,6 +105,15 @@ void CFJudger::login() {
 }
 
 /**
+ * Get submit url, extracted from submit for reuse
+ * @param contest   Contest ID
+ * @return Submit url
+ */
+string CFJudger::getSubmitUrl(string contest){
+    return "http://codeforces.com/problemset/submit";
+}
+
+/**
  * Submit a run
  * @param bott      Bott file for Run info
  * @return Submit status
@@ -156,7 +165,7 @@ int CFJudger::submit(Bott * bott) {
                  CURLFORM_END);
     
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/problemset/submit?csrf_token=" + csrf).c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, ((string)getSubmitUrl(contest) + "?csrf_token=" + csrf).c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
     performCurl();
     curl_formfree(formpost);
