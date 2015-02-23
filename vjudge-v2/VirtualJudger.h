@@ -13,18 +13,16 @@
 #include "JudgerInfo.h"
 #include "Bott.h"
 
-
-
 class VirtualJudger {
 public:
     VirtualJudger(JudgerInfo *);
     virtual ~VirtualJudger();
     virtual void judge(Bott * bott, string filename);
     void run();
-    
+
     static const int MIN_SOURCE_LENGTH;
     static const int SLEEP_INTERVAL;
-    
+
     // submit status code
     static const int SUBMIT_NORMAL;
     static const int SUBMIT_SAME_CODE;
@@ -36,7 +34,7 @@ protected:
     void generateSpecialResult(Bott *, string);
     void clearCookies();
     bool isFinalResult(string);
-    
+
     /**
      * Login to reomote OJ
      */
@@ -52,14 +50,14 @@ protected:
      * @return Result Bott file
      */
     virtual Bott * getStatus(Bott * bott) = 0;
-    
+
     /**
      * Get compile error info from remote OJ
      * @param bott      Result bott file
      * @return Compile error info
      */
     virtual string getCEinfo(Bott * bott) = 0;
-    
+
     void prepareCurl();
     void performCurl();
     SocketHandler * socket;
@@ -69,7 +67,7 @@ protected:
     // language convertion table, convert local language to remote ones
     map <string, string> language_table;
     bool logged_in;
-    
+
     CURL * curl;
     FILE * curl_file;
 };

@@ -15,6 +15,7 @@ using namespace std;
 class JudgerInfo {
 public:
     JudgerInfo();
+
     /**
      * Generate a new judger config
      * @param _oj               OJ name
@@ -23,8 +24,9 @@ public:
      * @param _password         Login password
      * @param _max_wait_time    How long it will wait for a run
      */
-    JudgerInfo(string _oj, string _id, string _username, string _password, int _max_wait_time) : 
-        oj(_oj), id(_id), username(_username), password(_password), max_wait_time(_max_wait_time) {}
+    JudgerInfo(string _oj, string _id, string _username, string _password, int _max_wait_time) :
+    oj(_oj), id(_id), username(_username), password(_password), max_wait_time(_max_wait_time) {
+    }
     virtual ~JudgerInfo();
 
     int GetMax_wait_time() const {
@@ -73,7 +75,7 @@ private:
     string username;
     string password;
     int max_wait_time;
-    
+
 };
 
 #endif	/* JUDGERINFO_H */
