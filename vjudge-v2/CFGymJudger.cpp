@@ -24,7 +24,7 @@ void CFGymJudger::initHandShake(){
  * @return Submit url
  */
 string CFGymJudger::getSubmitUrl(string contest){
-    return "http://codeforces.com/gym/" + contest +"/submit";
+    return "http://codeforces.com/gym/" + contest + "/submit";
 }
 
 /**
