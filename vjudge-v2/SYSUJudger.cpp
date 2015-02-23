@@ -30,7 +30,7 @@ void SYSUJudger::initHandShake(){
 void SYSUJudger::login() {
 
   prepareCurl();
-  curl_easy_setopt(curl, CURLOPT_URL, "http://soj.me/action.php?act=Login");
+  curl_easy_setopt(curl, CURLOPT_URL, "http://soj.sysu.edu.cn/action.php?act=Login");
   string post = "username=" + escapeURL(info->GetUsername()) + "&password=" +
       escapeURL(info->GetPassword()) + "&lsession=1";
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
@@ -52,7 +52,7 @@ int SYSUJudger::submit(Bott * bott) {
 
 
   prepareCurl();
-  curl_easy_setopt(curl, CURLOPT_URL, "http://soj.me/action.php?act=Submit");
+  curl_easy_setopt(curl, CURLOPT_URL, "http://soj.sysu.edu.cn/action.php?act=Submit");
   string post = (string) "cid=0&language=" + bott->Getlanguage() + "&pid=" +
       bott->Getvid() + "&source=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
@@ -89,7 +89,7 @@ Bott * SYSUJudger::getStatus(Bott * bott) {
 
     prepareCurl();
     curl_easy_setopt(curl, CURLOPT_URL,
-                     "http://soj.me/action.php?act=QueryStatus");
+                     "http://soj.sysu.edu.cn/action.php?act=QueryStatus");
     string post = "sid=" + bott->Getremote_runid();
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
@@ -138,7 +138,7 @@ string SYSUJudger::getCEinfo(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(
       curl, CURLOPT_URL,
-      ((string) "http://soj.me/compileresult.php?sid=" +
+      ((string) "http://soj.sysu.edu.cn/compileresult.php?sid=" +
           bott->Getremote_runid()).c_str());
   performCurl();
 
