@@ -14,10 +14,10 @@
 UralJudger::UralJudger(JudgerInfo * _info) : VirtualJudger(_info) {
     socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nUral");
 
-    language_table["1"] = "10";
-    language_table["2"] = "9";
-    language_table["3"] = "12";
-    language_table["4"] = "3";
+    language_table["1"] = "26";
+    language_table["2"] = "25";
+    language_table["3"] = "32";
+    language_table["4"] = "31";
     language_table["6"] = "11";
     
     if (!RE2::PartialMatch(info->GetUsername(), "([0-9]*)", &author_id)) {
@@ -49,7 +49,7 @@ int UralJudger::submit(Bott * bott) {
                  CURLFORM_COPYCONTENTS, "submit",
                  CURLFORM_END);
     curl_formadd(&formpost, &lastptr,
-                 CURLFORM_COPYNAME, "spaceID",
+                 CURLFORM_COPYNAME, "SpaceID",
                  CURLFORM_COPYCONTENTS, "1",
                  CURLFORM_END);
     curl_formadd(&formpost, &lastptr,
@@ -57,29 +57,38 @@ int UralJudger::submit(Bott * bott) {
                  CURLFORM_COPYCONTENTS, info->GetUsername().c_str(),
                  CURLFORM_END);
     curl_formadd(&formpost, &lastptr,
-                 CURLFORM_COPYNAME, "ProblemNum",
-                 CURLFORM_COPYCONTENTS, bott->Getvid().c_str(),
-                 CURLFORM_END);
-    curl_formadd(&formpost, &lastptr,
                  CURLFORM_COPYNAME, "Language",
                  CURLFORM_COPYCONTENTS, bott->Getlanguage().c_str(),
+                 CURLFORM_END);
+    curl_formadd(&formpost, &lastptr,
+                 CURLFORM_COPYNAME, "ProblemNum",
+                 CURLFORM_COPYCONTENTS, bott->Getvid().c_str(),
                  CURLFORM_END);
     curl_formadd(&formpost, &lastptr,
                  CURLFORM_COPYNAME, "Source",
                  CURLFORM_COPYCONTENTS, bott->Getsrc().c_str(),
                  CURLFORM_END);
+
     
     prepareCurl();
     curl_easy_setopt(curl, CURLOPT_URL, "http://acm.timus.ru/submit.aspx?space=1");
     curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
+
+    // have to fetch header for runid
+    string headerfilename = tmpfilename + "_header";
+    FILE * headerfile = fopen(headerfilename.c_str(), "w");
+    curl_easy_setopt(curl, CURLOPT_HEADERDATA, headerfile);
+
     performCurl();
     curl_formfree(formpost);
+    fclose(headerfile);
     
     // check submit status
-    string html = loadAllFromFile(tmpfilename);
-    if (html.find("<H2 CLASS=\"title\">Solutions judgement results</H2>") == string::npos) {
+    string html = loadAllFromFile(headerfilename);
+    if (html.find("303 See Other") == string::npos) {
         return SUBMIT_OTHER_ERROR;
     }
+
     return VirtualJudger::SUBMIT_NORMAL;
 }
 
@@ -90,8 +99,16 @@ int UralJudger::submit(Bott * bott) {
  */
 Bott * UralJudger::getStatus(Bott * bott) {
     time_t begin_time = time(NULL);
+    int count = 10;
     
     Bott * result_bott;
+
+    // fetch runid
+    string runid, header = loadAllFromFile(tmpfilename + "_header");
+    if (!RE2::PartialMatch(header, "(?s)X-SubmitID: ([0-9]*)", &runid)) {
+        throw Exception("Failed to get remote runid.");
+    }
+
     while (true) {
         // check wait time
         if (time(NULL) - begin_time > info->GetMax_wait_time()) {
@@ -99,20 +116,26 @@ Bott * UralJudger::getStatus(Bott * bott) {
         }
         
         prepareCurl();
-        curl_easy_setopt(curl, CURLOPT_URL, ("http://acm.timus.ru/status.aspx?author=" + author_id).c_str());
+        // count can be set to 100 if Ural is very busy
+        curl_easy_setopt(curl, CURLOPT_URL, ("http://acm.timus.ru/status.aspx?space=1&count="+intToString(count)).c_str());
         performCurl();
         
         string html = loadAllFromFile(tmpfilename);
         string status;
-        string runid, result, time_used, memory_used;
+        string result, time_used, memory_used;
         
-        // get first row
-        if (!RE2::PartialMatch(html, "(?s)(<TR class=\"even\">.*?</TR>)", &status)) {
-            throw Exception("Failed to get status row.");
+        // get the row for runid, if not found, try fetch more runs
+        if (!RE2::PartialMatch(html, "(?s)(<TR.*?\"id\">"+runid+".*?</TR>)", &status)) {
+            if (count == 100){
+                throw Exception("Failed to find current submission in the last 100.");
+            }
+            log("Trying to fetch more runs...");
+            count += 10;
+            continue;
         }
         
         // get result
-        if (!RE2::PartialMatch(status, "(?s)<TD class=\"id\"><A.*?>([0-9]*)</A>.*<TD class=\"verdict.*?>(.*?)</TD>", &runid, &result)) {
+        if (!RE2::PartialMatch(status, "(?s)<TD class=\"verdict.*?>(.*?)</TD>", &result)) {
             throw Exception("Failed to get current result.");
         }
         result = trim(result);
@@ -122,8 +145,8 @@ Bott * UralJudger::getStatus(Bott * bott) {
             if (result != "Compile Error") {
                 // no details for CE results
                 if (!RE2::PartialMatch(status,
-                        "<TD class=\"id\"><A.*?>([0-9]*)</A>.*<TD class=\"runtime.*?>(.*?)</TD>.*<TD class=\"memory.*?>(.*?) KB</TD>",
-                        &runid, &time_used, &memory_used)) {
+                        "<TD class=\"runtime\">(.*?)</TD><TD class=\"memory\">(.*?) KB</TD>",
+                        &time_used, &memory_used)) {
                     throw Exception("Failed to parse details from status row.");
                 }
                 int time_ms = stringToDouble(time_used) * 1000 + 0.001;
