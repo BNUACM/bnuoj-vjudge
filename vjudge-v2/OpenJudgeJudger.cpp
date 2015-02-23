@@ -12,8 +12,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 OpenJudgeJudger::OpenJudgeJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nOpenJudge");
-
     language_table["1"] = "G++";
     language_table["2"] = "GCC";
     language_table["3"] = "Java";
@@ -21,6 +19,10 @@ OpenJudgeJudger::OpenJudgeJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 }
 
 OpenJudgeJudger::~OpenJudgeJudger() {
+}
+
+void OpenJudgeJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nOpenJudge");
 }
 
 /**

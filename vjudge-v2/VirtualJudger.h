@@ -38,7 +38,11 @@ protected:
     bool isFinalResult(string);
     
     /**
-     * Login to reomote OJ
+     * Send handshake message to dispatcher
+     */
+    virtual void initHandShake() = 0;
+    /**
+     * Login to remote OJ
      */
     virtual void login() = 0;
     /**

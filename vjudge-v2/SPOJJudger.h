@@ -16,6 +16,7 @@ public:
     SPOJJudger(JudgerInfo *);
     virtual ~SPOJJudger();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

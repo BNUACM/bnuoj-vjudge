@@ -8,8 +8,6 @@
 #include "NJUPTJudger.h"
 
 NJUPTJudger::NJUPTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nNJUPT");
-
     language_table["1"]  = "G++";
     language_table["2"]  = "GCC";
     language_table["3"]  = "Java";
@@ -19,6 +17,9 @@ NJUPTJudger::NJUPTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 NJUPTJudger::~NJUPTJudger() {
 }
 
+void NJUPTJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nNJUPT");
+}
 
 /**
  * Login to NJUPT

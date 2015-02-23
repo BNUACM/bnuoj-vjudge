@@ -12,6 +12,7 @@
 
 #include "VirtualJudger.h"
 #include "CFJudger.h"
+#include "CFGymJudger.h"
 #include "PKUJudger.h"
 #include "HDUJudger.h"
 #include "HUSTJudger.h"

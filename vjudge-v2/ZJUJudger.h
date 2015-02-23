@@ -16,6 +16,7 @@ public:
     ZJUJudger(JudgerInfo *);
     virtual ~ZJUJudger();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

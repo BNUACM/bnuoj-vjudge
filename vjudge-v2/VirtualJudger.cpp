@@ -143,6 +143,7 @@ void VirtualJudger::judge(Bott * bott, string filename) {
  */
 void VirtualJudger::run() {
     log("Judger started");
+    initHandShake();
     while (true) {
         socket->receiveFile(tmpfilename);
         Bott * bott = new Bott(tmpfilename);

@@ -12,8 +12,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 CCJudger::CCJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nCodeChef");
-    
     language_table["1"] = "41";
     language_table["2"] = "11";
     language_table["3"] = "10";
@@ -27,6 +25,10 @@ CCJudger::CCJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 }
 
 CCJudger::~CCJudger() {
+}
+
+void CCJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nCodeChef");
 }
 
 /**

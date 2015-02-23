@@ -16,6 +16,7 @@ public:
     WHUJudger(JudgerInfo *);
     virtual ~WHUJudger();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

@@ -12,8 +12,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 SPOJJudger::SPOJJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nSPOJ");
-
     language_table["1"] = "41";
     language_table["2"] = "11";
     language_table["3"] = "10";
@@ -28,6 +26,10 @@ SPOJJudger::SPOJJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 }
 
 SPOJJudger::~SPOJJudger() {
+}
+
+void SPOJJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nSPOJ");
 }
 
 /**

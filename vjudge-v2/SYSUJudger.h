@@ -16,6 +16,7 @@ public:
     SYSUJudger(JudgerInfo *);
     virtual ~SYSUJudger();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

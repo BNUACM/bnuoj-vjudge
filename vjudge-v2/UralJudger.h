@@ -16,6 +16,7 @@ public:
     UralJudger(JudgerInfo *);
     virtual ~UralJudger();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

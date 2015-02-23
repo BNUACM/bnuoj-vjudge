@@ -16,6 +16,7 @@ public:
     NJUPTJudger(JudgerInfo *);
     virtual ~NJUPTJudger();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

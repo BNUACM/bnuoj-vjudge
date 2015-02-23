@@ -16,6 +16,7 @@ public:
     UVAJudger(JudgerInfo *);
     virtual ~UVAJudger();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

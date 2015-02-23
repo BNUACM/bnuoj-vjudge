@@ -16,6 +16,7 @@ public:
     HUSTJudger(JudgerInfo *);
     virtual ~HUSTJudger();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

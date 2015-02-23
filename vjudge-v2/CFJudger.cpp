@@ -12,8 +12,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 CFJudger::CFJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nCodeForces");
-    
     language_table["1"]  = "1";
     language_table["2"]  = "10";
     language_table["3"]  = "23";
@@ -27,6 +25,9 @@ CFJudger::CFJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 CFJudger::~CFJudger() {
 }
 
+void CFJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nCodeForces");
+}
 
 /**
  * Get Csrf token
@@ -103,17 +104,13 @@ void CFJudger::login() {
     }
 }
 
-string CFJudger::getActionUrl() {
-    prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://codeforces.com/problemset/submit");
-    performCurl();
-    
-    string html = loadAllFromFile(tmpfilename);
-    string url;
-    if (!RE2::PartialMatch(html, "<form class=.*submit-form.*action=\"(.*?)\"", &url)) {
-        throw Exception("Failed to get action url.");
-    }
-    return url;
+/**
+ * Get submit url, extracted from submit for reuse
+ * @param contest   Contest ID
+ * @return Submit url
+ */
+string CFJudger::getSubmitUrl(string contest){
+    return "http://codeforces.com/problemset/submit";
 }
 
 /**
@@ -168,7 +165,7 @@ int CFJudger::submit(Bott * bott) {
                  CURLFORM_END);
     
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/problemset/submit?csrf_token=" + csrf).c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, (getSubmitUrl(contest) + "?csrf_token=" + csrf).c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
     performCurl();
     curl_formfree(formpost);
@@ -295,6 +292,16 @@ string CFJudger::getCEinfo(Bott * bott) {
 }
 
 /**
+ * Get url for the verdict, extracted from getVerdict() for reuse
+ * @param contest       Contest ID
+ * @param runid         Remote runid
+ * @return Verdict url
+ */
+string CFJudger::getVerdictUrl(string contest, string runid) {
+    return "http://codeforces.com/contest/" + contest + "/submission/" + runid;
+}
+
+/**
  * Get run details from Codeforces
  * @param contest       Contest ID
  * @param runid         Remote runid
@@ -302,7 +309,7 @@ string CFJudger::getCEinfo(Bott * bott) {
  */
 string CFJudger::getVerdict(string contest, string runid) {
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/contest/" + contest + "/submission/" + runid).c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, getVerdictUrl(contest, runid).c_str());
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);

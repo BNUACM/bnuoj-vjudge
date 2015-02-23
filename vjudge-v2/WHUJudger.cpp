@@ -13,8 +13,6 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 WHUJudger::WHUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nWHU");
-
     language_table["1"] = "2";
     language_table["2"] = "1";
     language_table["3"] = "3";
@@ -24,6 +22,9 @@ WHUJudger::WHUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 WHUJudger::~WHUJudger() {
 }
 
+void WHUJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nWHU");
+}
 
 /**
  * Get seed for md5 hash

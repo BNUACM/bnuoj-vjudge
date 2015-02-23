@@ -8,8 +8,6 @@
 #include "AizuJudger.h"
 
 AizuJudger::AizuJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nAizu");
-
     language_table["1"]  = "C++";
     language_table["2"]  = "C";
     language_table["3"]  = "JAVA";
@@ -21,6 +19,9 @@ AizuJudger::AizuJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 AizuJudger::~AizuJudger() {
 }
 
+void AizuJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nAizu");
+}
 
 /**
  * Login to Aizu

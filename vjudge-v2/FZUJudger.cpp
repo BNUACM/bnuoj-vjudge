@@ -8,8 +8,6 @@
 #include "FZUJudger.h"
 
 FZUJudger::FZUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nFZU");
-
     language_table["1"]  = "0";
     language_table["2"]  = "1";
     language_table["3"]  = "2";
@@ -21,6 +19,9 @@ FZUJudger::FZUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
 FZUJudger::~FZUJudger() {
 }
 
+void FZUJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nFZU");
+}
 
 /**
  * Login to FZU

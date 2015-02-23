@@ -13,14 +13,16 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 NBUTJudger::NBUTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nNBUT");
-
     language_table["1"] = "2";
     language_table["2"] = "1";
     language_table["4"] = "4";
 }
 
 NBUTJudger::~NBUTJudger() {
+}
+
+void NBUTJudger::initHandShake(){
+    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nNBUT");
 }
 
 /**
