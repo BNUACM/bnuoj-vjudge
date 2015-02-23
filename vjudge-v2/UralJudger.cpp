@@ -101,14 +101,13 @@ Bott * UralJudger::getStatus(Bott * bott) {
     time_t begin_time = time(NULL);
     int count=10;
     
-    Bott * result_bott = new Bott;
+    Bott * result_bott;
 
     // fetch runid
     string runid, header = loadAllFromFile(tmpfilename + "_header");
     if (!RE2::PartialMatch(header, "(?s)X-SubmitID: ([0-9]*)", &runid)) {
         throw Exception("Failed to get remote runid.");
     }
-    result_bott->Setremote_runid(trim(runid));
 
     while (true) {
         // check wait time
@@ -127,6 +126,9 @@ Bott * UralJudger::getStatus(Bott * bott) {
         
         // get the row for runid, if not found, try fetch more runs
         if (!RE2::PartialMatch(html, "(?s)(<TR.*?\"id\">"+runid+".*?</TR>)", &status)) {
+            if (count==100){
+                throw Exception("Failed to find current submission in the last 100.");
+            }
             log("Trying to fetch more runs...");
             count += 10;
             continue;
@@ -152,10 +154,12 @@ Bott * UralJudger::getStatus(Bott * bott) {
             } else {
                 memory_used = time_used = "0";
             }
+            result_bott = new Bott;
             result_bott->Settype(RESULT_REPORT);
             result_bott->Setresult(result);
             result_bott->Settime_used(trim(time_used));
             result_bott->Setmemory_used(trim(memory_used));
+            result_bott->Setremote_runid(trim(runid));
             break;
         }
     }
