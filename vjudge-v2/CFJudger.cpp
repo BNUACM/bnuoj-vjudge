@@ -165,7 +165,7 @@ int CFJudger::submit(Bott * bott) {
                  CURLFORM_END);
     
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ((string)getSubmitUrl(contest) + "?csrf_token=" + csrf).c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, (getSubmitUrl(contest) + "?csrf_token=" + csrf).c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
     performCurl();
     curl_formfree(formpost);
