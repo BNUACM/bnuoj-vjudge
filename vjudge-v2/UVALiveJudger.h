@@ -15,8 +15,8 @@ class UVALiveJudger : public VirtualJudger {
 public:
     UVALiveJudger(JudgerInfo *);
     virtual ~UVALiveJudger();
-    void initHandShake();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

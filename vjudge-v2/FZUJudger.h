@@ -15,8 +15,8 @@ class FZUJudger : public VirtualJudger {
 public:
     FZUJudger(JudgerInfo *);
     virtual ~FZUJudger();
-    void initHandShake();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

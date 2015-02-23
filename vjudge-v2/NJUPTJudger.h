@@ -15,8 +15,8 @@ class NJUPTJudger : public VirtualJudger {
 public:
     NJUPTJudger(JudgerInfo *);
     virtual ~NJUPTJudger();
-    void initHandShake();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

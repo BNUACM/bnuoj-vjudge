@@ -11,8 +11,8 @@ class CFGymJudger : public CFJudger {
 public:
     CFGymJudger(JudgerInfo *);
     virtual ~CFGymJudger();
+private:
     void initHandShake();
-protected:
     int submit(Bott *);
     string getVerdict(string, string);
 };

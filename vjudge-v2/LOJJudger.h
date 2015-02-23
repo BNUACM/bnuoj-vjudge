@@ -15,8 +15,8 @@ class LOJJudger : public VirtualJudger {
 public:
     LOJJudger(JudgerInfo *);
     virtual ~LOJJudger();
-    void initHandShake();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

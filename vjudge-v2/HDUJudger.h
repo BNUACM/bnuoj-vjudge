@@ -15,8 +15,8 @@ class HDUJudger : public VirtualJudger {
 public:
     HDUJudger(JudgerInfo *);
     virtual ~HDUJudger();
-    void initHandShake();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);

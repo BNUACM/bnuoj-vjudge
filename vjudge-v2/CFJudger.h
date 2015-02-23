@@ -15,7 +15,6 @@ class CFJudger : public VirtualJudger {
 public:
     CFJudger(JudgerInfo *);
     virtual ~CFJudger();
-    void initHandShake();
 protected:
     void login();
     int submit(Bott *);
@@ -27,6 +26,8 @@ protected:
     string convertResult(string);
     int calculatetta(string);
     string getVerdict(string, string);
+private:
+    void initHandShake();
 };
 
 #endif	/* CFJUDGER_H */

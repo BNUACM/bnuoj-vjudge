@@ -15,8 +15,8 @@ class HRBUSTJudger : public VirtualJudger {
 public:
     HRBUSTJudger(JudgerInfo *);
     virtual ~HRBUSTJudger();
-    void initHandShake();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);
