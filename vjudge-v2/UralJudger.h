@@ -13,16 +13,16 @@
 
 class UralJudger : public VirtualJudger {
 public:
-    UralJudger(JudgerInfo *);
-    virtual ~UralJudger();
+  UralJudger(JudgerInfo *);
+  virtual ~UralJudger();
 private:
-    void initHandShake();
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
-    string author_id;
+  void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
+  string author_id;
 
 };
 

@@ -13,23 +13,22 @@
 
 class CFJudger : public VirtualJudger {
 public:
-    CFJudger(JudgerInfo *);
-    virtual ~CFJudger();
+  CFJudger(JudgerInfo *);
+  virtual ~CFJudger();
 protected:
-    void login();
-    string getSubmitUrl(string);
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string getCsrfParams(string);
-    string getttaValue();
-    string getActionUrl();
-    string convertResult(string);
-    int calculatetta(string);
-    string getVerdictUrl(string, string);
-    string getVerdict(string, string);
+  virtual string getSubmitUrl(string);
+  virtual string getVerdictUrl(string, string);
+  virtual void initHandShake();
 private:
-    void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string getCsrfParams(string);
+  string getttaValue();
+  string convertResult(string);
+  int calculatetta(string);
+  string getVerdict(string, string);
 };
 
 #endif	/* CFJUDGER_H */

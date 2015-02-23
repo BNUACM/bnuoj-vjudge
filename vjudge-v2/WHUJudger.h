@@ -13,16 +13,16 @@
 
 class WHUJudger : public VirtualJudger {
 public:
-    WHUJudger(JudgerInfo *);
-    virtual ~WHUJudger();
+  WHUJudger(JudgerInfo *);
+  virtual ~WHUJudger();
 private:
-    void initHandShake();
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
-    string getSeed();
+  void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
+  string getSeed();
 };
 
 #endif	/* WHUJUDGER_H */

@@ -47,97 +47,98 @@
 /*!
  * Library namespace
  */
-namespace hcxselect
-{
+namespace hcxselect {
 
-/*!
- * \class hcxselect::Node
- * Conenient typedef for \p tree_node_<htmlcxx::HTML::Node>.
- */
-typedef tree_node_<htmlcxx::HTML::Node> Node;
+  /*!
+   * \class hcxselect::Node
+   * Conenient typedef for \p tree_node_<htmlcxx::HTML::Node>.
+   */
+  typedef tree_node_<htmlcxx::HTML::Node> Node;
 
-/*!
- * Comparison class for nodes.
- */
-struct NodeComp {
-	bool operator()(Node *a, Node *b) const;
-};
+  /*!
+   * Comparison class for nodes.
+   */
+  struct NodeComp {
+    bool operator()(Node *a, Node *b) const;
+  };
 
-/*!
- * \class hcxselect::NodeSet
- * Custom type for a set of nodes.
- * This is actually a typedef for a \p std::set with the correct item and
- * comparison templates.
- */
-typedef std::set<Node *, NodeComp> NodeSet;
-
-
-/*!
- * Applies a CSS selector expression to a whole HTML tree.
- * \note May throw a ParseException.
- *
- * \param tree The HTML tree
- * \param expr The CSS selector expression
- * \returns A set of nodes that matches the given selector
- */
-NodeSet select(const tree<htmlcxx::HTML::Node> &tree, const std::string &expr);
-
-/*!
- * Applies a CSS selector expression to a set of nodes.
- * \note May throw a ParseException.
- *
- * \param nodes The set of nodes
- * \param expr The CSS selector expression
- * \returns A set of nodes that matches the given selector
- */
-NodeSet select(const NodeSet &nodes, const std::string &expr);
+  /*!
+   * \class hcxselect::NodeSet
+   * Custom type for a set of nodes.
+   * This is actually a typedef for a \p std::set with the correct item and
+   * comparison templates.
+   */
+  typedef std::set<Node *, NodeComp> NodeSet;
 
 
-/*!
- * Convenient wrapper class for select().
- * This is a subclass of NodeSet, providing convenient constructors
- * and a select() member function. This allows for chaining of different
- * selectors.
- */
-class Selection : public NodeSet
-{
-public:
-	Selection();
-	Selection(const tree<htmlcxx::HTML::Node> &tree, const std::string &expr = std::string());
-	Selection(const NodeSet &nodes, const std::string &expr = std::string());
+  /*!
+   * Applies a CSS selector expression to a whole HTML tree.
+   * \note May throw a ParseException.
+   *
+   * \param tree The HTML tree
+   * \param expr The CSS selector expression
+   * \returns A set of nodes that matches the given selector
+   */
+  NodeSet select(const tree<htmlcxx::HTML::Node> &tree, const std::string &expr);
 
-	Selection select(const std::string &expr);
-};
+  /*!
+   * Applies a CSS selector expression to a set of nodes.
+   * \note May throw a ParseException.
+   *
+   * \param nodes The set of nodes
+   * \param expr The CSS selector expression
+   * \returns A set of nodes that matches the given selector
+   */
+  NodeSet select(const NodeSet &nodes, const std::string &expr);
 
-typedef Selection Selector;
+  /*!
+   * Convenient wrapper class for select().
+   * This is a subclass of NodeSet, providing convenient constructors
+   * and a select() member function. This allows for chaining of different
+   * selectors.
+   */
+  class Selection : public NodeSet {
+  public:
+    Selection();
+    Selection(const tree<htmlcxx::HTML::Node> &tree, const std::string &expr = std::string());
+    Selection(const NodeSet &nodes, const std::string &expr = std::string());
 
+    Selection select(const std::string &expr);
+  };
 
-/*!
- * Exception that may be thrown when parsing a selector expression.
- */
-class ParseException : std::exception
-{
-public:
-	/*!
-	 * Constructor.
-	 */
-	ParseException(int pos, const char *info = NULL)
-		: m_pos(pos), m_info(info) { }
+  typedef Selection Selector;
 
-	/*!
-	 * Returns the error string.
-	 */
-	const char *what() const throw() { return m_info; }
+  /*!
+   * Exception that may be thrown when parsing a selector expression.
+   */
+  class ParseException : std::exception {
+  public:
 
-	/*!
-	 * Returns the parser position inside the current selector
-	 */
-	int position() const throw() { return m_pos; }
+    /*!
+     * Constructor.
+     */
+    ParseException(int pos, const char *info = NULL)
+    : m_pos(pos), m_info(info) {
+    }
 
-private:
-	int m_pos;
-	const char *m_info;
-};
+    /*!
+     * Returns the error string.
+     */
+    const char *what() const throw () {
+      return m_info;
+    }
+
+    /*!
+     * Returns the parser position inside the current selector
+     */
+    int position() const throw () {
+      return m_pos;
+    }
+
+  private:
+    int m_pos;
+    const char *m_info;
+  };
 
 } // namespace hcxselect
 

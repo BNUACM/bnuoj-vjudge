@@ -13,16 +13,16 @@
 
 class UVAJudger : public VirtualJudger {
 public:
-    UVAJudger(JudgerInfo *);
-    virtual ~UVAJudger();
+  UVAJudger(JudgerInfo *);
+  virtual ~UVAJudger();
 private:
-    void initHandShake();
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
-    string getLoginHiddenParams();
+  void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
+  string getLoginHiddenParams();
 
 };
 

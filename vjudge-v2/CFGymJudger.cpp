@@ -14,8 +14,8 @@ CFGymJudger::CFGymJudger(JudgerInfo * _info) : CFJudger(_info) {
 CFGymJudger::~CFGymJudger() {
 }
 
-void CFGymJudger::initHandShake(){
-    socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nCodeForcesGym");
+void CFGymJudger::initHandShake() {
+  socket->sendMessage(CONFIG->GetJudge_connect_string() + "\nCodeForcesGym");
 }
 
 /**
@@ -23,8 +23,8 @@ void CFGymJudger::initHandShake(){
  * @param contest   Contest ID
  * @return Submit url
  */
-string CFGymJudger::getSubmitUrl(string contest){
-    return "http://codeforces.com/gym/" + contest + "/submit";
+string CFGymJudger::getSubmitUrl(string contest) {
+  return "http://codeforces.com/gym/" + contest + "/submit";
 }
 
 /**
@@ -34,5 +34,5 @@ string CFGymJudger::getSubmitUrl(string contest){
  * @return Verdict url
  */
 string CFGymJudger::getVerdictUrl(string contest, string runid) {
-    return "http://codeforces.com/gym/" + contest + "/submission/" + runid;
+  return "http://codeforces.com/gym/" + contest + "/submission/" + runid;
 }

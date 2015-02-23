@@ -13,15 +13,15 @@
 
 class SYSUJudger : public VirtualJudger {
 public:
-    SYSUJudger(JudgerInfo *);
-    virtual ~SYSUJudger();
+  SYSUJudger(JudgerInfo *);
+  virtual ~SYSUJudger();
 private:
-    void initHandShake();
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 
 #endif	/* SYSUJUDGER_H */

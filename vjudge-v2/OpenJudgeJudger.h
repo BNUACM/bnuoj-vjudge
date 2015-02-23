@@ -13,15 +13,15 @@
 
 class OpenJudgeJudger : public VirtualJudger {
 public:
-    OpenJudgeJudger(JudgerInfo *);
-    virtual ~OpenJudgeJudger();
+  OpenJudgeJudger(JudgerInfo *);
+  virtual ~OpenJudgeJudger();
 private:
-    void initHandShake();
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 
 #endif	/* OPENJUDGEJUDGER_H */

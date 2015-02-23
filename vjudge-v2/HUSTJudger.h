@@ -13,15 +13,15 @@
 
 class HUSTJudger : public VirtualJudger {
 public:
-    HUSTJudger(JudgerInfo *);
-    virtual ~HUSTJudger();
+  HUSTJudger(JudgerInfo *);
+  virtual ~HUSTJudger();
 private:
-    void initHandShake();
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 
 #endif	/* HUSTJUDGER_H */

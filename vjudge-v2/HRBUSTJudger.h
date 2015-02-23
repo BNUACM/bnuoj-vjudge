@@ -13,15 +13,15 @@
 
 class HRBUSTJudger : public VirtualJudger {
 public:
-    HRBUSTJudger(JudgerInfo *);
-    virtual ~HRBUSTJudger();
+  HRBUSTJudger(JudgerInfo *);
+  virtual ~HRBUSTJudger();
 private:
-    void initHandShake();
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 
 #endif	/* HRBUSTJUDGER_H */

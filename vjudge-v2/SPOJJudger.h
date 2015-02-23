@@ -13,15 +13,15 @@
 
 class SPOJJudger : public VirtualJudger {
 public:
-    SPOJJudger(JudgerInfo *);
-    virtual ~SPOJJudger();
+  SPOJJudger(JudgerInfo *);
+  virtual ~SPOJJudger();
 private:
-    void initHandShake();
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 
 #endif	/* SPOJJUDGER_H */

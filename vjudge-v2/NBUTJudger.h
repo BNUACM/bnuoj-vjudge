@@ -13,15 +13,15 @@
 
 class NBUTJudger : public VirtualJudger {
 public:
-    NBUTJudger(JudgerInfo *);
-    virtual ~NBUTJudger();
+  NBUTJudger(JudgerInfo *);
+  virtual ~NBUTJudger();
 private:
-    void initHandShake();
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 #endif	/* NBUTJUDGER_H */
 

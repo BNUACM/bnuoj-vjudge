@@ -12,7 +12,7 @@ extern size_t decode_html_entities_utf8(char *dest, const char *src);
     `src` remains unchanged
 
     the function returns the length of the decoded string
-*/
+ */
 
 #endif
 

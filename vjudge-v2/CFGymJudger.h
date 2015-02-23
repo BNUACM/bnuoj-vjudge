@@ -9,12 +9,12 @@
 
 class CFGymJudger : public CFJudger {
 public:
-    CFGymJudger(JudgerInfo *);
-    virtual ~CFGymJudger();
+  CFGymJudger(JudgerInfo *);
+  virtual ~CFGymJudger();
 private:
-    void initHandShake();
-    string getSubmitUrl(string);
-    string getVerdictUrl(string, string);
+  void initHandShake();
+  string getSubmitUrl(string);
+  string getVerdictUrl(string, string);
 };
 
 #endif	/* CFGYMJUDGER_H */

@@ -13,15 +13,15 @@
 
 class PKUJudger : public VirtualJudger {
 public:
-    PKUJudger(JudgerInfo *);
-    virtual ~PKUJudger();
+  PKUJudger(JudgerInfo *);
+  virtual ~PKUJudger();
 private:
-    void initHandShake();
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void initHandShake();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 
 #endif	/* PKUJUDGER_H */

@@ -20,28 +20,27 @@
 
 using namespace std;
 
-class Logger
-{
-    public:
-        /** Default constructor */
-        Logger();
-        /** Default destructor */
-        virtual ~Logger();
-        /** Access instance
-         * \return The current value of instance
-         */
-        static Logger * Getinstance();
-        void log(char *);
-        void log(const char *);
-        void log(string);
-        void log(string, string);
-        
-        static const string LOG_DIRECTORY;
-    protected:
-    private:
-        string name_prefix;
-        static Logger * instance; //!< Member variable "instance"
-        static pthread_mutex_t log_mutex;
+class Logger {
+public:
+  /** Default constructor */
+  Logger();
+  /** Default destructor */
+  virtual ~Logger();
+  /** Access instance
+   * \return The current value of instance
+   */
+  static Logger * Getinstance();
+  void log(char *);
+  void log(const char *);
+  void log(string);
+  void log(string, string);
+
+  static const string LOG_DIRECTORY;
+protected:
+private:
+  string name_prefix;
+  static Logger * instance; //!< Member variable "instance"
+  static pthread_mutex_t log_mutex;
 };
 
 #endif	/* LOGGER_H */
