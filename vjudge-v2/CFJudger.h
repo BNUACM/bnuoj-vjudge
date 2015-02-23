@@ -25,7 +25,7 @@ protected:
     string getActionUrl();
     string convertResult(string);
     int calculatetta(string);
-    string VerdictUrl(string, string);
+    string getVerdictUrl(string, string);
     string getVerdict(string, string);
 private:
     void initHandShake();

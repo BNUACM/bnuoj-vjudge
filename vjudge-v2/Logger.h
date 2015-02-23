@@ -38,7 +38,7 @@ class Logger
         
         static const string LOG_DIRECTORY;
     protected:
-        void initHandShake();
+    private:
         string name_prefix;
         static Logger * instance; //!< Member variable "instance"
         static pthread_mutex_t log_mutex;

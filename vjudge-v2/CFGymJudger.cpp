@@ -93,6 +93,6 @@ int CFGymJudger::submit(Bott * bott) {
  * @param runid         Remote runid
  * @return Verdict url
  */
-string CFGymJudger::VerdictUrl(string contest, string runid) {
+string CFGymJudger::getVerdictUrl(string contest, string runid) {
     return "http://codeforces.com/gym/" + contest + "/submission/" + runid;
 }

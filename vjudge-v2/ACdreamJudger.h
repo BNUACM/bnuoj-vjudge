@@ -15,8 +15,8 @@ class ACdreamJudger : public VirtualJudger {
 public:
     ACdreamJudger(JudgerInfo *);
     virtual ~ACdreamJudger();
-    void initHandShake();
 private:
+    void initHandShake();
     void login();
     int submit(Bott *);
     Bott * getStatus(Bott *);
