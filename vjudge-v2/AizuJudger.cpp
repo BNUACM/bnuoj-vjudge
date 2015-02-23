@@ -86,13 +86,13 @@ Bott * AizuJudger::getStatus(Bott * bott) {
         string status;
         string runid, result, time_used, memory_used;
         
-        // get first row
-        if (!RE2::PartialMatch(html, "(?s)(<tr class=\"dat\".*?</tr>)", &status)) {
+        // get first row of current user
+        if (!RE2::PartialMatch(html, "(?s)(<tr class=\"dat\".*?id="+info->GetUsername()+".*?</tr>)", &status)) {
             throw Exception("Failed to get status row.");
         }
         
         // get result
-        if (!RE2::PartialMatch(status, "(?s)rid=([0-9]*).*_link.*?<a.*?>(.*?)</a>", &runid, &result)) {
+        if (!RE2::PartialMatch(status, "(?s)rid=([0-9]*).*status.*?<a href=\"review.*?>(.*?)</a>", &runid, &result)) {
             throw Exception("Failed to get current result.");
         }
         result = convertResult(trim(result));
