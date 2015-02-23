@@ -88,34 +88,11 @@ int CFGymJudger::submit(Bott * bott) {
 }
 
 /**
- * Get run details from Codeforces
+ * Get url for the verdict
  * @param contest       Contest ID
  * @param runid         Remote runid
- * @return Verdict details
+ * @return Verdict url
  */
-string CFGymJudger::getVerdict(string contest, string runid) {
-    prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/gym/" + contest + "/submission/" + runid).c_str());
-    performCurl();
-    
-    string html = loadAllFromFile(tmpfilename);
-    htmlcxx::HTML::ParserDom parser;
-    tree<htmlcxx::HTML::Node> dom = parser.parseTree(html);
-    hcxselect::Selector selector(dom);
-    
-    // load all roundbox in verdict page
-    try {
-        selector = selector.select("#content .roundbox");
-    } catch (...) {
-        log("Parse verdict error, use empty result instead.");
-        return "";
-    }
-    
-    // find the one contains error message
-    for (hcxselect::Selector::const_iterator it = selector.begin(); it != selector.end(); ++it) {
-        string content = html.substr((*it)->data.offset(), (*it)->data.length());
-        if (content.find("<div  class=\"error\">") != string::npos) return content;
-    }
-    
-    return "";
+string CFGymJudger::VerdictUrl(string contest, string runid) {
+    return "http://codeforces.com/gym/" + contest + "/submission/" + runid;
 }

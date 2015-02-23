@@ -14,7 +14,7 @@ public:
 private:
     void initHandShake();
     int submit(Bott *);
-    string getVerdict(string, string);
+    string VerdictUrl(string, string);
 };
 
 #endif	/* CFGYMJUDGER_H */

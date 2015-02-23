@@ -283,6 +283,16 @@ string CFJudger::getCEinfo(Bott * bott) {
 }
 
 /**
+ * Get url for the verdict, extracted from getVerdict() for reuse
+ * @param contest       Contest ID
+ * @param runid         Remote runid
+ * @return Verdict url
+ */
+string CFJudger::VerdictUrl(string contest, string runid) {
+    return "http://codeforces.com/contest/" + contest + "/submission/" + runid;
+}
+
+/**
  * Get run details from Codeforces
  * @param contest       Contest ID
  * @param runid         Remote runid
@@ -290,7 +300,7 @@ string CFJudger::getCEinfo(Bott * bott) {
  */
 string CFJudger::getVerdict(string contest, string runid) {
     prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, ((string)"http://codeforces.com/contest/" + contest + "/submission/" + runid).c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, VerdictUrl(contest, runid).c_str());
     performCurl();
     
     string html = loadAllFromFile(tmpfilename);
