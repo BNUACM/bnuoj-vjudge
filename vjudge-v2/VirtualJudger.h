@@ -38,7 +38,7 @@ protected:
     bool isFinalResult(string);
     
     /**
-     * Send handshake message, called in run()
+     * Send handshake message to dispatcher
      */
     virtual void initHandShake() = 0;
     /**
