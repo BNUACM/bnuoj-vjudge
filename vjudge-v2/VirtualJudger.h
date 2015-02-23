@@ -42,7 +42,7 @@ protected:
      */
     virtual void initHandShake() = 0;
     /**
-     * Login to reomote OJ
+     * Login to remote OJ
      */
     virtual void login() = 0;
     /**
