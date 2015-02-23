@@ -13,14 +13,14 @@
 
 class SGUJudger : public VirtualJudger {
 public:
-    SGUJudger(JudgerInfo *);
-    virtual ~SGUJudger();
+  SGUJudger(JudgerInfo *);
+  virtual ~SGUJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 
 };
 

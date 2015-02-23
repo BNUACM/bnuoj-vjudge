@@ -13,14 +13,14 @@
 
 class FZUJudger : public VirtualJudger {
 public:
-    FZUJudger(JudgerInfo *);
-    virtual ~FZUJudger();
+  FZUJudger(JudgerInfo *);
+  virtual ~FZUJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 
 #endif	/* FZUJUDGER_H */

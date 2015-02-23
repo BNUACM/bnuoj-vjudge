@@ -13,14 +13,14 @@
 
 class NJUPTJudger : public VirtualJudger {
 public:
-    NJUPTJudger(JudgerInfo *);
-    virtual ~NJUPTJudger();
+  NJUPTJudger(JudgerInfo *);
+  virtual ~NJUPTJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 
 #endif	/* NJUPTJUDGER_H */

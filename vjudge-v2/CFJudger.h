@@ -13,19 +13,19 @@
 
 class CFJudger : public VirtualJudger {
 public:
-    CFJudger(JudgerInfo *);
-    virtual ~CFJudger();
+  CFJudger(JudgerInfo *);
+  virtual ~CFJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string getCsrfParams(string);
-    string getttaValue();
-    string getActionUrl();
-    string convertResult(string);
-    int calculatetta(string);
-    string getVerdict(string, string);
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string getCsrfParams(string);
+  string getttaValue();
+  string getActionUrl();
+  string convertResult(string);
+  int calculatetta(string);
+  string getVerdict(string, string);
 };
 
 #endif	/* CFJUDGER_H */

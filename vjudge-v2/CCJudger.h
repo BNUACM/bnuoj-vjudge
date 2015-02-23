@@ -13,16 +13,16 @@
 
 class CCJudger : public VirtualJudger {
 public:
-    CCJudger(JudgerInfo *);
-    virtual ~CCJudger();
+  CCJudger(JudgerInfo *);
+  virtual ~CCJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
-    string getLoginHiddenParams();
-    vector< pair<string, string> > getSubmitHiddenParams(string);
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
+  string getLoginHiddenParams();
+  vector< pair<string, string> > getSubmitHiddenParams(string);
 
 };
 

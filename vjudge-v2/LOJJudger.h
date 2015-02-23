@@ -13,14 +13,14 @@
 
 class LOJJudger : public VirtualJudger {
 public:
-    LOJJudger(JudgerInfo *);
-    virtual ~LOJJudger();
+  LOJJudger(JudgerInfo *);
+  virtual ~LOJJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 
 };
 

@@ -36,9 +36,9 @@
 
 class JudgerFactory {
 public:
-    JudgerFactory();
-    virtual ~JudgerFactory();
-    static VirtualJudger * createJudger(JudgerInfo *);
+  JudgerFactory();
+  virtual ~JudgerFactory();
+  static VirtualJudger * createJudger(JudgerInfo *);
 private:
 
 };

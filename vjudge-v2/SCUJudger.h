@@ -13,17 +13,17 @@
 
 class SCUJudger : public VirtualJudger {
 public:
-    SCUJudger(JudgerInfo *);
-    virtual ~SCUJudger();
+  SCUJudger(JudgerInfo *);
+  virtual ~SCUJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
-    string getCode();
-    void loadImage(string, int &, int &, int *&);
-    char getNXY(int, int, int, int, int, int *);
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
+  string getCode();
+  void loadImage(string, int &, int &, int *&);
+  char getNXY(int, int, int, int, int, int *);
 };
 
 #endif	/* SCUJUDGER_H */

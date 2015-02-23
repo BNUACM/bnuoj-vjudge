@@ -13,15 +13,15 @@
 
 class ZJUJudger : public VirtualJudger {
 public:
-    ZJUJudger(JudgerInfo *);
-    virtual ~ZJUJudger();
+  ZJUJudger(JudgerInfo *);
+  virtual ~ZJUJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
-    string submission_id_for_ce;
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
+  string submission_id_for_ce;
 };
 
 #endif	/* ZJUJUDGER_H */

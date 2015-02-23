@@ -13,14 +13,14 @@
 
 class HDUJudger : public VirtualJudger {
 public:
-    HDUJudger(JudgerInfo *);
-    virtual ~HDUJudger();
+  HDUJudger(JudgerInfo *);
+  virtual ~HDUJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 
 #endif	/* HDUJUDGER_H */

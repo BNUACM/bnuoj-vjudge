@@ -13,14 +13,14 @@
 
 class ACdreamJudger : public VirtualJudger {
 public:
-    ACdreamJudger(JudgerInfo *);
-    virtual ~ACdreamJudger();
+  ACdreamJudger(JudgerInfo *);
+  virtual ~ACdreamJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
 };
 
 #endif	/* ACDREAMJUDGER_H */

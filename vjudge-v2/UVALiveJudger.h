@@ -13,15 +13,15 @@
 
 class UVALiveJudger : public VirtualJudger {
 public:
-    UVALiveJudger(JudgerInfo *);
-    virtual ~UVALiveJudger();
+  UVALiveJudger(JudgerInfo *);
+  virtual ~UVALiveJudger();
 private:
-    void login();
-    int submit(Bott *);
-    Bott * getStatus(Bott *);
-    string getCEinfo(Bott *);
-    string convertResult(string);
-    string getLoginHiddenParams();
+  void login();
+  int submit(Bott *);
+  Bott * getStatus(Bott *);
+  string getCEinfo(Bott *);
+  string convertResult(string);
+  string getLoginHiddenParams();
 
 };
 
