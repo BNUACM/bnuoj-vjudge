@@ -127,13 +127,12 @@ Bott * SPOJJudger::getStatus(Bott * bott) {
     }
 
     // get result
-    if (!RE2::PartialMatch(status, "(?s)statusres_([0-9]*).*?>(.*?)<span",
-                           &runid, &result)) {
+    if (!RE2::PartialMatch(status,
+        "(?s)statusres_([0-9]*).*?>\\w*(?:<.*?>)?(.*?)\\w*<span",
+        &runid, &result)) {
       throw Exception("Failed to get current result.");
     }
     result = trim(result);
-    size_t result_pos = result.find(">");
-    if (result_pos != string::npos) result = result.substr(result_pos + 1);
     if (isFinalResult(result)) {
       // result is the final one
       result = convertResult(result);
