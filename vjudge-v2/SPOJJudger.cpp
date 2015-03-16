@@ -127,8 +127,9 @@ Bott * SPOJJudger::getStatus(Bott * bott) {
     }
 
     // get result
-    if (!RE2::PartialMatch(status, "(?s)statusres_([0-9]*).*?>(.*?)<br",
-                           &runid, &result)) {
+    if (!RE2::PartialMatch(status,
+        "(?s)statusres_([0-9]*).*?>\\w*(?:<.*?>)?(.*?)\\w*<span",
+        &runid, &result)) {
       throw Exception("Failed to get current result.");
     }
     result = trim(result);
