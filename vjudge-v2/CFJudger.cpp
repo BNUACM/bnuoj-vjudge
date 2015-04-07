@@ -124,7 +124,8 @@ int CFJudger::submit(Bott * bott) {
 
   // prepare cid and pid from vid
   string contest, problem;
-  if (!RE2::PartialMatch(bott->Getvid(), "([0-9]*)(.*)", &contest, &problem)) {
+  if (!RE2::PartialMatch(bott->Getvid(), "^([0-9]{1,6})(.*)",
+      &contest, &problem)) {
     throw Exception("Invalid vid.");
   }
   string source = bott->Getsrc();
@@ -166,7 +167,8 @@ int CFJudger::submit(Bott * bott) {
                CURLFORM_END);
 
   prepareCurl();
-  curl_easy_setopt(curl, CURLOPT_URL, (getSubmitUrl(contest) + csrf).c_str());
+  curl_easy_setopt(curl, CURLOPT_URL, (getSubmitUrl(contest) + "?csrf_token=" +
+      csrf).c_str());
   curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
   performCurl();
   curl_formfree(formpost);
@@ -259,7 +261,7 @@ Bott * CFJudger::getStatus(Bott * bott) {
   // for CodeForces, we can store extra infos in ce_info column
   string contest;
   // no need to check fail or not, since submit function has already done it
-  RE2::PartialMatch(bott->Getvid(), "([0-9]*)", &contest);
+  RE2::PartialMatch(bott->Getvid(), "(^[0-9]{1,6})", &contest);
   if (result_bott->Getresult() != "Accepted" &&
       result_bott->Getresult() != "Compile Error") {
     result_bott->Setce_info(
