@@ -34,6 +34,7 @@
 #include "ACdreamJudger.h"
 #include "CCJudger.h"
 #include "HRBUSTJudger.h"
+#include "UESTCJudger.h"
 
 class JudgerFactory {
 public:
