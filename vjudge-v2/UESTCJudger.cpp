@@ -18,7 +18,7 @@ void UESTCJudger::initHandShake(){
 }
 
 /**
- * custom verison of prepareCurl, add Accept and Content-Type in header
+ * Custom verison of prepareCurl, add Accept and Content-Type in header
  */
 void UESTCJudger::prepareCurl() {
   struct curl_slist *header = NULL;
