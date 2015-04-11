@@ -1,5 +1,5 @@
 #ifndef UESTCJUDGER_H
-#define	UESTCJUDGER_H
+#define UESTCJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -18,5 +18,4 @@ private:
   void prepareCurl();
 };
 
-#endif	/* UESTCJUDGER_H */
-
+#endif /* UESTCJUDGER_H */

@@ -227,15 +227,28 @@ string trim(string str) {
 string escapeString(string str) {
   string result = "";
   size_t length = str.length();
-  for (size_t pos = 0;pos < length;++pos) {
+  for (size_t pos = 0; pos < length; ++pos) {
     switch (str[pos]) {
-      case '"': result += "\\\"";break;
-      case '\\': result += "\\\\";break;
-      case '/': result += "\\/";break;
-      case 10: result += "\\n";break;
-      case 13: result += "\\r";break;
-      case 9: result += "\\t";break;
-      default: result += str[pos];
+      case '"':
+        result += "\\\"";
+        break;
+      case '\\':
+        result += "\\\\";
+        break;
+      case '/':
+        result += "\\/";
+        break;
+      case '\n':
+        result += "\\n";
+        break;
+      case '\r':
+        result += "\\r";
+        break;
+      case '\t':
+        result += "\\t";
+        break;
+      default:
+        result += str[pos];
     }
   }
   return result;
@@ -344,11 +357,11 @@ string replaceAll(string subject, const string& search, const string& replace) {
   return subject;
 }
 
-string sha1_string(string msg){
+string sha1String(string msg){
   unsigned char hash[SHA_DIGEST_LENGTH];
   string hexhash;
   SHA1(reinterpret_cast<const unsigned char *>(msg.c_str()), msg.size(), hash);
-  for(int i=0;i<SHA_DIGEST_LENGTH;i++) {
+  for (int i = 0; i < SHA_DIGEST_LENGTH; i++) {
     hexhash += dec2hexChar(hash[i]/16);
     hexhash += dec2hexChar(hash[i]%16);
   }

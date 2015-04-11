@@ -36,7 +36,7 @@ void UESTCJudger::login() {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL, "http://acm.uestc.edu.cn/user/login");
   string post = (string) "{\"userName\":\"" + info->GetUsername() + "\"," +
-      "\"password\":\"" + sha1_string(info->GetPassword()) + "\"}";
+      "\"password\":\"" + sha1String(info->GetPassword()) + "\"}";
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 
@@ -168,7 +168,6 @@ string UESTCJudger::convertResult(string result) {
  * @return Compile error info
  */
 string UESTCJudger::getCEinfo(Bott * bott) {
-
   prepareCurl();
   curl_easy_setopt(
       curl, CURLOPT_URL,
