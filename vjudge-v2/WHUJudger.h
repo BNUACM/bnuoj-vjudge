@@ -6,7 +6,7 @@
  */
 
 #ifndef WHUJUDGER_H
-#define	WHUJUDGER_H
+#define WHUJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -25,5 +25,5 @@ private:
   string getSeed();
 };
 
-#endif	/* WHUJUDGER_H */
+#endif /* WHUJUDGER_H */
 

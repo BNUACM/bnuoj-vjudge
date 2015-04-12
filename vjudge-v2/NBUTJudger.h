@@ -6,7 +6,7 @@
  */
 
 #ifndef NBUTJUDGER_H
-#define	NBUTJUDGER_H
+#define NBUTJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -23,5 +23,5 @@ private:
   string getCEinfo(Bott *);
   string convertResult(string);
 };
-#endif	/* NBUTJUDGER_H */
+#endif /* NBUTJUDGER_H */
 

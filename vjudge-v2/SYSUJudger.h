@@ -6,7 +6,7 @@
  */
 
 #ifndef SYSUJUDGER_H
-#define	SYSUJUDGER_H
+#define SYSUJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -24,5 +24,5 @@ private:
   string convertResult(string);
 };
 
-#endif	/* SYSUJUDGER_H */
+#endif /* SYSUJUDGER_H */
 

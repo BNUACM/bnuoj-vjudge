@@ -6,7 +6,7 @@
  */
 
 #ifndef HRBUSTJUDGER_H
-#define	HRBUSTJUDGER_H
+#define HRBUSTJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -24,5 +24,5 @@ private:
   string convertResult(string);
 };
 
-#endif	/* HRBUSTJUDGER_H */
+#endif /* HRBUSTJUDGER_H */
 

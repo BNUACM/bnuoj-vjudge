@@ -6,7 +6,7 @@
  */
 
 #ifndef LOGGER_H
-#define	LOGGER_H
+#define LOGGER_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,5 +43,5 @@ private:
   static pthread_mutex_t log_mutex;
 };
 
-#endif	/* LOGGER_H */
+#endif /* LOGGER_H */
 

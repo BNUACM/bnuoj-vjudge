@@ -6,7 +6,7 @@
  */
 
 #ifndef EXCEPTION_H
-#define	EXCEPTION_H
+#define EXCEPTION_H
 
 class Exception : std::exception {
 public:
@@ -24,5 +24,5 @@ private:
   std::string msg;
 };
 
-#endif	/* EXCEPTION_H */
+#endif /* EXCEPTION_H */
 

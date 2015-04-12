@@ -6,7 +6,7 @@
  */
 
 #ifndef VJUDGE_H
-#define	VJUDGE_H
+#define VJUDGE_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,5 +59,5 @@ using namespace std;
 #define RESULT_REPORT 1003
 #define CHALLENGE_REPORT 1004
 
-#endif	/* VJUDGE_H */
+#endif /* VJUDGE_H */
 

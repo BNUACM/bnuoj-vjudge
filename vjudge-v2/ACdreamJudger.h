@@ -6,7 +6,7 @@
  */
 
 #ifndef ACDREAMJUDGER_H
-#define	ACDREAMJUDGER_H
+#define ACDREAMJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -24,5 +24,5 @@ private:
   string convertResult(string);
 };
 
-#endif	/* ACDREAMJUDGER_H */
+#endif /* ACDREAMJUDGER_H */
 

@@ -6,7 +6,7 @@
  */
 
 #ifndef WHUHELPER_HPP
-#define	WHUHELPER_HPP
+#define WHUHELPER_HPP
 
 
 #include <string.h>
@@ -186,5 +186,5 @@ namespace WHUHelper {
 
 
 
-#endif	/* WHUHELPER_HPP */
+#endif /* WHUHELPER_HPP */
 

@@ -6,7 +6,7 @@
  */
 
 #ifndef SOCKETHANDLER_H
-#define	SOCKETHANDLER_H
+#define SOCKETHANDLER_H
 
 #include "vjudge.h"
 
@@ -27,5 +27,5 @@ private:
   int sockfd;
 };
 
-#endif	/* SOCKETHANDLER_H */
+#endif /* SOCKETHANDLER_H */
 

@@ -6,7 +6,7 @@
  */
 
 #ifndef URALJUDGER_H
-#define	URALJUDGER_H
+#define URALJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -26,5 +26,5 @@ private:
 
 };
 
-#endif	/* URALJUDGER_H */
+#endif /* URALJUDGER_H */
 

@@ -6,7 +6,7 @@
  */
 
 #ifndef FZUJUDGER_H
-#define	FZUJUDGER_H
+#define FZUJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -24,5 +24,5 @@ private:
   string convertResult(string);
 };
 
-#endif	/* FZUJUDGER_H */
+#endif /* FZUJUDGER_H */
 

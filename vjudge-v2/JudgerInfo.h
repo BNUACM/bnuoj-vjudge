@@ -6,7 +6,7 @@
  */
 
 #ifndef JUDGERINFO_H
-#define	JUDGERINFO_H
+#define JUDGERINFO_H
 
 #include <string>
 
@@ -78,5 +78,5 @@ private:
 
 };
 
-#endif	/* JUDGERINFO_H */
+#endif /* JUDGERINFO_H */
 

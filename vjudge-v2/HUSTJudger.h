@@ -6,7 +6,7 @@
  */
 
 #ifndef HUSTJUDGER_H
-#define	HUSTJUDGER_H
+#define HUSTJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -24,5 +24,5 @@ private:
   string convertResult(string);
 };
 
-#endif	/* HUSTJUDGER_H */
+#endif /* HUSTJUDGER_H */
 

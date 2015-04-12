@@ -6,7 +6,7 @@
  */
 
 #ifndef JUDGERFACTORY_H
-#define	JUDGERFACTORY_H
+#define JUDGERFACTORY_H
 
 #include "JudgerInfo.h"
 
@@ -45,5 +45,5 @@ private:
 
 };
 
-#endif	/* JUDGERFACTORY_H */
+#endif /* JUDGERFACTORY_H */
 

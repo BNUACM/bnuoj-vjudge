@@ -6,7 +6,7 @@
  */
 
 #ifndef UVALIVEJUDGER_H
-#define	UVALIVEJUDGER_H
+#define UVALIVEJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -26,5 +26,5 @@ private:
 
 };
 
-#endif	/* UVALIVEJUDGER_H */
+#endif /* UVALIVEJUDGER_H */
 

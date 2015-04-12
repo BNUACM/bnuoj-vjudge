@@ -6,7 +6,7 @@
  */
 
 #ifndef GLOBALHELPERS_H
-#define	GLOBALHELPERS_H
+#define GLOBALHELPERS_H
 
 #include <string.h>
 #include <stdio.h>
@@ -47,5 +47,5 @@ string sha1String(string);
 
 extern "C" size_t decode_html_entities_utf8(char *dest, const char *src);
 
-#endif	/* GLOBALHELPERS_H */
+#endif /* GLOBALHELPERS_H */
 
