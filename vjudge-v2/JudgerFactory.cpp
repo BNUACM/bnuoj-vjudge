@@ -61,6 +61,8 @@ VirtualJudger * JudgerFactory::createJudger(JudgerInfo * judger_info) {
     return new CCJudger(judger_info);
   } else if (oj == "HRBUST") {
     return new HRBUSTJudger(judger_info);
+  } else if (oj == "UESTC") {
+    return new UESTCJudger(judger_info);
   } else {
     throw Exception("Unknown OJ type: " + oj);
   }

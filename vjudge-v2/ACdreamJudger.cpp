@@ -31,8 +31,7 @@ void ACdreamJudger::login() {
   performCurl();
 
   string html = loadAllFromFile(tmpfilename);
-  //cout<<ts;
-  if (html != "") {
+  if (html != "{\"ret\":0}") {
     throw Exception("Login failed!");
   }
 }
