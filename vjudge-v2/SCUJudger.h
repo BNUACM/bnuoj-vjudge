@@ -6,7 +6,7 @@
  */
 
 #ifndef SCUJUDGER_H
-#define	SCUJUDGER_H
+#define SCUJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -27,5 +27,5 @@ private:
   char getNXY(int, int, int, int, int, int *);
 };
 
-#endif	/* SCUJUDGER_H */
+#endif /* SCUJUDGER_H */
 

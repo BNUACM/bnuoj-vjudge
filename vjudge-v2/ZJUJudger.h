@@ -6,7 +6,7 @@
  */
 
 #ifndef ZJUJUDGER_H
-#define	ZJUJUDGER_H
+#define ZJUJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -25,5 +25,5 @@ private:
   string submission_id_for_ce;
 };
 
-#endif	/* ZJUJUDGER_H */
+#endif /* ZJUJUDGER_H */
 

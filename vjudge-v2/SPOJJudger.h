@@ -6,7 +6,7 @@
  */
 
 #ifndef SPOJJUDGER_H
-#define	SPOJJUDGER_H
+#define SPOJJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -24,5 +24,5 @@ private:
   string convertResult(string);
 };
 
-#endif	/* SPOJJUDGER_H */
+#endif /* SPOJJUDGER_H */
 

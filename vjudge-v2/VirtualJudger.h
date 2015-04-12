@@ -6,7 +6,7 @@
  */
 
 #ifndef VIRTUALJUDGER_H
-#define	VIRTUALJUDGER_H
+#define VIRTUALJUDGER_H
 
 #include "vjudge.h"
 #include "SocketHandler.h"
@@ -76,5 +76,5 @@ protected:
   FILE * curl_file;
 };
 
-#endif	/* VIRTUALJUDGER_H */
+#endif /* VIRTUALJUDGER_H */
 

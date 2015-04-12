@@ -6,7 +6,7 @@
  */
 
 #ifndef LOJJUDGER_H
-#define	LOJJUDGER_H
+#define LOJJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -25,5 +25,5 @@ private:
 
 };
 
-#endif	/* LOJJUDGER_H */
+#endif /* LOJJUDGER_H */
 

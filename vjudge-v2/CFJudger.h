@@ -6,7 +6,7 @@
  */
 
 #ifndef CFJUDGER_H
-#define	CFJUDGER_H
+#define CFJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -31,5 +31,5 @@ private:
   string getVerdict(string, string);
 };
 
-#endif	/* CFJUDGER_H */
+#endif /* CFJUDGER_H */
 

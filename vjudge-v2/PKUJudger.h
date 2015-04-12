@@ -6,7 +6,7 @@
  */
 
 #ifndef PKUJUDGER_H
-#define	PKUJUDGER_H
+#define PKUJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -24,5 +24,5 @@ private:
   string convertResult(string);
 };
 
-#endif	/* PKUJUDGER_H */
+#endif /* PKUJUDGER_H */
 

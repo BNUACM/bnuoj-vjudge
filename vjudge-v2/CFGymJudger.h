@@ -3,7 +3,7 @@
  */
 
 #ifndef CFGYMJUDGER_H
-#define	CFGYMJUDGER_H
+#define CFGYMJUDGER_H
 
 #include "CFJudger.h"
 
@@ -17,5 +17,5 @@ private:
   string getVerdictUrl(string, string);
 };
 
-#endif	/* CFGYMJUDGER_H */
+#endif /* CFGYMJUDGER_H */
 

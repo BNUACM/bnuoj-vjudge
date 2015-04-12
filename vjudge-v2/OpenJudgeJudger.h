@@ -6,7 +6,7 @@
  */
 
 #ifndef OPENJUDGEJUDGER_H
-#define	OPENJUDGEJUDGER_H
+#define OPENJUDGEJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -24,5 +24,5 @@ private:
   string convertResult(string);
 };
 
-#endif	/* OPENJUDGEJUDGER_H */
+#endif /* OPENJUDGEJUDGER_H */
 

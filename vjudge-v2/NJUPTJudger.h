@@ -6,7 +6,7 @@
  */
 
 #ifndef NJUPTJUDGER_H
-#define	NJUPTJUDGER_H
+#define NJUPTJUDGER_H
 
 #include "vjudge.h"
 #include "VirtualJudger.h"
@@ -24,5 +24,5 @@ private:
   string convertResult(string);
 };
 
-#endif	/* NJUPTJUDGER_H */
+#endif /* NJUPTJUDGER_H */
 
