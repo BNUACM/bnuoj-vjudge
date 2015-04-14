@@ -31,7 +31,7 @@ void NBUTJudger::login() {
 
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
-                   "http://ac.nbutoj.com/User/chklogin.xhtml");
+                   "https://ac.2333.moe/User/chklogin.xhtml");
   string post = "username=" + escapeURL(info->GetUsername()) + "&password=" +
       escapeURL(info->GetPassword());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
@@ -53,7 +53,7 @@ int NBUTJudger::submit(Bott * bott) {
 
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
-                   "http://ac.nbutoj.com/Problem/submitok.xhtml");
+                   "https://ac.2333.moe/Problem/submitok.xhtml");
   string post = (string) "id=" + bott->Getvid() + "&language=" +
       bott->Getlanguage() + "&code=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
@@ -86,7 +86,7 @@ Bott * NBUTJudger::getStatus(Bott * bott) {
     prepareCurl();
     curl_easy_setopt(
         curl, CURLOPT_URL,
-        ((string)"http://ac.nbutoj.com/Problem/status.xhtml?username=" +
+        ((string)"https://ac.2333.moe/Problem/status.xhtml?username=" +
             escapeURL(info->GetUsername()) + "&language=" +
             escapeURL(bott->Getlanguage()) + "&problemid=" +
             escapeURL(bott->Getvid())).c_str());
@@ -138,7 +138,7 @@ string NBUTJudger::getCEinfo(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(
       curl, CURLOPT_URL,
-      ((string) "http://ac.nbutoj.com/Problem/viewce.xhtml?submitid=" +
+      ((string) "https://ac.2333.moe/Problem/viewce.xhtml?submitid=" +
           bott->Getremote_runid()).c_str());
   performCurl();
 
