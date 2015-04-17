@@ -97,7 +97,7 @@ Bott * AizuJudger::getStatus(Bott * bott) {
     // get first row of current user
     if (!RE2::PartialMatch(
         html,
-        "(?s)(<tr class=\"dat\".*?id=" + info->GetUsername() + ".*?</tr>)",
+        "(?s)(<tr *class=\"dat\".*?id=" + info->GetUsername() + ".*?</tr>)",
         &status)) {
       throw Exception("Failed to get status row.");
     }
