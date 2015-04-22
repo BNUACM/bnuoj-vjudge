@@ -114,7 +114,7 @@ Bott * SPOJJudger::getStatus(Bott * bott) {
 
     prepareCurl();
     curl_easy_setopt(curl, CURLOPT_URL, ("http://www.spoj.com/status/" +
-        info->GetUsername() + "/").c_str());
+        info->GetUsername() + "/ajax=1").c_str());
     performCurl();
 
     string html = loadAllFromFile(tmpfilename);
