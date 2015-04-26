@@ -323,16 +323,27 @@ string unescapeString(string str) {
  */
 string charsetConvert(const string &from_charset, const string &to_charset,
                        const string &text) {
-  using namespace boost::locale::conv;
-  string result;
-  if (from_charset == "UTF-8") {
-    result = from_utf<char>(text, to_charset);
-  }else{
-    result = to_utf<char>(text, from_charset);
-    if (to_charset != "UTF-8") {
-      result = from_utf<char>(result, to_charset);
-    }
+  iconv_t cd;
+  size_t in_length= text.length() + 1;
+  size_t out_length = in_length * 2;
+  char * in_buffer = new char[in_length];
+  char * out_buffer = new char[out_length];
+  char * pin = in_buffer;
+  char * pout = out_buffer;
+  strcpy(in_buffer, text.c_str());
+
+  cd = iconv_open(to_charset.c_str(), from_charset.c_str());
+  if (cd == 0) {
+    throw Exception("Invalid charset conversion");
   }
+  memset(out_buffer, 0, out_length);
+  if (iconv(cd, &pin, &in_length, &pout, &out_length) == -1) {
+    throw Exception("Charset conversion Failed");
+  }
+  iconv_close(cd);
+  string result = out_buffer;
+  delete [] in_buffer;
+  delete [] out_buffer;
   return result;
 }
 
