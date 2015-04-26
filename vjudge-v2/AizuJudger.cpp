@@ -162,14 +162,11 @@ string AizuJudger::getCEinfo(Bott * bott) {
       bott->Getremote_runid()).c_str());
   performCurl();
 
-  string info = loadAllFromFile(tmpfilename);
+  // Aizu is in SHIFT_JIS charset
+  string info = charsetConvert("SHIFT_JIS", "UTF-8",
+      loadAllFromFile(tmpfilename));
   string result;
-  char * ce_info = new char[info.length() + 1];
-  strcpy(ce_info, info.c_str());
   char * buffer = new char[info.length() * 2];
-  // SCU is in GBK charset
-  charset_convert("SHIFT_JIS", "UTF-8//TRANSLIT", ce_info, info.length() + 1,
-                  buffer, info.length() * 2);
 
   if (!RE2::PartialMatch(buffer,
                          "(?s)<p style=\"font-size:11pt;\">(.*)</p>",
@@ -180,7 +177,6 @@ string AizuJudger::getCEinfo(Bott * bott) {
   strcpy(buffer, result.c_str());
   decode_html_entities_utf8(buffer, NULL);
   result = buffer;
-  delete [] ce_info;
   delete [] buffer;
 
   return trim(result);

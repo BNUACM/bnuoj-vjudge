@@ -316,29 +316,24 @@ string unescapeString(string str) {
 }
 
 /**
- * Use iconv to convert string between different charsets
+ * Use boost.locale to convert string between different charsets
  * @param from_charset  Initial charset
  * @param to_charset    Target charset
- * @param inbuf         Initial string
- * @param inlen         Initial length
- * @param outbuf        Output buffer
- * @param outlen        Buffer length
+ * @param text          String to convert
  */
-void charset_convert(const char * from_charset, const char * to_charset,
-                     char * inbuf, size_t inlen, char * outbuf, size_t outlen) {
-  iconv_t cd;
-  char **pin = &inbuf;
-  char **pout = &outbuf;
-
-  cd = iconv_open(to_charset, from_charset);
-  if (cd == 0) {
-    throw Exception("Invalid charset conversion");
+string charsetConvert(const string &from_charset, const string &to_charset,
+                       const string &text) {
+  using namespace boost::locale::conv;
+  string result;
+  if (from_charset == "UTF-8") {
+    result = from_utf<char>(text, to_charset);
+  }else{
+    result = to_utf<char>(text, from_charset);
+    if (to_charset != "UTF-8") {
+      result = from_utf<char>(result, to_charset);
+    }
   }
-  memset(outbuf, 0, outlen);
-  if (iconv(cd, pin, &inlen, pout, &outlen) == -1) {
-    throw Exception("Charset conversion Failed");
-  }
-  iconv_close(cd);
+  return result;
 }
 
 /**
