@@ -27,9 +27,9 @@ void NJUPTJudger::initHandShake(){
 void NJUPTJudger::login() {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
-      "http://acm.njupt.edu.cn/acmhome/login.do");
+                   "http://acm.njupt.edu.cn/acmhome/login.do");
   string post = (string) "userName=" + info->GetUsername() + "&password=" +
-    info->GetPassword();
+      info->GetPassword();
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 
@@ -48,9 +48,9 @@ void NJUPTJudger::login() {
 int NJUPTJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
-      "http://acm.njupt.edu.cn/acmhome/submitcode.do");
+                   "http://acm.njupt.edu.cn/acmhome/submitcode.do");
   string post = (string) "problemId=" + bott->Getvid() + "&language=" +
-    escapeURL(bott->Getlanguage()) + "&code=" + escapeURL(bott->Getsrc());
+      escapeURL(bott->Getlanguage()) + "&code=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
 
   try {
@@ -85,8 +85,8 @@ Bott * NJUPTJudger::getStatus(Bott * bott) {
         curl, CURLOPT_URL,
         ((string) "http://acm.njupt.edu.cn/acmhome/showstatus.do").c_str());
     string post = (string) "problemId=" + bott->Getvid() + "&languageS=" +
-      escapeURL(bott->Getlanguage()) + "&userName=" +
-      escapeURL(info->GetUsername()) + "&resultS=All";
+        escapeURL(bott->Getlanguage()) + "&userName=" +
+        escapeURL(info->GetUsername()) + "&resultS=All";
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
 
@@ -96,16 +96,16 @@ Bott * NJUPTJudger::getStatus(Bott * bott) {
 
     // get first row
     if (!RE2::PartialMatch(html, "(?s)<table.*?</thead>.*?(<tr.*?</tr>)",
-          &status)) {
+                           &status)) {
       throw Exception("Failed to get status row.");
     }
 
     // get result
     if (!RE2::PartialMatch(
-          status,
-          "(?s)method=showdetail.*?value=\"(.*?)\".*?<b acc=\"acc\"></b>\\s*(.*?)"
-          "\\s*<b acc=\"acc\"></b>",
-          &runid, &result)) {
+        status,
+        "(?s)method=showdetail.*?value=\"(.*?)\".*?<b acc=\"acc\"></b>\\s*(.*?)"
+            "\\s*<b acc=\"acc\"></b>",
+        &runid, &result)) {
       throw Exception("Failed to get current result.");
     }
     result = convertResult(trim(result));
@@ -114,9 +114,9 @@ Bott * NJUPTJudger::getStatus(Bott * bott) {
       if (result == "Accepted") {
         // only accepted run has details
         if (!RE2::PartialMatch(
-              status,
-              "(?s)([0-9]*)<b ms=\"ms\"></b>MS.*?([0-9]*)<b k=\"k\"></b>K",
-              &time_used, &memory_used)) {
+            status,
+            "(?s)([0-9]*)<b ms=\"ms\"></b>MS.*?([0-9]*)<b k=\"k\"></b>K",
+            &time_used, &memory_used)) {
           throw Exception("Failed to parse details from status row.");
         }
       } else {
@@ -176,7 +176,7 @@ string NJUPTJudger::getCEinfo(Bott * bott) {
   curl_easy_setopt(
       curl, CURLOPT_URL,
       ((string)"http://acm.njupt.edu.cn/acmhome/compileError.do?id=" +
-       bott->Getremote_runid()).c_str());
+          bott->Getremote_runid()).c_str());
   performCurl();
 
   string info = charsetConvert("GBK", "UTF-8", loadAllFromFile(tmpfilename));
@@ -184,10 +184,10 @@ string NJUPTJudger::getCEinfo(Bott * bott) {
   char * buffer = new char[info.length() * 2];
 
   if (!RE2::PartialMatch(
-        buffer,
-        "(?s)Details of Compile Error</strong></h2></div>(.*)"
-        "<div align=\"center\">",
-        &result)) {
+      buffer,
+      "(?s)Details of Compile Error</strong></h2></div>(.*)"
+          "<div align=\"center\">",
+      &result)) {
     return "";
   }
 
