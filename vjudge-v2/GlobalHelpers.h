@@ -16,7 +16,6 @@
 #include <istream>
 #include <sstream>
 #include <fstream>
-#include <boost/locale.hpp>
 
 #include <iconv.h>
 #include <openssl/sha.h>

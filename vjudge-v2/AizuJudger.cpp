@@ -168,7 +168,7 @@ string AizuJudger::getCEinfo(Bott * bott) {
   string result;
   char * buffer = new char[info.length() * 2];
 
-  if (!RE2::PartialMatch(buffer,
+  if (!RE2::PartialMatch(info,
                          "(?s)<p style=\"font-size:11pt;\">(.*)</p>",
                          &result)) {
     return "";

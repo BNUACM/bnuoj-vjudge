@@ -316,7 +316,7 @@ string unescapeString(string str) {
 }
 
 /**
- * Use boost.locale to convert string between different charsets
+ * Use iconv to convert string between different charsets
  * @param from_charset  Initial charset
  * @param to_charset    Target charset
  * @param text          String to convert

@@ -184,7 +184,7 @@ string NJUPTJudger::getCEinfo(Bott * bott) {
   char * buffer = new char[info.length() * 2];
 
   if (!RE2::PartialMatch(
-      buffer,
+      info,
       "(?s)Details of Compile Error</strong></h2></div>(.*)"
           "<div align=\"center\">",
       &result)) {

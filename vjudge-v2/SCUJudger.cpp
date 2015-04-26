@@ -152,7 +152,7 @@ string SCUJudger::getCEinfo(Bott * bott) {
   string result;
   char * buffer = new char[info.length() * 2];
 
-  if (!RE2::PartialMatch(buffer, "(?s)<pre>(.*?)</pre>", &result)) {
+  if (!RE2::PartialMatch(info, "(?s)<pre>(.*?)</pre>", &result)) {
     return "";
   }
 
