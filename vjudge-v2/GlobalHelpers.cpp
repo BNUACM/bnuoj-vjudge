@@ -319,26 +319,32 @@ string unescapeString(string str) {
  * Use iconv to convert string between different charsets
  * @param from_charset  Initial charset
  * @param to_charset    Target charset
- * @param inbuf         Initial string
- * @param inlen         Initial length
- * @param outbuf        Output buffer
- * @param outlen        Buffer length
+ * @param text          String to convert
  */
-void charset_convert(const char * from_charset, const char * to_charset,
-                     char * inbuf, size_t inlen, char * outbuf, size_t outlen) {
+string charsetConvert(const string &from_charset, const string &to_charset,
+                      const string &text) {
   iconv_t cd;
-  char **pin = &inbuf;
-  char **pout = &outbuf;
+  size_t in_length= text.length() + 1;
+  size_t out_length = in_length * 2;
+  char * in_buffer = new char[in_length];
+  char * out_buffer = new char[out_length];
+  char * pin = in_buffer;
+  char * pout = out_buffer;
+  strcpy(in_buffer, text.c_str());
 
-  cd = iconv_open(to_charset, from_charset);
+  cd = iconv_open(to_charset.c_str(), from_charset.c_str());
   if (cd == 0) {
     throw Exception("Invalid charset conversion");
   }
-  memset(outbuf, 0, outlen);
-  if (iconv(cd, pin, &inlen, pout, &outlen) == -1) {
+  memset(out_buffer, 0, out_length);
+  if (iconv(cd, &pin, &in_length, &pout, &out_length) == -1) {
     throw Exception("Charset conversion Failed");
   }
   iconv_close(cd);
+  string result = out_buffer;
+  delete [] in_buffer;
+  delete [] out_buffer;
+  return result;
 }
 
 /**

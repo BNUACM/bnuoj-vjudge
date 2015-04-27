@@ -147,24 +147,18 @@ string SCUJudger::getCEinfo(Bott * bott) {
           bott->Getremote_runid()).c_str());
   performCurl();
 
-  string info = loadAllFromFile(tmpfilename);
-  string result;
-
-  char * ce_info = new char[info.length() + 1];
-  strcpy(ce_info, info.c_str());
-  char * buffer = new char[info.length() * 2];
   // SCU is in GBK charset
-  charset_convert("GBK", "UTF-8//TRANSLIT", ce_info, info.length() + 1,
-                  buffer, info.length() * 2);
+  string info = charsetConvert("GBK", "UTF-8", loadAllFromFile(tmpfilename));
+  string result;
+  char * buffer = new char[info.length() * 2];
 
-  if (!RE2::PartialMatch(buffer, "(?s)<pre>(.*?)</pre>", &result)) {
+  if (!RE2::PartialMatch(info, "(?s)<pre>(.*?)</pre>", &result)) {
     return "";
   }
 
   strcpy(buffer, result.c_str());
   decode_html_entities_utf8(buffer, NULL);
   result = buffer;
-  delete [] ce_info;
   delete [] buffer;
 
   return result;
