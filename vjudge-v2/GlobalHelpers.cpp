@@ -322,7 +322,7 @@ string unescapeString(string str) {
  * @param text          String to convert
  */
 string charsetConvert(const string &from_charset, const string &to_charset,
-                       const string &text) {
+                      const string &text) {
   iconv_t cd;
   size_t in_length= text.length() + 1;
   size_t out_length = in_length * 2;
