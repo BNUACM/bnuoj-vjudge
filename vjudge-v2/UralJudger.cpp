@@ -75,19 +75,13 @@ int UralJudger::submit(Bott * bott) {
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://acm.timus.ru/submit.aspx?space=1");
   curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
-
-  // have to fetch header for runid
-  string headerfilename = tmpfilename + "_header";
-  FILE * headerfile = fopen(headerfilename.c_str(), "w");
-  curl_easy_setopt(curl, CURLOPT_HEADERDATA, headerfile);
-
   performCurl();
   curl_formfree(formpost);
-  fclose(headerfile);
 
   // check submit status
-  string html = loadAllFromFile(headerfilename);
-  if (html.find("303 See Other") == string::npos) {
+  string html = loadAllFromFile(tmpfilename);
+  if (html.find("<H2 CLASS=\"title\">Solutions judgement results</H2>") ==
+      string::npos) {
     return SUBMIT_OTHER_ERROR;
   }
 
@@ -100,16 +94,9 @@ int UralJudger::submit(Bott * bott) {
  * @return Result Bott file
  */
 Bott * UralJudger::getStatus(Bott * bott) {
-    time_t begin_time = time(NULL);
-  int count = 10;
+  time_t begin_time = time(NULL);
 
   Bott * result_bott;
-
-  // fetch runid
-  string runid, header = loadAllFromFile(tmpfilename + "_header");
-  if (!RE2::PartialMatch(header, "(?s)X-SubmitID: ([0-9]*)", &runid)) {
-    throw Exception("Failed to get remote runid.");
-  }
 
   while (true) {
     // check wait time
@@ -121,28 +108,23 @@ Bott * UralJudger::getStatus(Bott * bott) {
     // count can be set to 100 if Ural is very busy
     curl_easy_setopt(
         curl, CURLOPT_URL,
-        ((string) "http://acm.timus.ru/status.aspx?space=1&count=" +
-            intToString(count)).c_str());
+        ("http://acm.timus.ru/status.aspx?author=" + author_id).c_str());
     performCurl();
 
     string html = loadAllFromFile(tmpfilename);
     string status;
-    string result, time_used, memory_used;
+    string runid, result, time_used, memory_used;
 
-    // get the row for runid, if not found, try fetch more runs
-    if (!RE2::PartialMatch(html, "(?s)(<TR.*?\"id\">" + runid + ".*?</TR>)",
-                           &status)) {
-      if (count == 100) {
-        throw Exception("Failed to find current submission in the last 100.");
-      }
-      log("Trying to fetch more runs...");
-      count += 10;
-      continue;
+    // get first row
+    if (!RE2::PartialMatch(html, "(?s)(<TR class=\"even\">.*?</TR>)",
+        &status)) {
+      throw Exception("Failed to get status row.");
     }
 
     // get result
-    if (!RE2::PartialMatch(status, "(?s)<TD class=\"verdict.*?>(.*?)</TD>",
-                           &result)) {
+    if (!RE2::PartialMatch(status,
+        "(?s)<TD class=\"id\"><A.*?>([0-9]*)</A>.*"
+        "<TD class=\"verdict.*?>(.*?)</TD>", &runid, &result)) {
       throw Exception("Failed to get current result.");
     }
     result = trim(result);
