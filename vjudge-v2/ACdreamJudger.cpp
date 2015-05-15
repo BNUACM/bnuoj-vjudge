@@ -55,7 +55,7 @@ int ACdreamJudger::submit(Bott * bott) {
   }
 
   string html = loadAllFromFile(tmpfilename);
-  if (html != "") return SUBMIT_OTHER_ERROR;
+  if (html.find("{\"ret\":0") != 0) return SUBMIT_OTHER_ERROR;
   return SUBMIT_NORMAL;
 }
 
@@ -150,5 +150,9 @@ string ACdreamJudger::getCEinfo(Bott * bott) {
   performCurl();
 
   string info = loadAllFromFile(tmpfilename);
-  return trim(info);
+  string msg;
+  if (!RE2::PartialMatch(info, "(?s)msg\":\"(.*)\"}", &msg)) {
+    throw Exception("Failed to fetch compile info.");
+  }
+  return trim(unescapeString(msg));
 }
