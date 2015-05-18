@@ -15,32 +15,12 @@ const string Bott::RESULTS_DIRECTORY = "results/";
 const string Bott::CHA_RESULTS_DIRECTORY = "cha_results/";
 const string Bott::EXTENTION = ".bott";
 
-const string Bott::SOURCE_CODE_BEGIN = "__SOURCE-CODE-BEGIN-LABLE__";
-const string Bott::SOURCE_CODE_END = "__SOURCE-CODE-END-LABLE__";
-const string Bott::COMPILE_INFO_BEGIN = "__COMPILE-INFO-BEGIN-LABLE__";
-const string Bott::COMPILE_INFO_END = "__COMPILE-INFO-END-LABLE__";
-const string Bott::DATA_DETAIL_BEGIN = "__DATA-DETAIL-BEGIN-LABLE__";
-const string Bott::DATA_DETAIL_END = "__DATA-DETAIL-END-LABLE__";
-const string Bott::CHALLENGE_DETAIL_BEGIN = "__CHALLENGE-DETAIL-BEGIN-LABLE__";
-const string Bott::CHALLENGE_DETAIL_END = "__CHALLENGE-DETAIL-END-LABLE__";
-
 Bott::Bott() {
   //ctor
 }
 
 Bott::~Bott() {
   //dtor
-}
-
-string Bott::parseUntil(string end) {
-  string res = "", tmps;
-  getline(fin, tmps);
-  getline(fin, tmps);
-  while (tmps != end) {
-    res += tmps + "\n";
-    getline(fin, tmps);
-  }
-  return res;
 }
 
 Bott::Bott(string filename) {
