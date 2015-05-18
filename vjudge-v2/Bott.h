@@ -9,6 +9,9 @@
 #define BOTT_H
 
 #include "vjudge.h"
+#include "rapidjson/document.h"
+
+using namespace rapidjson;
 
 class Bott {
 public:
@@ -256,10 +259,9 @@ private:
   string cha_detail;
   string remote_runid;
 
-  map <string, string> infos;
-  fstream fin;
-
-  string parseUntil(string end);
+  void addIntValue(Document &, const char *, int);
+  void addStringValue(Document &, const char *, string);
+  void addStringValueToRef(Document &, Value &, const char *, string);
   string out_filename;
 
 };
