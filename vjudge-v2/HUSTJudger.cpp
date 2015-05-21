@@ -47,8 +47,9 @@ void HUSTJudger::login() {
 int HUSTJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL, "http://acm.hust.edu.cn/problem/submit");
-  string post = (string) "pid=" + bott->Getvid() + "&language=" +
-      convertLanguage(bott->Getlanguage()) + "&source=" + escapeURL(bott->Getsrc());
+  string post = (string) "pid=" + bott->Getvid() +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&source=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 

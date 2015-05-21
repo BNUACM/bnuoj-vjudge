@@ -58,8 +58,9 @@ int SCUJudger::submit(Bott * bott) {
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://cstest.scu.edu.cn/soj/submit.action");
   string post = (string) "problemId=" + bott->Getvid() +
-      "&submit=Submit&validation=" + code + "&language=" +
-      convertLanguage(bott->Getlanguage()) + "&source=" + escapeURL(bott->Getsrc());
+      "&submit=Submit&validation=" + code +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&source=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 

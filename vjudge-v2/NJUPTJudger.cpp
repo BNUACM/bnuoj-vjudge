@@ -49,8 +49,9 @@ int NJUPTJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://acm.njupt.edu.cn/acmhome/submitcode.do");
-  string post = (string) "problemId=" + bott->Getvid() + "&language=" +
-      convertLanguage(bott->Getlanguage()) + "&code=" + escapeURL(bott->Getsrc());
+  string post = (string) "problemId=" + bott->Getvid() +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&code=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
 
   try {

@@ -54,8 +54,9 @@ int NBUTJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
                    "https://ac.2333.moe/Problem/submitok.xhtml");
-  string post = (string) "id=" + bott->Getvid() + "&language=" +
-      convertLanguage(bott->Getlanguage()) + "&code=" + escapeURL(bott->Getsrc());
+  string post = (string) "id=" + bott->Getvid() +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&code=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 

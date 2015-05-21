@@ -51,8 +51,9 @@ void PKUJudger::login() {
  * @return Submit status
  */
 int PKUJudger::submit(Bott * bott) {
-  string post = (string) "problem_id=" + bott->Getvid() + "&language=" +
-      convertLanguage(bott->Getlanguage()) + "&source=" + escapeURL(bott->Getsrc());
+  string post = (string) "problem_id=" + bott->Getvid() +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&source=" + escapeURL(bott->Getsrc());
   try {
     prepareCurl();
     curl_easy_setopt(curl, CURLOPT_URL, "http://poj.org/submit");
