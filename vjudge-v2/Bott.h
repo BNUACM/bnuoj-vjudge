@@ -21,7 +21,7 @@ public:
   /** Default destructor */
   virtual ~Bott();
 
-  int Gettype() {
+  int Gettype() const {
     return type;
   }
 
@@ -29,23 +29,23 @@ public:
     type = val;
   }
 
-  string Getrunid() {
+  int Getrunid() const {
     return runid;
   }
 
-  void Setrunid(string val) {
+  void Setrunid(int val) {
     runid = val;
   }
 
-  string Getcha_id() {
+  int Getcha_id() const {
     return cha_id;
   }
 
-  void Setcha_id(string val) {
+  void Setcha_id(int val) {
     cha_id = val;
   }
 
-  string Getsrc() {
+  string Getsrc() const {
     return src;
   }
 
@@ -53,63 +53,63 @@ public:
     src = val;
   }
 
-  string Getlanguage() {
+  int Getlanguage() const {
     return language;
   }
 
-  void Setlanguage(string val) {
+  void Setlanguage(int val) {
     language = val;
   }
 
-  string Getpid() {
+  int Getpid() const {
     return pid;
   }
 
-  void Setpid(string val) {
+  void Setpid(int val) {
     pid = val;
   }
 
-  string Getnumber_of_testcases() {
+  int Getnumber_of_testcases() const {
     return number_of_testcases;
   }
 
-  void Setnumber_of_testcases(string val) {
+  void Setnumber_of_testcases(int val) {
     number_of_testcases = val;
   }
 
-  string Gettime_limit() {
+  int Gettime_limit() const {
     return time_limit;
   }
 
-  void Settime_limit(string val) {
+  void Settime_limit(int val) {
     time_limit = val;
   }
 
-  string Getcase_limit() {
+  int Getcase_limit() const {
     return case_limit;
   }
 
-  void Setcase_limit(string val) {
+  void Setcase_limit(int val) {
     case_limit = val;
   }
 
-  string Getmemory_limit() {
+  int Getmemory_limit() const {
     return memory_limit;
   }
 
-  void Setmemory_limit(string val) {
+  void Setmemory_limit(int val) {
     memory_limit = val;
   }
 
-  string Getspj() {
+  int Getspj() const {
     return spj;
   }
 
-  void Setspj(string val) {
+  void Setspj(int val) {
     spj = val;
   }
 
-  string Getvname() {
+  string Getvname() const {
     return vname;
   }
 
@@ -117,7 +117,7 @@ public:
     vname = val;
   }
 
-  string Getvid() {
+  string Getvid() const {
     return vid;
   }
 
@@ -125,23 +125,23 @@ public:
     vid = val;
   }
 
-  string Getmemory_used() {
+  int Getmemory_used() const {
     return memory_used;
   }
 
-  void Setmemory_used(string val) {
+  void Setmemory_used(int val) {
     memory_used = val;
   }
 
-  string Gettime_used() {
+  int Gettime_used() const {
     return time_used;
   }
 
-  void Settime_used(string val) {
+  void Settime_used(int val) {
     time_used = val;
   }
 
-  string Getresult() {
+  string Getresult() const {
     return result;
   }
 
@@ -149,7 +149,7 @@ public:
     result = val;
   }
 
-  string Getce_info() {
+  string Getce_info() const {
     return ce_info;
   }
 
@@ -157,15 +157,15 @@ public:
     ce_info = val;
   }
 
-  string Getdata_type() {
+  int Getdata_type() const {
     return data_type;
   }
 
-  void Setdata_type(string val) {
+  void Setdata_type(int val) {
     data_type = val;
   }
 
-  string Getdata_detail() {
+  string Getdata_detail() const {
     return data_detail;
   }
 
@@ -173,15 +173,15 @@ public:
     data_detail = val;
   }
 
-  string Getdata_lang() {
+  int Getdata_lang() const {
     return data_lang;
   }
 
-  void Setdata_lang(string val) {
+  void Setdata_lang(int val) {
     data_lang = val;
   }
 
-  string Getcha_result() {
+  string Getcha_result() const {
     return cha_result;
   }
 
@@ -189,7 +189,7 @@ public:
     cha_result = val;
   }
 
-  string Getcha_detail() {
+  string Getcha_detail() const {
     return cha_detail;
   }
 
@@ -197,7 +197,7 @@ public:
     cha_detail = val;
   }
 
-  string Getout_filename() {
+  string Getout_filename() const {
     return out_filename;
   }
 
@@ -236,32 +236,33 @@ public:
 protected:
 private:
   int type;
-  string runid;
-  string cha_id;
+  int runid;
+  int cha_id;
   string src;
-  string language;
-  string pid;
-  string number_of_testcases;
-  string time_limit;
-  string case_limit;
-  string memory_limit;
-  string spj;
+  int language;
+  int pid;
+  int number_of_testcases;
+  int time_limit;
+  int case_limit;
+  int memory_limit;
+  int spj;
   string vname;
   string vid;
-  string memory_used;
-  string time_used;
+  int memory_used;
+  int time_used;
   string result;
   string ce_info;
-  string data_type;
-  string data_lang;
+  int data_type;
+  int data_lang;
   string data_detail;
   string cha_result;
   string cha_detail;
   string remote_runid;
 
   void addIntValue(Document &, const char *, int);
-  void addStringValue(Document &, const char *, string);
-  void addStringValueToRef(Document &, Value &, const char *, string);
+  void addStringValue(Document &, const char *, const char *);
+  void addIntValueToRef(Document &, Value &, const char *, int);
+  void addStringValueToRef(Document &, Value &, const char *, const char *);
   string out_filename;
 
 };

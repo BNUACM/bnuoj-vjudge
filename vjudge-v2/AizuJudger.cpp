@@ -8,12 +8,12 @@
 #include "AizuJudger.h"
 
 AizuJudger::AizuJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "C++";
-  language_table["2"]  = "C";
-  language_table["3"]  = "JAVA";
-  language_table["6"]  = "C#";
-  language_table["5"]  = "Python";
-  language_table["9"]  = "Ruby";
+  language_table[CPPLANG]  = "C++";
+  language_table[CLANG]  = "C";
+  language_table[JAVALANG]  = "JAVA";
+  language_table[CSLANG]  = "C#";
+  language_table[PYLANG]  = "Python";
+  language_table[RUBYLANG]  = "Ruby";
 }
 
 AizuJudger::~AizuJudger() {
@@ -53,7 +53,7 @@ int AizuJudger::submit(Bott * bott) {
                    "http://judge.u-aizu.ac.jp/onlinejudge/servlet/Submit");
   string post = (string) "userID=" + escapeURL(info->GetUsername()) +
       "&password=" + escapeURL(info->GetPassword()) + "&problemNO=" +
-      bott->Getvid() + "&language=" + escapeURL(bott->Getlanguage()) +
+      bott->Getvid() + "&language=" + convertLanguage(bott->Getlanguage()) +
       "&sourceCode=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
 
@@ -125,8 +125,8 @@ Bott * AizuJudger::getStatus(Bott * bott) {
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
       result_bott->Settime_used(
-          intToString(stringToDouble(time_used) * 100 + 0.1));
-      result_bott->Setmemory_used(trim(memory_used));
+          (int)(stringToDouble(time_used) * 100 + 0.1));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

@@ -12,12 +12,12 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 PKUJudger::PKUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "0";
-  language_table["2"]  = "1";
-  language_table["3"]  = "2";
-  language_table["4"]  = "3";
-  language_table["12"] = "4";
-  language_table["13"] = "5";
+  language_table[CPPLANG]  = "0";
+  language_table[CLANG]  = "1";
+  language_table[JAVALANG]  = "2";
+  language_table[FPASLANG]  = "3";
+  language_table[VCLANG] = "4";
+  language_table[VCPPLANG] = "5";
 }
 
 PKUJudger::~PKUJudger() {
@@ -52,7 +52,7 @@ void PKUJudger::login() {
  */
 int PKUJudger::submit(Bott * bott) {
   string post = (string) "problem_id=" + bott->Getvid() + "&language=" +
-      bott->Getlanguage() + "&source=" + escapeURL(bott->Getsrc());
+      convertLanguage(bott->Getlanguage()) + "&source=" + escapeURL(bott->Getsrc());
   try {
     prepareCurl();
     curl_easy_setopt(curl, CURLOPT_URL, "http://poj.org/submit");
@@ -95,7 +95,7 @@ Bott * PKUJudger::getStatus(Bott * bott) {
         curl, CURLOPT_URL,
         ((string) "http://poj.org/status?problem_id=" + bott->Getvid() +
             "&user_id=" + info->GetUsername() + "&language=" +
-            bott->Getlanguage()).c_str());
+            convertLanguage(bott->Getlanguage())).c_str());
     curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "");
     curl_easy_setopt(curl, CURLOPT_COOKIEJAR, "");
     performCurl();
@@ -132,8 +132,8 @@ Bott * PKUJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

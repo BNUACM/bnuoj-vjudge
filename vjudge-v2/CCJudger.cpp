@@ -12,16 +12,16 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 CCJudger::CCJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"] = "41";
-  language_table["2"] = "11";
-  language_table["3"] = "10";
-  language_table["4"] = "22";
-  language_table["5"] = "4";
-  language_table["6"] = "27";
-  language_table["7"] = "5";
-  language_table["8"] = "3";
-  language_table["9"] = "17";
-  language_table["10"] = "7";
+  language_table[CPPLANG] = "41";
+  language_table[CLANG] = "11";
+  language_table[JAVALANG] = "10";
+  language_table[FPASLANG] = "22";
+  language_table[PYLANG] = "4";
+  language_table[CSLANG] = "27";
+  language_table[FORTLANG] = "5";
+  language_table[PERLLANG] = "3";
+  language_table[RUBYLANG] = "17";
+  language_table[ADALANG] = "7";
 }
 
 CCJudger::~CCJudger() {
@@ -138,7 +138,8 @@ int CCJudger::submit(Bott * bott) {
   }
   curl_formadd(&formpost, &lastptr,
                CURLFORM_COPYNAME, "submission_language",
-               CURLFORM_COPYCONTENTS, bott->Getlanguage().c_str(),
+               CURLFORM_COPYCONTENTS,
+                   convertLanguage(bott->Getlanguage()).c_str(),
                CURLFORM_END);
   curl_formadd(&formpost, &lastptr,
                CURLFORM_COPYNAME, "body",
@@ -224,7 +225,7 @@ Bott * CCJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(result);
-      result_bott->Settime_used(intToString(time_ms));
+      result_bott->Settime_used(time_ms);
 
       if (result != "Compile Error") {
         // CodeChef will update Memory usage later in submission table
@@ -250,7 +251,7 @@ Bott * CCJudger::getStatus(Bott * bott) {
         }
         memory_kb = stringToDouble(memory_used) * 1024 + 0.001;
       }
-      result_bott->Setmemory_used(intToString(memory_kb));
+      result_bott->Setmemory_used(memory_kb);
       result_bott->Setremote_runid(bott->Getremote_runid());
       break;
     }

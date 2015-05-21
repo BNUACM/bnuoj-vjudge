@@ -12,9 +12,9 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 SYSUJudger::SYSUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"] = "2";
-  language_table["2"] = "1";
-  language_table["4"] = "3";
+  language_table[CPPLANG] = "2";
+  language_table[CLANG] = "1";
+  language_table[FPASLANG] = "3";
 }
 
 SYSUJudger::~SYSUJudger() {
@@ -53,7 +53,8 @@ int SYSUJudger::submit(Bott * bott) {
 
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL, "http://soj.sysu.edu.cn/action.php?act=Submit");
-  string post = (string) "cid=0&language=" + bott->Getlanguage() + "&pid=" +
+  string post = (string)
+      "cid=0&language=" + convertLanguage(bott->Getlanguage()) + "&pid=" +
       bott->Getvid() + "&source=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
@@ -121,8 +122,8 @@ Bott * SYSUJudger::getStatus(Bott * bott) {
       result_bott->Setremote_runid(bott->Getremote_runid());
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(result);
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       break;
     }
   }

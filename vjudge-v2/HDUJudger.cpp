@@ -8,12 +8,12 @@
 #include "HDUJudger.h"
 
 HDUJudger::HDUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "0";
-  language_table["2"]  = "1";
-  language_table["3"]  = "5";
-  language_table["4"]  = "4";
-  language_table["12"] = "2";
-  language_table["13"] = "3";
+  language_table[CPPLANG]  = "0";
+  language_table[CLANG]  = "1";
+  language_table[JAVALANG]  = "5";
+  language_table[FPASLANG]  = "4";
+  language_table[VCLANG] = "2";
+  language_table[VCPPLANG] = "3";
 }
 
 HDUJudger::~HDUJudger() {
@@ -62,8 +62,9 @@ int HDUJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://acm.hdu.edu.cn/submit.php?action=submit");
-  string post = (string) "check=0&problemid=" + bott->Getvid() + "&language=" +
-      bott->Getlanguage() + "&usercode=" + escapeURL(converted_code);
+  string post = (string) "check=0&problemid=" + bott->Getvid() +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&usercode=" + escapeURL(converted_code);
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 
@@ -140,8 +141,8 @@ Bott * HDUJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

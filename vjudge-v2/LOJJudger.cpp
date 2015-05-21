@@ -12,11 +12,11 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 LOJJudger::LOJJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"] = "C++";
-  language_table["2"] = "C";
-  language_table["3"] = "JAVA";
-  language_table["4"] = "PASCAL";
-  language_table["5"] = "PYTHON";
+  language_table[CPPLANG] = "C++";
+  language_table[CLANG] = "C";
+  language_table[JAVALANG] = "JAVA";
+  language_table[FPASLANG] = "PASCAL";
+  language_table[PYLANG] = "PYTHON";
 }
 
 LOJJudger::~LOJJudger() {
@@ -61,7 +61,8 @@ int LOJJudger::submit(Bott * bott) {
                CURLFORM_END);
   curl_formadd(&formpost, &lastptr,
                CURLFORM_COPYNAME, "language",
-               CURLFORM_COPYCONTENTS, bott->Getlanguage().c_str(),
+               CURLFORM_COPYCONTENTS,
+                   convertLanguage(bott->Getlanguage()).c_str(),
                CURLFORM_END);
   curl_formadd(&formpost, &lastptr,
                CURLFORM_COPYNAME, "code",
@@ -141,8 +142,8 @@ Bott * LOJJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(result);
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

@@ -8,10 +8,10 @@
 #include "NJUPTJudger.h"
 
 NJUPTJudger::NJUPTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "G++";
-  language_table["2"]  = "GCC";
-  language_table["3"]  = "Java";
-  language_table["4"]  = "Pascal";
+  language_table[CPPLANG]  = "G++";
+  language_table[CLANG]  = "GCC";
+  language_table[JAVALANG]  = "Java";
+  language_table[FPASLANG]  = "Pascal";
 }
 
 NJUPTJudger::~NJUPTJudger() {
@@ -50,7 +50,7 @@ int NJUPTJudger::submit(Bott * bott) {
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://acm.njupt.edu.cn/acmhome/submitcode.do");
   string post = (string) "problemId=" + bott->Getvid() + "&language=" +
-      escapeURL(bott->Getlanguage()) + "&code=" + escapeURL(bott->Getsrc());
+      convertLanguage(bott->Getlanguage()) + "&code=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
 
   try {
@@ -85,7 +85,7 @@ Bott * NJUPTJudger::getStatus(Bott * bott) {
         curl, CURLOPT_URL,
         ((string) "http://acm.njupt.edu.cn/acmhome/showstatus.do").c_str());
     string post = (string) "problemId=" + bott->Getvid() + "&languageS=" +
-        escapeURL(bott->Getlanguage()) + "&userName=" +
+        convertLanguage(bott->Getlanguage()) + "&userName=" +
         escapeURL(info->GetUsername()) + "&resultS=All";
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
@@ -125,8 +125,8 @@ Bott * NJUPTJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }
