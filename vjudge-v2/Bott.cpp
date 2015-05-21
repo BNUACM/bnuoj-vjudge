@@ -1,6 +1,6 @@
 /* 
  * File:   Bott.cpp
-p* Author: 51isoft
+ * Author: 51isoft
  * 
  * Created on 2014年1月19日, 上午1:04
  */
