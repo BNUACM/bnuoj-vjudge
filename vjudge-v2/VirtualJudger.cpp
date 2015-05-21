@@ -39,11 +39,23 @@ VirtualJudger::~VirtualJudger() {
  */
 void VirtualJudger::generateSpecialResult(Bott * bott, string result) {
   bott->Settype(RESULT_REPORT);
-  bott->Settime_used("0");
-  bott->Setmemory_used("0");
+  bott->Settime_used(0);
+  bott->Setmemory_used(0);
   bott->Setresult(result);
   bott->Setce_info("");
   bott->Setremote_runid("0");
+}
+
+/**
+ * Convert local language value to remote one
+ * @param language      Local language value
+ * @param result        Remote language value
+ */
+string VirtualJudger::convertLanguage(int language) {
+  if (language_table.find(language) == language_table.end()) {
+    throw Exception("Unsupported language.");
+  }
+  return language_table[language];
 }
 
 /**
@@ -52,12 +64,6 @@ void VirtualJudger::generateSpecialResult(Bott * bott, string result) {
  * @param filename  File store the result
  */
 void VirtualJudger::judge(Bott * bott, string filename) {
-  // convert language
-  if (language_table.find(bott->Getlanguage()) == language_table.end()) {
-    throw Exception("Unsupported language.");
-  }
-  bott->Setlanguage(language_table[bott->Getlanguage()]);
-
   // login
   if (!logged_in) { // Not logged in, try login
     clearCookies();
@@ -93,11 +99,11 @@ void VirtualJudger::judge(Bott * bott, string filename) {
     }
   } else if (submit_status == SUBMIT_INVALID_LANGUAGE &&
       (info->GetOj() == "SPOJ" || info->GetOj() == "CodeChef") &&
-      bott->Getlanguage() == "41") {
+      convertLanguage(bott->Getlanguage()) == "41") {
     // Special HACK for Invalid Language on SPOJ/CodeChef, since they have two
     // C++ types and each covers a certain subset of problems
     log((string) "Try another C++ for SPOJ/CodeChef");
-    bott->Setlanguage("1");
+    bott->Setlanguage(1);
     submit_status = submit(bott);
   }
   if (submit_status != SUBMIT_OTHER_ERROR) log("Submitted.");
@@ -152,7 +158,8 @@ void VirtualJudger::run() {
     socket->receiveFile(tmpfilename);
     Bott * bott = new Bott(tmpfilename);
     log((string) "Received a new task, problem: " + bott->Getvid() + ".");
-    string result_filename = Bott::RESULTS_DIRECTORY + bott->Getrunid();
+    string result_filename = Bott::RESULTS_DIRECTORY +
+        intToString(bott->Getrunid());
     if (bott->Gettype() == NEED_JUDGE) {
       // Currently for vjudge, only NEED_JUDGE is supported
       try {

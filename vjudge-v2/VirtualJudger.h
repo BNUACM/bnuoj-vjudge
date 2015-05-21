@@ -64,12 +64,13 @@ protected:
 
   void prepareCurl();
   void performCurl();
+  string convertLanguage(int);
   SocketHandler * socket;
   JudgerInfo * info;
   string tmpfilename;
   string cookiefilename;
   // language convertion table, convert local language to remote ones
-  map <string, string> language_table;
+  map <int, string> language_table;
   bool logged_in;
 
   CURL * curl;

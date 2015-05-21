@@ -8,8 +8,8 @@
 #include "ACdreamJudger.h"
 
 ACdreamJudger::ACdreamJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "2";
-  language_table["2"]  = "1";
+  language_table[CPPLANG]  = "2";
+  language_table[CLANG]  = "1";
 }
 
 ACdreamJudger::~ACdreamJudger() {
@@ -44,8 +44,9 @@ void ACdreamJudger::login() {
 int ACdreamJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL, "http://acdream.info/submit");
-  string post = (string) "pid=" + bott->Getvid() + "&lang=" +
-      escapeURL(bott->Getlanguage()) + "&code=" + escapeURL(bott->Getsrc());
+  string post = (string) "pid=" + bott->Getvid() +
+      "&lang=" + convertLanguage(bott->Getlanguage()) +
+      "&code=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
 
   try {
@@ -79,7 +80,7 @@ Bott * ACdreamJudger::getStatus(Bott * bott) {
         curl, CURLOPT_URL,
         ((string) "http://acdream.info/status?name=" +
             escapeURL(info->GetUsername()) + "&pid=" + bott->Getvid() +
-            "&lang=" + bott->Getlanguage()).c_str());
+            "&lang=" + convertLanguage(bott->Getlanguage())).c_str());
     performCurl();
 
     string html = loadAllFromFile(tmpfilename);
@@ -106,8 +107,8 @@ Bott * ACdreamJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

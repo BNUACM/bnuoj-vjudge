@@ -5,9 +5,9 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 UESTCJudger::UESTCJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "2";
-  language_table["2"]  = "1";
-  language_table["3"]  = "3";
+  language_table[CPPLANG]  = "2";
+  language_table[CLANG]  = "1";
+  language_table[JAVALANG]  = "3";
 }
 
 UESTCJudger::~UESTCJudger() {
@@ -54,7 +54,7 @@ void UESTCJudger::login() {
 int UESTCJudger::submit(Bott * bott) {
   string post = (string) "{\"codeContent\":\"" + escapeString(bott->Getsrc()) +
       "\",\"problemId\":" + bott->Getvid() + ",\"contestId\":null," +
-      "\"languageId\":" + bott->Getlanguage() + "}";
+      "\"languageId\":" + convertLanguage(bott->Getlanguage()) + "}";
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
       "http://acm.uestc.edu.cn/status/submit");
@@ -125,8 +125,8 @@ Bott * UESTCJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

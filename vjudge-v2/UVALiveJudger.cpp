@@ -12,10 +12,10 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 UVALiveJudger::UVALiveJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "3";
-  language_table["2"]  = "1";
-  language_table["3"]  = "2";
-  language_table["4"]  = "4";
+  language_table[CPPLANG]  = "3";
+  language_table[CLANG]  = "1";
+  language_table[JAVALANG]  = "2";
+  language_table[FPASLANG]  = "4";
 }
 
 UVALiveJudger::~UVALiveJudger() {
@@ -98,7 +98,8 @@ int UVALiveJudger::submit(Bott * bott) {
                CURLFORM_END);
   curl_formadd(&formpost, &lastptr,
                CURLFORM_COPYNAME, "language",
-               CURLFORM_COPYCONTENTS, bott->Getlanguage().c_str(),
+               CURLFORM_COPYCONTENTS,
+                   convertLanguage(bott->Getlanguage()).c_str(),
                CURLFORM_END);
   curl_formadd(&formpost, &lastptr,
                CURLFORM_COPYNAME, "code",
@@ -181,8 +182,8 @@ Bott * UVALiveJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(intToString(time_ms));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(time_ms);
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

@@ -13,10 +13,10 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 SCUJudger::SCUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"] = "C++ (G++-3)";
-  language_table["2"] = "C (GCC-3)";
-  language_table["3"] = "JAVA";
-  language_table["4"] = "PASCAL (GPC)";
+  language_table[CPPLANG] = "C++ (G++-3)";
+  language_table[CLANG] = "C (GCC-3)";
+  language_table[JAVALANG] = "JAVA";
+  language_table[FPASLANG] = "PASCAL (GPC)";
 }
 
 SCUJudger::~SCUJudger() {
@@ -58,8 +58,9 @@ int SCUJudger::submit(Bott * bott) {
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://cstest.scu.edu.cn/soj/submit.action");
   string post = (string) "problemId=" + bott->Getvid() +
-      "&submit=Submit&validation=" + code + "&language=" +
-      escapeURL(bott->Getlanguage()) + "&source=" + escapeURL(bott->Getsrc());
+      "&submit=Submit&validation=" + code +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&source=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 
@@ -125,8 +126,8 @@ Bott * SCUJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(result);
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

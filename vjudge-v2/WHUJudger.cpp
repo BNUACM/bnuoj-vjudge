@@ -13,10 +13,10 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 WHUJudger::WHUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"] = "2";
-  language_table["2"] = "1";
-  language_table["3"] = "3";
-  language_table["4"] = "4";
+  language_table[CPPLANG] = "2";
+  language_table[CLANG] = "1";
+  language_table[JAVALANG] = "3";
+  language_table[FPASLANG] = "4";
 }
 
 WHUJudger::~WHUJudger() {
@@ -80,8 +80,8 @@ int WHUJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://acm.whu.edu.cn/land/submit/do_submit");
-  string post = "lang=" + bott->Getlanguage() + "&problem_id=" +
-      bott->Getvid() + "&source=" + escapeURL(bott->Getsrc()) +
+  string post = "lang=" + convertLanguage(bott->Getlanguage()) +
+      "&problem_id=" + bott->Getvid() + "&source=" + escapeURL(bott->Getsrc()) +
       "&submit=Submit";
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
@@ -117,7 +117,7 @@ Bott * WHUJudger::getStatus(Bott * bott) {
         curl, CURLOPT_URL,
         ((string) "http://acm.whu.edu.cn/land/status?username=" +
             info->GetUsername() + "&problem_id=" + bott->Getvid() +
-            "&language=" + bott->Getlanguage()).c_str());
+            "&language=" + convertLanguage(bott->Getlanguage())).c_str());
     performCurl();
 
     string html = loadAllFromFile(tmpfilename);
@@ -150,8 +150,8 @@ Bott * WHUJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(result);
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

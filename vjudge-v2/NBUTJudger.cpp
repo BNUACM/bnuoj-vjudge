@@ -12,9 +12,9 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 NBUTJudger::NBUTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"] = "2";
-  language_table["2"] = "1";
-  language_table["4"] = "4";
+  language_table[CPPLANG] = "2";
+  language_table[CLANG] = "1";
+  language_table[FPASLANG] = "4";
 }
 
 NBUTJudger::~NBUTJudger() {
@@ -54,8 +54,9 @@ int NBUTJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
                    "https://ac.2333.moe/Problem/submitok.xhtml");
-  string post = (string) "id=" + bott->Getvid() + "&language=" +
-      bott->Getlanguage() + "&code=" + escapeURL(bott->Getsrc());
+  string post = (string) "id=" + bott->Getvid() +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&code=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 
@@ -88,7 +89,7 @@ Bott * NBUTJudger::getStatus(Bott * bott) {
         curl, CURLOPT_URL,
         ((string)"https://ac.2333.moe/Problem/status.xhtml?username=" +
             escapeURL(info->GetUsername()) + "&language=" +
-            escapeURL(bott->Getlanguage()) + "&problemid=" +
+            convertLanguage(bott->Getlanguage()) + "&problemid=" +
             escapeURL(bott->Getvid())).c_str());
     performCurl();
 
@@ -120,8 +121,8 @@ Bott * NBUTJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

@@ -8,9 +8,9 @@
 #include "HRBUSTJudger.h"
 
 HRBUSTJudger::HRBUSTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "2";
-  language_table["2"]  = "1";
-  language_table["3"]  = "3";
+  language_table[CPPLANG]  = "2";
+  language_table[CLANG]  = "1";
+  language_table[JAVALANG]  = "3";
 }
 
 HRBUSTJudger::~HRBUSTJudger() {
@@ -51,9 +51,9 @@ int HRBUSTJudger::submit(Bott * bott) {
   curl_easy_setopt(curl,
                    CURLOPT_URL,
                    "http://acm.hrbust.edu.cn/index.php?m=ProblemSet&a=postCode");
-  string post = (string) "jumpUrl=&language=" + bott->Getlanguage() +
-      "&problem_id=" + bott->Getvid() + "&source_code=" +
-      escapeURL(bott->Getsrc());
+  string post = (string) "jumpUrl=&language=" +
+      convertLanguage(bott->Getlanguage()) + "&problem_id=" + bott->Getvid() +
+      "&source_code=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 
@@ -85,7 +85,7 @@ Bott * HRBUSTJudger::getStatus(Bott * bott) {
         ((string) "http://acm.hrbust.edu.cn/index.php?m=Status&a="
             "showStatus&problem_id=" + escapeURL(bott->Getvid()) +
             "&user_name=" + escapeURL(info->GetUsername()) + "&language=" +
-            escapeURL(bott->Getlanguage())).c_str());
+            convertLanguage(bott->Getlanguage())).c_str());
     performCurl();
 
     string html = loadAllFromFile(tmpfilename);
@@ -117,8 +117,8 @@ Bott * HRBUSTJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(result);
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

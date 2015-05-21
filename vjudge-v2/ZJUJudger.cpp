@@ -12,12 +12,12 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 ZJUJudger::ZJUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"] = "2";
-  language_table["2"] = "1";
-  language_table["3"] = "4";
-  language_table["4"] = "3";
-  language_table["5"] = "5";
-  language_table["8"] = "6";
+  language_table[CPPLANG] = "2";
+  language_table[CLANG] = "1";
+  language_table[JAVALANG] = "4";
+  language_table[FPASLANG] = "3";
+  language_table[PYLANG] = "5";
+  language_table[PERLLANG] = "6";
 }
 
 ZJUJudger::~ZJUJudger() {
@@ -57,8 +57,9 @@ int ZJUJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://acm.zju.edu.cn/onlinejudge/submit.do");
-  string post = (string) "problemCode=" + bott->Getvid() + "&languageId=" +
-      bott->Getlanguage() + "&source=" + escapeURL(bott->Getsrc());
+  string post = (string) "problemCode=" + bott->Getvid() +
+      "&languageId=" + convertLanguage(bott->Getlanguage()) +
+      "&source=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 
@@ -131,8 +132,8 @@ Bott * ZJUJudger::getStatus(Bott * bott) {
       result_bott->Setremote_runid(bott->Getremote_runid());
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(result);
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       if (result == "Compile Error") {
         // hack for ZJU, don't know why its submission id is inconsistent with
         // judge protocol

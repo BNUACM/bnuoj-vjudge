@@ -12,10 +12,10 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 OpenJudgeJudger::OpenJudgeJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"] = "G++";
-  language_table["2"] = "GCC";
-  language_table["3"] = "Java";
-  language_table["4"] = "Pascal";
+  language_table[CPPLANG] = "G++";
+  language_table[CLANG] = "GCC";
+  language_table[JAVALANG] = "Java";
+  language_table[FPASLANG] = "Pascal";
 }
 
 OpenJudgeJudger::~OpenJudgeJudger() {
@@ -55,8 +55,9 @@ int OpenJudgeJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://poj.openjudge.cn/api/solution/submit/");
-  string post = "contestId=2&problemNumber=" + bott->Getvid() + "&language="
-      + escapeURL(bott->Getlanguage()) + "&source=" + escapeURL(bott->Getsrc());
+  string post = "contestId=2&problemNumber=" + bott->Getvid() +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&source=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 
@@ -130,8 +131,8 @@ Bott * OpenJudgeJudger::getStatus(Bott * bott) {
       result_bott->Setremote_runid(bott->Getremote_runid());
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(result);
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       break;
     }
   }

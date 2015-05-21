@@ -12,13 +12,13 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 SGUJudger::SGUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"] = "GNU CPP (MinGW, GCC 4)";
-  language_table["2"] = "GNU C (MinGW, GCC 4)";
-  language_table["3"] = "JAVA 7";
-  language_table["4"] = "Delphi 7.0";
-  language_table["6"] = "C#";
-  language_table["12"] = "Visual Studio C++ 2010";
-  language_table["13"] = "Visual Studio C 2010";
+  language_table[CPPLANG] = "GNU CPP (MinGW, GCC 4)";
+  language_table[CLANG] = "GNU C (MinGW, GCC 4)";
+  language_table[JAVALANG] = "JAVA 7";
+  language_table[FPASLANG] = "Delphi 7.0";
+  language_table[CSLANG] = "C#";
+  language_table[VCLANG] = "Visual Studio C++ 2010";
+  language_table[VCPPLANG] = "Visual Studio C 2010";
 }
 
 SGUJudger::~SGUJudger() {
@@ -60,7 +60,7 @@ int SGUJudger::submit(Bott * bott) {
                    "http://acm.sgu.ru/sendfile.php?contest=0");
   string post = (string) "id=" + escapeURL(info->GetUsername()) + "&pass=" +
       escapeURL(info->GetPassword()) + "&problem=" + bott->Getvid() +
-      "&elang=" + escapeURL(bott->Getlanguage()) + "&source=" +
+      "&elang=" + convertLanguage(bott->Getlanguage()) + "&source=" +
       escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
@@ -124,8 +124,8 @@ Bott * SGUJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

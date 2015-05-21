@@ -8,12 +8,12 @@
 #include "FZUJudger.h"
 
 FZUJudger::FZUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "0";
-  language_table["2"]  = "1";
-  language_table["3"]  = "2";
-  language_table["4"]  = "3";
-  language_table["12"] = "4";
-  language_table["13"] = "5";
+  language_table[CPPLANG]  = "0";
+  language_table[CLANG]  = "1";
+  language_table[JAVALANG]  = "2";
+  language_table[FPASLANG]  = "3";
+  language_table[VCLANG] = "4";
+  language_table[VCPPLANG] = "5";
 }
 
 FZUJudger::~FZUJudger() {
@@ -51,7 +51,7 @@ int FZUJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL, "http://acm.fzu.edu.cn/submit.php?act=5");
   string post = (string) "usr=" + info->GetUsername() + "&lang=" +
-      bott->Getlanguage() + "&pid=" + bott->Getvid() + "&code=" +
+      convertLanguage(bott->Getlanguage()) + "&pid=" + bott->Getvid() + "&code=" +
       escapeURL(bott->Getsrc()) + "&submit=Submit";
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
@@ -118,8 +118,8 @@ Bott * FZUJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

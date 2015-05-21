@@ -59,5 +59,24 @@ using namespace std;
 #define RESULT_REPORT 1003
 #define CHALLENGE_REPORT 1004
 
+// language
+#define MIN_LANG_NUM 1
+#define CPPLANG 1
+#define CLANG 2
+#define JAVALANG 3
+#define FPASLANG 4
+#define PYLANG 5
+#define CSLANG 6
+#define FORTLANG 7
+#define PERLLANG 8
+#define RUBYLANG 9
+#define ADALANG 10
+#define SMLLANG 11
+#define VCLANG 12
+#define VCPPLANG 13
+#define CLANGLANG 14
+#define CLANGPPLANG 15
+#define MAX_LANG_NUM 15
+
 #endif /* VJUDGE_H */
 

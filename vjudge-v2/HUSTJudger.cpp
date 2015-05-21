@@ -8,10 +8,10 @@
 #include "HUSTJudger.h"
 
 HUSTJudger::HUSTJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "1";
-  language_table["2"]  = "0";
-  language_table["3"]  = "3";
-  language_table["4"]  = "2";
+  language_table[CPPLANG]  = "1";
+  language_table[CLANG]  = "0";
+  language_table[JAVALANG]  = "3";
+  language_table[FPASLANG]  = "2";
 }
 
 HUSTJudger::~HUSTJudger() {
@@ -47,8 +47,9 @@ void HUSTJudger::login() {
 int HUSTJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL, "http://acm.hust.edu.cn/problem/submit");
-  string post = (string) "pid=" + bott->Getvid() + "&language=" +
-      bott->Getlanguage() + "&source=" + escapeURL(bott->Getsrc());
+  string post = (string) "pid=" + bott->Getvid() +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&source=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 
@@ -78,7 +79,7 @@ Bott * HUSTJudger::getStatus(Bott * bott) {
         curl, CURLOPT_URL,
         ((string) "http://acm.hust.edu.cn/status?pid=" + bott->Getvid() +
             "&uid=" + info->GetUsername() + "&language" +
-            bott->Getlanguage()).c_str());
+            convertLanguage(bott->Getlanguage())).c_str());
     performCurl();
 
     string html = loadAllFromFile(tmpfilename);
@@ -111,8 +112,8 @@ Bott * HUSTJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }

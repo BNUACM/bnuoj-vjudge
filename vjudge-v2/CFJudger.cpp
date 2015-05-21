@@ -12,14 +12,14 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 CFJudger::CFJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table["1"]  = "1";
-  language_table["2"]  = "10";
-  language_table["3"]  = "23";
-  language_table["4"]  = "4";
-  language_table["5"]  = "7";
-  language_table["6"]  = "9";
-  language_table["9"]  = "8";
-  language_table["12"] = "2";
+  language_table[CPPLANG]  = "1";
+  language_table[CLANG]  = "10";
+  language_table[JAVALANG]  = "23";
+  language_table[FPASLANG]  = "4";
+  language_table[PYLANG]  = "7";
+  language_table[CSLANG]  = "9";
+  language_table[RUBYLANG]  = "8";
+  language_table[VCLANG] = "2";
 }
 
 CFJudger::~CFJudger() {
@@ -151,7 +151,8 @@ int CFJudger::submit(Bott * bott) {
                CURLFORM_END);
   curl_formadd(&formpost, &lastptr,
                CURLFORM_COPYNAME, "programTypeId",
-               CURLFORM_COPYCONTENTS, bott->Getlanguage().c_str(),
+               CURLFORM_COPYCONTENTS,
+                   convertLanguage(bott->Getlanguage()).c_str(),
                CURLFORM_END);
   curl_formadd(&formpost, &lastptr,
                CURLFORM_COPYNAME, "source",
@@ -251,8 +252,8 @@ Bott * CFJudger::getStatus(Bott * bott) {
       result_bott = new Bott;
       result_bott->Settype(RESULT_REPORT);
       result_bott->Setresult(convertResult(result));
-      result_bott->Settime_used(trim(time_used));
-      result_bott->Setmemory_used(trim(memory_used));
+      result_bott->Settime_used(stringToInt(time_used));
+      result_bott->Setmemory_used(stringToInt(memory_used));
       result_bott->Setremote_runid(trim(runid));
       break;
     }
