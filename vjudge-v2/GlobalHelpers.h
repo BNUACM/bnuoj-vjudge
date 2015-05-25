@@ -42,6 +42,7 @@ vector<string> split(const string &, char);
 string charsetConvert(const string &, const string &, const string &);
 string replaceAll(string, const string&, const string&);
 string sha1String(string);
+string stripComment(string);
 #define CONFIG Config::Getinstance()
 #define LOG Logger::Getinstance()->log
 

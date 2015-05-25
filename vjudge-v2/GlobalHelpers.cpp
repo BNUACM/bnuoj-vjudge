@@ -373,3 +373,70 @@ string sha1String(string msg){
   }
   return toLowerCase(hexhash);
 }
+
+/**
+ * Strip of C-style comments implementation
+ * @param dest     Char array to save the result
+ * @param source   Original text
+ * @param length   Length of the original text
+ * @return         Length of the result text
+ */
+static int stripCommentImpl(char * dest, const char * source, int length) {
+  int source_ptr = 0, dest_ptr = 0, block_start = -1;
+  int in_quote = 0, in_escape = 0, in_block_comment = 0, in_line_comment = 0;
+  char prev = 0, cur = 0;
+
+  for (;source_ptr < length;source_ptr++) {
+    if (!in_quote && source[source_ptr] == '\\' &&
+        source[source_ptr + 1] == '\n') {
+      source_ptr++;
+      continue;
+    }
+    prev = cur, cur = source[source_ptr];
+    if (!in_line_comment) {
+      dest[dest_ptr++] = cur;
+    }
+    if (!in_quote) {
+      if (!in_line_comment && prev == '/' && cur == '/') {
+        dest_ptr -= 2;
+        in_line_comment = 1;
+      }else if (in_line_comment && cur == '\n') {
+          dest[dest_ptr++] = '\n';
+          in_line_comment = 0;
+      }else if (!in_block_comment && prev == '/' && cur == '*') {
+          block_start = dest_ptr - 2;
+          in_block_comment = 1;
+      }else if (in_block_comment && prev == '*' && cur == '/') {
+        dest_ptr = block_start;
+        in_block_comment = 0;
+      }else if (cur == '"') {
+        in_quote = 1;
+      }
+    }else{
+      if (!in_escape) {
+        if (cur == '"') {
+          in_quote = 0;
+        }else if (cur == '\\') {
+          in_escape = 1;
+        }
+      }else{
+        in_escape = 0;
+      }
+    }
+  }
+  dest[dest_ptr] = 0;
+  return dest_ptr;
+}
+
+/**
+ * Strip of C-style comments
+ * @param source    Original text
+ * @return          Result text
+ */
+string stripComment(string source) {
+  char * buffer = new char[source.length() + 1];
+  stripCommentImpl(buffer, source.c_str(), source.length());
+  string result(buffer);
+  delete[] buffer;
+  return result;
+}

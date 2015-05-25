@@ -63,6 +63,18 @@ int OpenJudgeJudger::submit(Bott * bott) {
 
   // check submit status
   string html = loadAllFromFile(tmpfilename);
+  if (html.find("<TITLE>访问禁止</TITLE>") != string::npos) {
+    LOG("POST denied...Try strip comments");
+    prepareCurl();
+    curl_easy_setopt(curl, CURLOPT_URL,
+        "http://poj.openjudge.cn/api/solution/submit/");
+    post = "contestId=2&problemNumber=" + bott->Getvid() +
+      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&source=" + escapeURL(stripComment(bott->Getsrc()));
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
+    performCurl();
+    html = loadAllFromFile(tmpfilename);
+  }
   if (html.find("\"result\":\"ERROR\"") != string::npos ||
       html.find("The page is temporarily unavailable") != string::npos) {
     return SUBMIT_OTHER_ERROR;
