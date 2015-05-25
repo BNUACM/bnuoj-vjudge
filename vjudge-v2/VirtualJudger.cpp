@@ -55,7 +55,7 @@ string VirtualJudger::convertLanguage(int language) {
   if (language_table.find(language) == language_table.end()) {
     throw Exception("Unsupported language.");
   }
-  return language_table[language];
+  return escapeURL(language_table[language]);
 }
 
 /**
