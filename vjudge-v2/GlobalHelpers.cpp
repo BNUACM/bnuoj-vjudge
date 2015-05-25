@@ -400,26 +400,26 @@ static int stripCommentImpl(char * dest, const char * source, int length) {
       if (!in_line_comment && prev == '/' && cur == '/') {
         dest_ptr -= 2;
         in_line_comment = 1;
-      }else if (in_line_comment && cur == '\n') {
+      } else if (in_line_comment && cur == '\n') {
           dest[dest_ptr++] = '\n';
           in_line_comment = 0;
-      }else if (!in_block_comment && prev == '/' && cur == '*') {
+      } else if (!in_block_comment && prev == '/' && cur == '*') {
           block_start = dest_ptr - 2;
           in_block_comment = 1;
-      }else if (in_block_comment && prev == '*' && cur == '/') {
+      } else if (in_block_comment && prev == '*' && cur == '/') {
         dest_ptr = block_start;
         in_block_comment = 0;
-      }else if (cur == '"') {
+      } else if (cur == '"') {
         in_quote = 1;
       }
     }else{
       if (!in_escape) {
         if (cur == '"') {
           in_quote = 0;
-        }else if (cur == '\\') {
+        } else if (cur == '\\') {
           in_escape = 1;
         }
-      }else{
+      } else {
         in_escape = 0;
       }
     }
