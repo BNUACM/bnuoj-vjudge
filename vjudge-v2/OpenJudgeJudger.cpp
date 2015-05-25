@@ -52,7 +52,7 @@ void OpenJudgeJudger::login() {
  */
 int OpenJudgeJudger::submit(Bott * bott) {
   string post = "contestId=2&problemNumber=" + bott->Getvid() +
-      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&language=" + escapeURL(convertLanguage(bott->Getlanguage())) +
       "&source=" + escapeURL(bott->Getsrc());
 
   try {
@@ -67,7 +67,7 @@ int OpenJudgeJudger::submit(Bott * bott) {
     curl_easy_setopt(curl, CURLOPT_URL,
         "http://poj.openjudge.cn/api/solution/submit/");
     post = "contestId=2&problemNumber=" + bott->Getvid() +
-      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&language=" + escapeURL(convertLanguage(bott->Getlanguage())) +
       "&source=" + escapeURL(stripComment(bott->Getsrc()));
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
