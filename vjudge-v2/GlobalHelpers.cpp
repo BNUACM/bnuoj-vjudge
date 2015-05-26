@@ -412,7 +412,7 @@ static int stripCommentImpl(char * dest, const char * source, int length) {
       } else if (cur == '"') {
         in_quote = 1;
       }
-    }else{
+    } else {
       if (!in_escape) {
         if (cur == '"') {
           in_quote = 0;
