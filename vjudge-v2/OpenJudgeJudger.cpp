@@ -51,15 +51,27 @@ void OpenJudgeJudger::login() {
  * @return Submit status
  */
 int OpenJudgeJudger::submit(Bott * bott) {
-
-  prepareCurl();
-  curl_easy_setopt(curl, CURLOPT_URL,
-                   "http://poj.openjudge.cn/api/solution/submit/");
   string post = "contestId=2&problemNumber=" + bott->Getvid() +
-      "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&language=" + escapeURL(convertLanguage(bott->Getlanguage())) +
       "&source=" + escapeURL(bott->Getsrc());
-  curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
-  performCurl();
+
+  try {
+    prepareCurl();
+    curl_easy_setopt(curl, CURLOPT_URL,
+        "http://poj.openjudge.cn/api/solution/submit/");
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
+    performCurl();
+  } catch (Exception & e) {
+    log("POST denied...Try strip comments");
+    prepareCurl();
+    curl_easy_setopt(curl, CURLOPT_URL,
+        "http://poj.openjudge.cn/api/solution/submit/");
+    post = "contestId=2&problemNumber=" + bott->Getvid() +
+      "&language=" + escapeURL(convertLanguage(bott->Getlanguage())) +
+      "&source=" + escapeURL(stripComment(bott->Getsrc()));
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
+    performCurl();
+  }
 
   // check submit status
   string html = loadAllFromFile(tmpfilename);

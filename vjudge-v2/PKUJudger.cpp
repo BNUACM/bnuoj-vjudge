@@ -60,10 +60,12 @@ int PKUJudger::submit(Bott * bott) {
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
   } catch (Exception & e) {
-    log("POST denied by POJ... Try proxy server...");
+    log("POST denied by POJ... Try strip comments...");
+    string post = (string) "problem_id=" + bott->Getvid() +
+       "&language=" + convertLanguage(bott->Getlanguage()) +
+       "&source=" + escapeURL(stripComment(bott->Getsrc()));
     prepareCurl();
     curl_easy_setopt(curl, CURLOPT_URL, "http://poj.org/submit");
-    curl_easy_setopt(curl, CURLOPT_PROXY, "http://202.107.85.47:3128");
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
   }
