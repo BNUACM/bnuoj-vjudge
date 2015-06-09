@@ -18,6 +18,7 @@
 #include <fstream>
 
 #include <iconv.h>
+#include <glib.h>
 #include <openssl/sha.h>
 
 using namespace std;
@@ -42,6 +43,7 @@ vector<string> split(const string &, char);
 string charsetConvert(const string &, const string &, const string &);
 string replaceAll(string, const string&, const string&);
 string sha1String(string);
+string base64Encode(string);
 #define CONFIG Config::Getinstance()
 #define LOG Logger::Getinstance()->log
 

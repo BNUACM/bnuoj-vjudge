@@ -363,7 +363,7 @@ string replaceAll(string subject, const string& search, const string& replace) {
   return subject;
 }
 
-string sha1String(string msg){
+string sha1String(string msg) {
   unsigned char hash[SHA_DIGEST_LENGTH];
   string hexhash;
   SHA1(reinterpret_cast<const unsigned char *>(msg.c_str()), msg.size(), hash);
@@ -372,4 +372,12 @@ string sha1String(string msg){
     hexhash += dec2hexChar(hash[i]%16);
   }
   return toLowerCase(hexhash);
+}
+
+string base64Encode(string msg) {
+  gchar * base64msg = g_base64_encode(
+      reinterpret_cast<const unsigned char *>(msg.c_str()), msg.size());
+  string ret(base64msg);
+  g_free(base64msg);
+  return ret;
 }
