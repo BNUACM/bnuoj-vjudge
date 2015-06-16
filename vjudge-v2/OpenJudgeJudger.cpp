@@ -56,8 +56,9 @@ int OpenJudgeJudger::submit(Bott * bott) {
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://poj.openjudge.cn/api/solution/submit/");
   string post = "contestId=2&problemNumber=" + bott->Getvid() +
-      "&language=" + convertLanguage(bott->Getlanguage()) +
-      "&source=" + escapeURL(bott->Getsrc());
+      "&sourceEncode=base64" +
+      "&language=" + escapeURL(convertLanguage(bott->Getlanguage())) +
+      "&source=" + escapeURL(base64Encode(bott->Getsrc()));
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
   performCurl();
 
