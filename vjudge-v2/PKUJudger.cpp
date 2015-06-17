@@ -16,8 +16,9 @@ PKUJudger::PKUJudger(JudgerInfo * _info) : VirtualJudger(_info) {
   language_table[CLANG]  = "1";
   language_table[JAVALANG]  = "2";
   language_table[FPASLANG]  = "3";
-  language_table[VCLANG] = "4";
-  language_table[VCPPLANG] = "5";
+  language_table[FORTLANG] = "6";
+  language_table[VCLANG] = "5";
+  language_table[VCPPLANG] = "4";
 }
 
 PKUJudger::~PKUJudger() {
@@ -53,19 +54,15 @@ void PKUJudger::login() {
 int PKUJudger::submit(Bott * bott) {
   string post = (string) "problem_id=" + bott->Getvid() +
       "&language=" + convertLanguage(bott->Getlanguage()) +
-      "&source=" + escapeURL(bott->Getsrc());
+      "&source=" + escapeURL(base64Encode(bott->Getsrc())) +
+      "&submit=Submit&encoded=1";
   try {
     prepareCurl();
     curl_easy_setopt(curl, CURLOPT_URL, "http://poj.org/submit");
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
     performCurl();
   } catch (Exception & e) {
-    log("POST denied by POJ... Try proxy server...");
-    prepareCurl();
-    curl_easy_setopt(curl, CURLOPT_URL, "http://poj.org/submit");
-    curl_easy_setopt(curl, CURLOPT_PROXY, "http://202.107.85.47:3128");
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
-    performCurl();
+    log("POST denied by POJ...");
   }
 
   string html = loadAllFromFile(tmpfilename);
