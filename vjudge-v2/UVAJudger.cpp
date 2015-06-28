@@ -32,7 +32,7 @@ void UVAJudger::initHandShake(){
  */
 string UVAJudger::getLoginHiddenParams() {
   prepareCurl();
-  curl_easy_setopt(curl, CURLOPT_URL, "http://uva.onlinejudge.org/");
+  curl_easy_setopt(curl, CURLOPT_URL, "https://uva.onlinejudge.org/");
   performCurl();
 
   string html = loadAllFromFile(tmpfilename);
@@ -60,10 +60,10 @@ void UVAJudger::login() {
   string hiddenParams = getLoginHiddenParams();
 
   prepareCurl();
-  curl_easy_setopt(curl, CURLOPT_REFERER, "http://uva.onlinejudge.org/");
+  curl_easy_setopt(curl, CURLOPT_REFERER, "https://uva.onlinejudge.org/");
   curl_easy_setopt(
       curl, CURLOPT_URL,
-      "http://uva.onlinejudge.org/index.php?option=com_comprofiler&task=login");
+      "https://uva.onlinejudge.org/index.php?option=com_comprofiler&task=login");
   string post = hiddenParams + "username=" + escapeURL(info->GetUsername()) +
       "&passwd=" + escapeURL(info->GetPassword()) +
       "&remember=yes&Submit=Login";
