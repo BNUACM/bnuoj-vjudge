@@ -114,7 +114,6 @@ int UVAJudger::submit(Bott * bott) {
 
   // check submit status
   string html = loadAllFromFile(tmpfilename);
-  cout<<html;
   if (html.find("You have to select a programming language.") != string::npos ||
       html.find("The selected problem ID does not exist.") != string::npos ||
       html.find("You have to paste or upload some source code.") !=
