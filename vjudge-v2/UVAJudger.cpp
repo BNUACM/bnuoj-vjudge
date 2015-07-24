@@ -106,7 +106,7 @@ int UVAJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(
       curl, CURLOPT_URL,
-      "http://uva.onlinejudge.org/index.php?option="
+      "https://uva.onlinejudge.org/index.php?option="
           "com_onlinejudge&Itemid=25&page=save_submission");
   curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
   performCurl();
@@ -114,6 +114,7 @@ int UVAJudger::submit(Bott * bott) {
 
   // check submit status
   string html = loadAllFromFile(tmpfilename);
+  cout<<html;
   if (html.find("You have to select a programming language.") != string::npos ||
       html.find("The selected problem ID does not exist.") != string::npos ||
       html.find("You have to paste or upload some source code.") !=
@@ -142,7 +143,7 @@ Bott * UVAJudger::getStatus(Bott * bott) {
     prepareCurl();
     curl_easy_setopt(
         curl, CURLOPT_URL,
-        "http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=9");
+        "https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=9");
     performCurl();
 
     string html = loadAllFromFile(tmpfilename);
@@ -197,7 +198,7 @@ string UVAJudger::getCEinfo(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(
       curl, CURLOPT_URL,
-      ((string) "http://uva.onlinejudge.org/index.php?option=com_onlinejudge"
+      ((string) "https://uva.onlinejudge.org/index.php?option=com_onlinejudge"
           "&Itemid=9&page=show_compilationerror&submission=" +
           bott->Getremote_runid()).c_str());
   performCurl();
