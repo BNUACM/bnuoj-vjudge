@@ -114,12 +114,7 @@ int UVAJudger::submit(Bott * bott) {
 
   // check submit status
   string html = loadAllFromFile(tmpfilename);
-  if (html.find("You have to select a programming language.") != string::npos ||
-      html.find("The selected problem ID does not exist.") != string::npos ||
-      html.find("You have to paste or upload some source code.") !=
-          string::npos ||
-      html.find(" You are not authorised to view this resource.") !=
-          string::npos)
+  if (html.find("Submission received with ID") == string::npos)
     return SUBMIT_OTHER_ERROR;
   return VirtualJudger::SUBMIT_NORMAL;
 }
