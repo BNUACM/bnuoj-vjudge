@@ -250,6 +250,10 @@ void VirtualJudger::performCurl() {
   curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
 
   CURLcode curl_result = curl_easy_perform(curl);
+  char * url;
+  if (curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &url) == CURLE_OK) {
+    fprintf(curl_file,"\n==============\n%s", url);
+  }
   fclose(curl_file);
   if (curl_result != CURLE_OK) {
     throw Exception((string) "Curl failed, reason: " +
