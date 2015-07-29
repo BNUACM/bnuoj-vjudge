@@ -52,8 +52,9 @@ int AizuJudger::submit(Bott * bott) {
   curl_easy_setopt(curl, CURLOPT_URL,
                    "http://judge.u-aizu.ac.jp/onlinejudge/servlet/Submit");
   string post = (string) "userID=" + escapeURL(info->GetUsername()) +
-      "&password=" + escapeURL(info->GetPassword()) + "&problemNO=" +
-      bott->Getvid() + "&language=" + convertLanguage(bott->Getlanguage()) +
+      "&password=" + escapeURL(info->GetPassword()) +
+      "&problemNO=" + bott->Getvid() +
+      "&language=" + escapeURL(convertLanguage(bott->Getlanguage())) +
       "&sourceCode=" + escapeURL(bott->Getsrc());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
 
