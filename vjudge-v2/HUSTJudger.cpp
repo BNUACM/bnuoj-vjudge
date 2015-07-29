@@ -87,8 +87,7 @@ Bott * HUSTJudger::getStatus(Bott * bott) {
     string runid, result, time_used, memory_used;
 
     // get first row
-    if (html == "" || !RE2::PartialMatch(html, "(?s)<tr.*?(<tr.*?</tr>)",
-                                         &status)) {
+    if (!RE2::PartialMatch(html, "(?s)<tr.*?(<tr.*?</tr>)", &status)) {
       throw Exception("Failed to get status row.");
     }
 

@@ -31,7 +31,7 @@ void ACdreamJudger::login() {
   performCurl();
 
   string html = loadAllFromFile(tmpfilename);
-  if (html != "{\"ret\":0}") {
+  if (html.find("{\"ret\":0}") == string::npos) {
     throw Exception("Login failed!");
   }
 }

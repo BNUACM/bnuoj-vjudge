@@ -39,7 +39,7 @@ void NBUTJudger::login() {
 
   // check login status
   string html = loadAllFromFile(tmpfilename);
-  if (html != "1") {
+  if (html.find("1") != 0) {
     throw Exception("Login failed!");
   }
 }
