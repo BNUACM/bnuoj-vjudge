@@ -117,7 +117,7 @@ int UVALiveJudger::submit(Bott * bott) {
 
   // check submit status
   string html = loadAllFromFile(tmpfilename);
-  if (html.find("Submission received with ID") == string::npos)
+  if (html.find("Submission+received+with+ID") == string::npos)
     return SUBMIT_OTHER_ERROR;
   return VirtualJudger::SUBMIT_NORMAL;
 }
