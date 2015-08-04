@@ -37,7 +37,7 @@ void CCJudger::initHandShake(){
  */
 string CCJudger::getLoginHiddenParams() {
   prepareCurl();
-  curl_easy_setopt(curl, CURLOPT_URL, "http://www.codechef.com/");
+  curl_easy_setopt(curl, CURLOPT_URL, "https://www.codechef.com/");
   performCurl();
 
   string html = loadAllFromFile(tmpfilename);
@@ -68,7 +68,7 @@ void CCJudger::login() {
 
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
-                   "http://www.codechef.com/node?destination=node");
+                   "https://www.codechef.com/node?destination=node");
   string post = hiddenParams + "name=" + escapeURL(info->GetUsername()) +
       "&pass=" + escapeURL(info->GetPassword()) + "&submit.x=0&submit.y=0";
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
@@ -89,7 +89,7 @@ void CCJudger::login() {
 vector< pair<string, string> > CCJudger::getSubmitHiddenParams(string code) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
-                   ((string) "http://www.codechef.com/submit/" + code).c_str());
+                   ((string) "https://www.codechef.com/submit/" + code).c_str());
   performCurl();
 
   string html = loadAllFromFile(tmpfilename);
@@ -158,7 +158,7 @@ int CCJudger::submit(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(
       curl, CURLOPT_URL,
-      ((string) "http://www.codechef.com/submit/" + bott->Getvid()).c_str());
+      ((string) "https://www.codechef.com/submit/" + bott->Getvid()).c_str());
   curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
   performCurl();
   curl_formfree(formpost);
@@ -201,7 +201,7 @@ Bott * CCJudger::getStatus(Bott * bott) {
     prepareCurl();
     curl_easy_setopt(
         curl, CURLOPT_URL,
-        ((string) "http://www.codechef.com/get_submission_status/" +
+        ((string) "https://www.codechef.com/get_submission_status/" +
             bott->Getremote_runid()).c_str());
     performCurl();
 
@@ -234,7 +234,7 @@ Bott * CCJudger::getStatus(Bott * bott) {
         prepareCurl();
         curl_easy_setopt(
             curl, CURLOPT_URL,
-            ((string) "http://www.codechef.com/submissions?handle=" +
+            ((string) "https://www.codechef.com/submissions?handle=" +
                 escapeURL(info->GetUsername()) + "&pcode=" +
                 escapeURL(bott->Getvid())).c_str());
         performCurl();
@@ -267,7 +267,7 @@ Bott * CCJudger::getStatus(Bott * bott) {
 string CCJudger::getCEinfo(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
-                   ((string) "http://www.codechef.com/view/error/" +
+                   ((string) "https://www.codechef.com/view/error/" +
                    bott->Getremote_runid()).c_str());
   performCurl();
 
