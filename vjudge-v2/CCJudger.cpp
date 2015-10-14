@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   CCJudger.cpp
  * Author: 51isoft
- * 
+ *
  * Created on 2014年8月20日, 下午3:06
  */
 
@@ -95,7 +95,7 @@ vector< pair<string, string> > CCJudger::getSubmitHiddenParams(string code) {
   string html = loadAllFromFile(tmpfilename);
   string form;
   // login form
-  if (!RE2::PartialMatch(html, "(?s)(<form.*?node-form.*?</form>)", &form)) {
+  if (!RE2::PartialMatch(html, "(?s)(<form.*?submit-form.*?</form>)", &form)) {
     throw Exception("Failed to get hidden params.");
   }
   string key, value;
