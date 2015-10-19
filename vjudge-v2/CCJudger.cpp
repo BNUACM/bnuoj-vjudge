@@ -137,12 +137,12 @@ int CCJudger::submit(Bott * bott) {
                  CURLFORM_END);
   }
   curl_formadd(&formpost, &lastptr,
-               CURLFORM_COPYNAME, "submission_language",
+               CURLFORM_COPYNAME, "language",
                CURLFORM_COPYCONTENTS,
                    convertLanguage(bott->Getlanguage()).c_str(),
                CURLFORM_END);
   curl_formadd(&formpost, &lastptr,
-               CURLFORM_COPYNAME, "body",
+               CURLFORM_COPYNAME, "program",
                CURLFORM_COPYCONTENTS, bott->Getsrc().c_str(),
                CURLFORM_END);
 
