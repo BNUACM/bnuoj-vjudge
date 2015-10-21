@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   SCUJudger.cpp
  * Author: payper
- * 
+ *
  * Created on 2014年3月26日, 下午1:03
  */
 
@@ -33,7 +33,7 @@ void SCUJudger::login() {
 
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
-                   "http://cstest.scu.edu.cn/soj/login.action");
+                   "http://acm.scu.edu.cn/soj/login.action");
   string post = "back=2&submit=login&id=" + escapeURL(info->GetUsername()) +
       "&password=" + escapeURL(info->GetPassword());
   curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post.c_str());
@@ -56,7 +56,7 @@ int SCUJudger::submit(Bott * bott) {
   log("Validation Code: " + code);
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
-                   "http://cstest.scu.edu.cn/soj/submit.action");
+                   "http://acm.scu.edu.cn/soj/submit.action");
   string post = (string) "problemId=" + bott->Getvid() +
       "&submit=Submit&validation=" + code +
       "&language=" + convertLanguage(bott->Getlanguage()) +
@@ -91,7 +91,7 @@ Bott * SCUJudger::getStatus(Bott * bott) {
     prepareCurl();
     curl_easy_setopt(
         curl, CURLOPT_URL,
-        ((string) "http://cstest.scu.edu.cn/soj/solutions.action?userId=" +
+        ((string) "http://acm.scu.edu.cn/soj/solutions.action?userId=" +
             escapeURL(info->GetUsername()) + "&problemId=" +
             bott->Getvid()).c_str());
     performCurl();
@@ -144,7 +144,7 @@ string SCUJudger::getCEinfo(Bott * bott) {
   prepareCurl();
   curl_easy_setopt(
       curl, CURLOPT_URL,
-      ((string) "http://cstest.scu.edu.cn/soj/judge_message.action?id=" +
+      ((string) "http://acm.scu.edu.cn/soj/judge_message.action?id=" +
           bott->Getremote_runid()).c_str());
   performCurl();
 
@@ -267,7 +267,7 @@ char SCUJudger::getNXY(int n, int x, int y, int width, int height,
 string SCUJudger::getCode() {
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
-                   "http://cstest.scu.edu.cn/soj/validation_code");
+                   "http://acm.scu.edu.cn/soj/validation_code");
   performCurl();
 
   int *jpg, width, height;
