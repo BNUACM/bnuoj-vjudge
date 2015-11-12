@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   VirtualJudger.cpp
  * Author: 51isoft
- * 
+ *
  * Created on 2014年1月31日, 下午9:08
  */
 
@@ -235,7 +235,7 @@ void VirtualJudger::prepareCurl() {
   curl_easy_setopt(curl, CURLOPT_COOKIEJAR, cookiefilename.c_str());
 
   // for debug purpose
-  // curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
+   curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
 }
 
 /**

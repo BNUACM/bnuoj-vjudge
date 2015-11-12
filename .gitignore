@@ -11,13 +11,17 @@ build
 *.cbp
 *.layout
 *.depend
+*.o
 dist
-Makefile
 nbproject
 obj
-src
-include
 .dep.inc
+autom4te.cache
+Makefile
+.deps
+stamp-h1
+config.h
+config.status
 
 # ignore log files
 *.log
@@ -27,3 +31,4 @@ nohup.out
 /vjudge-v2/cookies/*
 /vjudge-v2/tmpfile/*
 /vjudge-v2/tests/judgertest.cpp
+/vjudge-v2/results
