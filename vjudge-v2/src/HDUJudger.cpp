@@ -55,9 +55,9 @@ void HDUJudger::login() {
  * @return Submit status
  */
 int HDUJudger::submit(Bott * bott) {
-  // Convert code to GBK, some output in HDU contains GBK characters.
+  // Convert code to GBK, some output in HDU contains GB18030 characters.
   // Example: HDU2815
-  string converted_code = charsetConvert("UTF-8", "GBK", bott->Getsrc());
+  string converted_code = charsetConvert("UTF-8", "GB18030", bott->Getsrc());
 
   prepareCurl();
   curl_easy_setopt(curl, CURLOPT_URL,
