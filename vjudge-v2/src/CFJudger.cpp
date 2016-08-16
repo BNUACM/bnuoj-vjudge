@@ -12,9 +12,9 @@
  * @param _info Should be a pointer of a JudgerInfo
  */
 CFJudger::CFJudger(JudgerInfo * _info) : VirtualJudger(_info) {
-  language_table[CPPLANG]  = "1";
-  language_table[CLANG]  = "10";
-  language_table[JAVALANG]  = "23";
+  language_table[CPPLANG]  = "42";
+  language_table[CLANG]  = "43";
+  language_table[JAVALANG]  = "36";
   language_table[FPASLANG]  = "4";
   language_table[PYLANG]  = "7";
   language_table[CSLANG]  = "9";
